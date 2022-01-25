@@ -5,11 +5,15 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>CRM APPLICATION</title>
+		<title>Modifier Client</title>
 	</head>
 	<body>
 		<c:import url="/WEB-INF/menu.jsp"/>
 		
-		<h1>PAGE 0</h1>
+		<div>
+            <form action="<c:url value="/ModifierClient"><c:param name="idClient" value="${client.id}"/></c:url>" method="post" class="creation">
+                <c:import url="/WEB-INF/formClient.jsp"/>
+            </form>
+    	</div>
 	</body>
 </html>
