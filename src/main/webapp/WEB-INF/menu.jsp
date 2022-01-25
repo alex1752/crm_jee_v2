@@ -16,7 +16,7 @@
         <a class="navbar-brand" href="#">Application CRM</a>
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Accueil </a>
+                <a class="nav-link" href="<c:url value="/"/>">Accueil </a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opérations sur les clients</a>

@@ -37,18 +37,19 @@
     </div>
     
    <div class="creation">
-   		<p>Client Actif :</p>
+   		<p>	Client Actif :
         <label for="actif">Oui</label>
-        <input name="actif" type="radio" id="actif1" value="<c:out value="${client.actif}"/>"${auteur.id == livre.auteur.id ? 'checked' : ''}/> <br />
+        <input name="actif" type="radio" id="actif1" value="<c:out value="${client.actif}"/>"/> 
     	<span class="erreurs">${form.erreurs['actif']}</span>
     	 <label for="actif">Non</label>
-        <input name="actif" type="radio" id="actif2" value="<c:out value="${client.actif}"/>"${auteur.id == livre.auteur.id ? 'checked' : ''}/> <br />
-    	<span class="erreurs">${form.erreurs['actif']}</span>
+        <input name="actif" type="radio" id="actif2" value="<c:out value="${client.actif}"/>"/> <br />
+    	<span class="erreurs">${form.erreurs['actif']}</span></p>
     </div>
     
     <div class="creation">
         <label for="notes">Notes:</label>
-        <input name="notes" type="text" id="notes" value="<c:out value="${client.notes}"/>"/> <br />
+        <textarea id="notes" name="notes" rows="5" cols="33" placeholder="votre note..."></textarea>
+<%--         <input name="notes" type="text" id="notes" value="<c:out value="${client.notes}"/>"/> <br /> --%>
     	<span class="erreurs">${form.erreurs['notes']}</span>
     </div>
 
