@@ -30,7 +30,7 @@ public class Commandes {
 		this.label = label;
 		this.tjmHT = tjmHT;
 		this.dureeJours = dureeJours;
-		TVA = tVA;
+		this.TVA = tVA;
 		this.statut = statut;
 		this.typeCommande = typeCommande;
 		this.notes = notes;
