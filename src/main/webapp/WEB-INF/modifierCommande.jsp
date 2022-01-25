@@ -16,50 +16,50 @@
 			
 			        <div class = "champ">
 			            <label for="label">Label</label>
-			            <input type="text" name="label" id="label" value="<c:out value="${commandes.label}"/>" size="50" maxlength="50">
+			            <input type="text" name="label" id="label" value="<c:out value="${commandes.label}"/>" size="200" maxlength="200">
 			            <span class="erreur"> ${erreurs['label']}</span>
 			        </div>
 			
 			        <div class = "champ">
 			            <label for="tjmHT"> tjmHT <span class="requis"></span> </label>
-			            <input type="number" name="tjmht" value="<c:out value ="${commandes.tjmHT}"/>">
+			            <input type="number" name="tjmht" id= "tjmht" value="<c:out value ="${commandes.tjmHT}"/>">
 			            <span class="erreur"> ${erreurs['tjmHT']}</span>
 			        </div>
 			
 			        <div class = "champ">
-			            <label id="dureejours"> duréeJours <span class="requis"></span></label>
-			            <input type="number" name="dureejours" value="<c:out value ="${commandes.dureejours}"/>" size="20" maxlength="20">
+			            <label for="dureejours"> duréeJours <span class="requis"></span></label>
+			            <input type="number" name="dureejours" id= "dureejours" value="<c:out value ="${commandes.dureejours}"/>">
 			            <span class="erreur"> ${erreurs['dureejours']}</span>
 			        </div>
 			        
 			        
 			          <div class = "champ">
-			            <label id="tva">TVA</label>
-			            <input type="number" name="titre" id="tva" value="<c:out value="${commandes.TVA}"/>" size="50" maxlength="50">
+			            <label for="tva">TVA</label>
+			            <input type="number" name="tva" id="tva" value="<c:out value="${commandes.TVA}"/>">
 			            <span class="erreur"> ${erreurs['tva']}</span>
 			        </div>
 			
 			        <div class = "champ">
-			            <label id="statut"> Statut <span class="requis"></span> </label>
-			            <input type="text" name="statut" value="<c:out value ="${commande.statut}"/>">
+			            <label for="statut"> Statut <span class="requis"></span> </label>
+			            <input type="text" name="statut" id= "statut" value="<c:out value ="${commande.statut}"/>" size="200" maxlength="200">
 			            <span class="erreur"> ${erreurs['statut']}</span>
 			        </div>
 			
 			        <div class = "champ">
-			            <label id="typecommande">Type de Commande<span class="requis"></span></label>
-			            <input type="text" name="typecommande" value="<c:out value ="${commandes.typeCommande}"/>" size="20" maxlength="20">
+			            <label for="typecommande">Type de Commande<span class="requis"></span></label>
+			            <input type="text" name="typecommande" id="typecommande" value="<c:out value ="${commandes.typeCommande}"/>" size="20" maxlength="20">
 			            <span class="erreur"> ${erreurs['typecommande']}</span>
 			        </div>
 			        
 			          <div class = "champ">
-			            <label id="notes">Notes</label>
-			            <input type="text" name="notes" id="notes" value="<c:out value="${commande.notes}"/>" size="50" maxlength="50">
+			            <label for="notes">Notes</label>
+			            <input type="text" name="notes" id="notes" value="<c:out value="${commande.notes}"/>">
 			            <span class="erreur"> ${erreurs['notes']}</span>
 			        </div>
 	 
 			        
 			        <div class = "champ">
-			            <label id = "clients"> Clients <span class="requis"></span></label>
+			            <label for = "clients"> Clients <span class="requis"></span></label>
 			            <!-- -->
 			            <select name="clients" id="clients"> 
 			              <option value="">--Please choose an option--</option>
