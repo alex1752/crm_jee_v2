@@ -20,8 +20,8 @@ import CRM.model.Commandes;
 /**
  * Servlet implementation class CreationCommandes
  */
-@WebServlet("/creationCommandes")
-public class CreationCommandes extends HttpServlet {
+@WebServlet("/AjouterCommande")
+public class AjouterCommande extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private CommandesDao commandesDao;
@@ -30,7 +30,7 @@ public class CreationCommandes extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreationCommandes() {
+    public AjouterCommande() {
         super();
         commandesDao = DaoFactory.getInstance().getCommandesDao();
         clientsDao = DaoFactory.getInstance().getClientsDao();
@@ -46,7 +46,7 @@ public class CreationCommandes extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/creationCommandes.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/ajouterCommande.jsp").forward(request, response);
 	}
 
 	/**

@@ -10,6 +10,6 @@
 	<body>
 		<c:import url="/WEB-INF/menu.jsp"/>
 		
-		<h1>PAGE D'ACCEUILLE</h1>
+		<h1>PAGE 0</h1>
 	</body>
 </html>

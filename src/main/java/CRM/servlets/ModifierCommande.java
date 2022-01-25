@@ -20,8 +20,8 @@ import CRM.model.Commandes;
 /**
  * Servlet implementation class ModificationCommandes
  */
-@WebServlet("/modificationCommandes")
-public class ModificationCommandes extends HttpServlet {
+@WebServlet("/ModifierCommande")
+public class ModifierCommande extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private CommandesDao commandesDao;
@@ -30,7 +30,7 @@ public class ModificationCommandes extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ModificationCommandes() {
+    public ModifierCommande() {
         super();
         commandesDao = DaoFactory.getInstance().getCommandesDao();
         clientsDao = DaoFactory.getInstance().getClientsDao();
@@ -40,17 +40,21 @@ public class ModificationCommandes extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+			
 		try {
 			request.setAttribute("clients", clientsDao.lister());
 			
 			String idCommande = request.getParameter("idCommande");
 			Long id = Long.parseLong(idCommande);
-			request.setAttribute("commande", clientsDao.trouver(id));
-		} catch (DaoException e) {
+			request.setAttribute("commande", commandesDao.trouver(id));
+			System.out.println(commandesDao.trouver(id));
+//			request.setAttribute("client", clientsDao.trouver(id));
+		} catch (DaoException | NumberFormatException e) {
 			e.printStackTrace();
 		}
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/modificationCommandes.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/modifierCommande.jsp").forward(request, response);
 	}
 
 	/**
@@ -133,7 +137,11 @@ public class ModificationCommandes extends HttpServlet {
 				request.setAttribute("commande", commande);
 			}
 		} catch (DaoException e) {
-			resultat = "Erreur imprévue lors de la création.";
+			resultat = "Erreur imprévue lors de la modification.";
+			request.setAttribute("commande", commande);
+		}catch (NumberFormatException ex) {
+			resultat = "Erreur de FORMAT NOMBRE imprévue lors de la modification.";
+			ex.printStackTrace();
 			request.setAttribute("commande", commande);
 		}
 		
@@ -146,7 +154,7 @@ public class ModificationCommandes extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/modificationCommandes.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/modifierCommande.jsp").forward(request, response);
 	}
 
 }

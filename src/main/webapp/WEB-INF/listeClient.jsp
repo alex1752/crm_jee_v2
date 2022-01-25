@@ -31,7 +31,7 @@
 		
 		           <c:forEach items="${client}" var="client" varStatus="boucle">
 		               <tr>
-		                   <td> <a href="<c:url value="/detailClient"><c:param name="idClient" value="${client.id}"/></c:url>"><c:out value="${client.nom}"/></a></td>
+		                   <td> <a href="<c:url value="/DetailClient"><c:param name="idClient" value="${client.id}"/></c:url>"><c:out value="${client.nom}"/></a></td>
 		                   <td><c:out value="${client.prenom}"/></td>
 		                   <td><c:out value="${client.entreprise}"/></td>
 		                   <td><c:out value="${client.telephone}"/></td>

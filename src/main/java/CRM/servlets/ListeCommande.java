@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import CRM.Dao.CommandesDao;
 import CRM.Dao.DaoFactory;
 import CRM.Dao.DaoException;
-import CRM.Dao.CommandesDao;
 
 /**
- * Servlet implementation class SuppressionCommandes
+ * Servlet implementation class ListeCommandes
  */
-@WebServlet("/suppressionCommandes")
-public class SuppressionCommandes extends HttpServlet {
+@WebServlet("/ListeCommande")
+public class ListeCommande extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private CommandesDao commandesDao;
@@ -24,7 +24,7 @@ public class SuppressionCommandes extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SuppressionCommandes() {
+    public ListeCommande() {
         super();
         commandesDao = DaoFactory.getInstance().getCommandesDao();
     }
@@ -33,16 +33,12 @@ public class SuppressionCommandes extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idCommande = request.getParameter("idCommande");
-		
+
 		try {
-			Long id = Long.parseLong(idCommande);
-			commandesDao.supprimer(id);
-		} catch (NumberFormatException | DaoException e) {
+			request.setAttribute("commandes", commandesDao.lister());
+		} catch (DaoException e) {
 			e.printStackTrace();
 		}
-		
-		response.sendRedirect(request.getContextPath() + "/listeCommandes");
+		this.getServletContext().getRequestDispatcher("/WEB-INF/listeCommande.jsp").forward(request, response);
 	}
-
 }
