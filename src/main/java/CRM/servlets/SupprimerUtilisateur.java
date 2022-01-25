@@ -10,32 +10,33 @@ import javax.servlet.http.HttpServletResponse;
 import CRM.Dao.ClientsDao;
 import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
+import CRM.Dao.UtilisateursDao;
 
 
-@WebServlet("/ListeClient")
-public class ListeClient extends HttpServlet {
+@WebServlet("/SupprimerUtilisateur")
+public class SupprimerUtilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ClientsDao clientDao;
-       
-  
-    public ListeClient() {
+	private UtilisateursDao utilisateurDao;
+
+
+    public SupprimerUtilisateur() {
         super();
-        clientDao = DaoFactory.getInstance().getClientsDao();
+        utilisateurDao =DaoFactory.getInstance().getUtilisateurDao();
+
     }
 
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String idUtilisateur=request.getParameter("idUtilisateur");
 		
 		try {
-			request.setAttribute("client",clientDao.lister());
-		}catch(DaoException e) {
+			Long id = Long.parseLong(idUtilisateur);
+			utilisateurDao.supprimer(id);
+		}catch(NumberFormatException | DaoException e) {	
 			e.printStackTrace();
 		}
-		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/listeClient.jsp").forward(request, response);
-	}
-
+			
+		response.sendRedirect(request.getContextPath() + "/ListeUtilisateur");
 	
-
+	}
 
 }

@@ -13,8 +13,8 @@ import CRM.model.Utilisateurs;
 public class UtilisateursDaoImpl implements UtilisateursDao {
 
 	private static final String SQL_INSERT       = "INSERT INTO Utilisateurs (login, motDePasse, email) VALUES(?,?,?)";
-    private static final String SQL_SELECT       = "SELECT id, login, motdepasse, email FROM Utilisateurs";
-    private static final String SQL_SELECT_BY_ID = "SELECT id, login, motdepasse, email FROM Utilisateurs WHERE id = ?";
+    private static final String SQL_SELECT       = "SELECT id, login, motDepasse, email FROM Utilisateurs";
+    private static final String SQL_SELECT_BY_ID = "SELECT id, login, motDepasse, email FROM Utilisateurs WHERE id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM Utilisateurs WHERE id = ? ";
 
     private static final String SQL_UPDATE_BY_ID = "UPDATE Utilisateurs set login = ?, motDePasse = ?, email = ?  WHERE id = ?";
