@@ -1,8 +1,11 @@
 package CRM.Dao;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DaoFactory {
 
@@ -24,9 +27,19 @@ public class DaoFactory {
    public static DaoFactory getInstance() {
        if ( DaoFactory.instanceSingleton == null ) {
            try {
-                 Class.forName("org.postgresql.Driver");
-                 DaoFactory.instanceSingleton = new DaoFactory("jdbc:postgresql://192.168.1.31/crm_1","maximiliano","");
-         } catch(ClassNotFoundException e) {
+        		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+				InputStream ficProps = classLoader.getResourceAsStream("/CRM/config/config.properties");
+				Properties properties = new Properties();
+				properties.load(ficProps);
+				
+				String dbHost = properties.getProperty("db_host");
+				String dbName = properties.getProperty("db_database");
+				String dbUsername = properties.getProperty("db_username");
+				String dbPassword = properties.getProperty("db_password");
+				
+				Class.forName("org.postgresql.Driver");
+				DaoFactory.instanceSingleton = new DaoFactory("jdbc:postgresql://"+dbHost+"/"+dbName, dbUsername, dbPassword);
+		  } catch(ClassNotFoundException | IOException e) {
              e.printStackTrace();
          }
        }
