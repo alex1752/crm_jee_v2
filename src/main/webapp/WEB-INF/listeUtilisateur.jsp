@@ -15,10 +15,10 @@
 		
 		
 		<c:choose>
-			<c:when test="${empty utilisateur}"><p>La liste des Clients est vide !</p></c:when>
+			<c:when test="${empty utilisateur}"><p>La liste des utilisateurs est vide !</p></c:when>
 			
 			<c:otherwise>
-				 <table class="blueTable"> <caption>Liste clients</caption>
+				 <table class="blueTable"> <caption>Liste utilisateurs</caption>
 		            <thead>   
 		                <tr>
 		                    <th>Login</th>
