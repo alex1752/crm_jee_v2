@@ -18,12 +18,12 @@
 			<c:when test="${empty utilisateur}"><p>La liste des utilisateurs est vide !</p></c:when>
 			
 			<c:otherwise>
-				 <table class="blueTable"> <caption>Liste utilisateurs</caption>
+				 <table class="table table table-bordered"> <caption>Liste utilisateurs</caption>
 		            <thead>   
 		                <tr>
-		                    <th>Login</th>
-		                    <th>Email</th>
-		                    <th>Action</th>
+		                    <th scope="col">Login</th>
+		                    <th scope="col">Email</th>
+		                    <th scope="col">Action</th>
 		                <tr>
 		            </thead>
 		
