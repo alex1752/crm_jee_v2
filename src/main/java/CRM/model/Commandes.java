@@ -1,31 +1,29 @@
 package CRM.model;
 
-import java.math.BigDecimal;
-
 public class Commandes {
 
-	//Attributs	
-	
+	//Attributs
+
 	private Long id;
 	private String label;
 	private float tjmHT;
-    private float dureeJours; 
-    private float TVA; 
-    private String statut;
-    private String typeCommande;
+    private float dureeJours;
+    private float TVA;
+    private Statut statut;
+    private TypeCommande typeCommande;
     private String notes;
     private Clients client;
-	
+
     //constructeurs
-    
+
     public Commandes () {
-    	
+
     }
 
 
 
-	public Commandes(String label, float tjmHT, float dureeJours, float tVA, String statut,
-			String typeCommande, String notes, Clients client) {
+	public Commandes(String label, float tjmHT, float dureeJours, float tVA, Statut statut,
+			TypeCommande typeCommande, String notes, Clients client) {
 
 		this.label = label;
 		this.tjmHT = tjmHT;
@@ -100,25 +98,25 @@ public class Commandes {
 
 
 
-	public String getStatut() {
+	public Statut getStatut() {
 		return statut;
 	}
 
 
 
-	public void setStatut(String statut) {
+	public void setStatut(Statut statut) {
 		this.statut = statut;
 	}
 
 
 
-	public String getTypeCommande() {
+	public TypeCommande getTypeCommande() {
 		return typeCommande;
 	}
 
 
 
-	public void setTypeCommande(String typeCommande) {
+	public void setTypeCommande(TypeCommande typeCommande) {
 		this.typeCommande = typeCommande;
 	}
 
@@ -150,16 +148,16 @@ public class Commandes {
 
 	@Override
 	public String toString() {
-		
 
-		
+
+
 	return "Commandes [id=" + id + ", label=" + label + ", tjmHT=" + tjmHT + ", dureeJours=" + dureeJours + ", TVA="
 			+ TVA + ", statut=" + statut + ", typeCommande=" + typeCommande + ", notes=" + notes + ", idclient="
 			+ client.getId() + "]";
 	}
 
-	
-    
-	
+
+
+
 }
 

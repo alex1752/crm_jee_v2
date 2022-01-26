@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class DaoFactory {
 
-	
+
 	private String url;
     private String username;
     private String passwd;
@@ -31,12 +31,12 @@ public class DaoFactory {
 				InputStream ficProps = classLoader.getResourceAsStream("/CRM/config/config.properties");
 				Properties properties = new Properties();
 				properties.load(ficProps);
-				
+
 				String dbHost = properties.getProperty("db_host");
 				String dbName = properties.getProperty("db_database");
 				String dbUsername = properties.getProperty("db_username");
 				String dbPassword = properties.getProperty("db_password");
-				
+
 				Class.forName("org.postgresql.Driver");
 				DaoFactory.instanceSingleton = new DaoFactory("jdbc:postgresql://"+dbHost+"/"+dbName, dbUsername, dbPassword);
 		  } catch(ClassNotFoundException | IOException e) {
@@ -45,7 +45,7 @@ public class DaoFactory {
        }
        return DaoFactory.instanceSingleton;
    }
-   
+
 
    Connection getConnection() throws SQLException {
         if ( this.con == null ) {
@@ -53,18 +53,18 @@ public class DaoFactory {
         }
         return this.con;
     }
-   
+
     public ClientsDao getClientsDao() {
     	return new ClientsDaoImpl (this);
     }
     public CommandesDao getCommandesDao() {
 	    return new CommandesDaoImpl (this);
     }
-    
+
     public UtilisateursDao getUtilisateurDao() {
 	    return new UtilisateursDaoImpl (this);
     }
-   
+
    // cette méthode prend une connection en parametre en présagent que l'on pourrait en utiliser plusieurs
    // mais par construction actuellement la seule connection existante est stockée dans "this.con"
    void releaseConnection( Connection connectionRendue ) {

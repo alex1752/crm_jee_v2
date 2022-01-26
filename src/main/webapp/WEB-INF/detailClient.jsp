@@ -19,7 +19,12 @@
 			<p>Numéro de téléphone : <c:out value="${client.telephone}"/></p>
 			<p>Entreprise : <c:out value="${client.entreprise}"/></p>
 			<p>Nombre de commandes : <c:out value="${nbcommandes}"/> commandes</p>
-			
+
+			<ul>
+				<c:forEach items="${commandes}" var="commande" varStatus="boucle">
+					<li> <c:out value="${commande.label}"/> statut : <c:out value="${commande.statut}"/></li>
+				</c:forEach>
+			</ul>
 			<p>Notes client :<br/>
 			<c:out value="${client.notes}"/></p>
 			

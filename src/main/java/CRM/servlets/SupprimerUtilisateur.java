@@ -8,35 +8,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import CRM.Dao.ClientsDao;
 import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
+import CRM.Dao.UtilisateursDao;
 
 
-@WebServlet("/SupprimerClient")
-public class SupprimerClient extends HttpServlet {
+@WebServlet("/SupprimerUtilisateur")
+public class SupprimerUtilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ClientsDao clientDao;
+	private UtilisateursDao utilisateurDao;
 
-    public SupprimerClient() {
+
+    public SupprimerUtilisateur() {
         super();
-        clientDao =DaoFactory.getInstance().getClientsDao();
+        utilisateurDao =DaoFactory.getInstance().getUtilisateurDao();
+
     }
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idClient=request.getParameter("idClient");
+		String idUtilisateur=request.getParameter("idUtilisateur");
 
 		try {
-			Long id = Long.parseLong(idClient);
-			clientDao.supprimer(id);
+			Long id = Long.parseLong(idUtilisateur);
+			utilisateurDao.supprimer(id);
 		}catch(NumberFormatException | DaoException e) {
 			e.printStackTrace();
 		}
 
-		response.sendRedirect(request.getContextPath() + "/ListeClient");
+		response.sendRedirect(request.getContextPath() + "/ListeUtilisateur");
 
-		}
-
+	}
 
 }
