@@ -50,8 +50,7 @@ public class ModifierCommande extends HttpServlet {
 			String idCommande = request.getParameter("idCommande");
 			Long id = Long.parseLong(idCommande);
 			request.setAttribute("commande", commandesDao.trouver(id));
-			System.out.println(commandesDao.trouver(id));
-//			request.setAttribute("client", clientsDao.trouver(id));
+
 		} catch (DaoException | NumberFormatException e) {
 			e.printStackTrace();
 		}

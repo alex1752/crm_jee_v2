@@ -40,7 +40,6 @@ public class CommandeForm {
 	public Commandes saveCommande (HttpServletRequest request,int action) {
 
 		Clients client = null;
-
 		Commandes commande = null;
 
 		try {
@@ -51,9 +50,9 @@ public class CommandeForm {
 			String statut = getParameterOrNull(request, "statut");
 			String typeCommande = getParameterOrNull(request, "typeCommande");
 			String notes = getParameterOrNull(request, "notes");
-			client = clientDao.trouver(Long.parseLong(request.getParameter("client")));
-
-
+			client = clientDao.trouver(Long.parseLong(getParameterOrNull(request,"client")));
+			
+			
 			if (action == CREATION) {
 				commande = new Commandes ();
 			}else {
@@ -139,11 +138,11 @@ public class CommandeForm {
 			 if(client == null) {
 				 erreurs.put("client", "Merci de selectionner un client.");
 			 }
-
-
-
-			//enrigstrement de la commande
-
+			 
+	 
+			
+			//enregistrement de la commande
+			
 			if(erreurs.isEmpty()) {
 				if(action ==CREATION) {
 					commandeDao.ajouter(commande);
