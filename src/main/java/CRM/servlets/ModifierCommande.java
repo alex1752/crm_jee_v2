@@ -71,18 +71,6 @@ public class ModifierCommande extends HttpServlet {
 		CommandeForm form = new CommandeForm (commandesDao);
 		Commandes commande = form.saveCommande (request, CommandeForm.MODIFICATION);
 		
-		String idCommande= request.getParameter("idCommande");
-		id = Long.parseLong(idCommande);
-		commande = commandesDao.trouver(id);
-
-		commande.setLabel(label);
-		commande.setTjmHT(tjmHT);
-		commande.setDureeJours(dureeJours);
-		commande.setStatut(Statut.valueOf(statut));
-		commande.setTypeCommande(TypeCommande.valueOf(typeCommande));
-		commande.setNotes(notes);
-		commande.setClient(client);
-		
 
 		
 		try {

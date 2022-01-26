@@ -1,17 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
- <head>
-        <title>Menu deroulant</title>
-        <!--<link rel = "stylesheet" href = "css/bootstrap.css">-->
-        <!-- Latest compiled and minified CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <!DOCTYPE html>
+        <html>
 
-    </head>
-    <body>
+        <head>
+            <title>Menu deroulant</title>
+            <!--<link rel = "stylesheet" href = "css/bootstrap.css">-->
+            <!-- Latest compiled and minified CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+                crossorigin="anonymous">
 
+<<<<<<< HEAD
     <nav class="navbar navbar-expand-md navbar-light bg-light">
         <a class="navbar-brand" href="<c:url value="/"/>">Application CRM</a>
         <ul class="navbar-nav">
@@ -62,11 +62,73 @@
             </li>
         </ul>
     </nav>
+=======
+        </head>
+
+        <body class="bg-dark">
+            <div class="container">
+                <nav class="navbar navbar-expand-md navbar-dark bg-dark fw-bold">
+                    <a class="navbar-brand" href="#">Application CRM</a>
+                    <ul class="navbar-nav"> 
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Accueil </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Op�rations sur les
+                                clients</a>
+                            <div class="dropdown-menu text-center bg-secondary" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /AjouterClient" />">Ajouter un client</a>
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /trouverClient" />">Trouver un client</a>
+>>>>>>> niceHTML
 
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /ListeClient" />">Afficher la liste des
+                                clients</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Op�rations sur les
+                                commandes</a>
+                            <div class="dropdown-menu text-center bg-secondary" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /AjouterCommande" />">Ajouter une
+                                commande</a>
+                                <a class="dropdown-item fw-bold text-white" href="#">Trouver une commande</a>
+                                <a class="dropdown-item fw-bold text-white" href="#">Modifier une commande</a>
 
-    </body>
-</html>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /ListeCommande" />">Afficher la liste des
+                                commandes</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Param�tres</a>
+                            <div class="dropdown-menu text-center bg-secondary" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item fw-bold text-white" href="#">Changer le mot de passe</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">D�connection</a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+
+        </body>
+
+        </html>

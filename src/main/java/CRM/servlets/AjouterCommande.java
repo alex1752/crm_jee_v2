@@ -54,62 +54,7 @@ public class AjouterCommande extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Déclaration des variables
-		String resultat = "";
-		Map<String, String> erreurs = new HashMap<String, String>();
-		Commandes commande = null;
-		Clients client = null;
-		String label = null, categorie = null, statut = null, typeCommande = null, notes = null;
-		float tjmHT = 0, dureeJours= 0, TVA = 0;
-		Statut statutEnum=null; TypeCommande typeCommandeEnum=null;
 		
-		try {
-			//Récupération des données et instanciation de la commande
-			if(request.getParameter("label") != null && request.getParameter("label").trim().length() > 0) {
-				label = request.getParameter("label");
-			}
-			if(request.getParameter("tjmht") != null && request.getParameter("tjmht").trim().length() > 0) {
-				tjmHT = Float.parseFloat(request.getParameter("tjmht"));
-			}
-            if(request.getParameter("dureejours") != null && request.getParameter("dureejours").trim().length() > 0) {
-				dureeJours = Float.parseFloat(request.getParameter("dureejours"));
-			}
-            if(request.getParameter("tva") != null && request.getParameter("tva").trim().length() > 0) {
-				TVA = Float.parseFloat(request.getParameter("tva"));
-			}
-            if(request.getParameter("statut") != null && request.getParameter("statut").trim().length() > 0) {
-				statut = request.getParameter("statut");
-				statutEnum = Statut.valueOf(statut);
-				
-				
-			}
-            if(request.getParameter("typecommande") != null && request.getParameter("typecommande").trim().length() > 0) {
-				typeCommande = request.getParameter("typecommande");
-				typeCommandeEnum = TypeCommande.valueOf(typeCommande);
-			}
-            if(request.getParameter("notes") != null && request.getParameter("notes").trim().length() > 0) {
-				notes = request.getParameter("notes");
-			}
-			
-			
-			String idClient = request.getParameter("clients");
-			Long id = Long.parseLong(idClient);
-			client = clientsDao.trouver(id);
-		
-	
-			commande = new Commandes(label, tjmHT, dureeJours, TVA, statutEnum, typeCommandeEnum, notes, client);
-
-			//Enregistrement du client
-			if(erreurs.isEmpty()) {
-				commandesDao.ajouter(commande);
-				resultat = "Commande ajoutée avec succès.";
-			} else {
-				resultat = "Echec de l'ajout de la commande.";
-				request.setAttribute("commande", commande);
-			}
-		} catch (DaoException e) {
-			resultat = "Erreur imprévue lors de la création.";
-			request.setAttribute("commande", commande);
 		
 		CommandeForm form = new CommandeForm (commandesDao);
 		Commandes commande = form.saveCommande (request, CommandeForm.CREATION);

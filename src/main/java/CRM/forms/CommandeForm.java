@@ -10,6 +10,8 @@ import CRM.Dao.CommandesDao;
 import CRM.Dao.DaoException;
 import CRM.model.Clients;
 import CRM.model.Commandes;
+import CRM.model.Statut;
+import CRM.model.TypeCommande;
 
 public class CommandeForm {
 
@@ -64,8 +66,8 @@ public class CommandeForm {
 			commande.setTjmHT(Float.parseFloat(tjmHT));
 			commande.setDureeJours(Float.parseFloat(dureeJours));
 			commande.setTVA(Float.parseFloat(TVA));
-			commande.setStatut(statut);
-			commande.setTypeCommande(typeCommande);
+			commande.setStatut(Statut.valueOf(statut));
+			commande.setTypeCommande(TypeCommande.valueOf(typeCommande));
 			commande.setNotes(notes);
 			commande.setClient(client);
 			
