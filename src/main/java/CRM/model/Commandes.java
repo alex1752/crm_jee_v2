@@ -11,8 +11,8 @@ public class Commandes {
 	private float tjmHT;
     private float dureeJours; 
     private float TVA; 
-    private String statut;
-    private String typeCommande;
+    private Statut statut;
+    private TypeCommande typeCommande;
     private String notes;
     private Clients client;
 	
@@ -24,8 +24,8 @@ public class Commandes {
 
 
 
-	public Commandes(String label, float tjmHT, float dureeJours, float tVA, String statut,
-			String typeCommande, String notes, Clients client) {
+	public Commandes(String label, float tjmHT, float dureeJours, float tVA, Statut statut,
+			TypeCommande typeCommande, String notes, Clients client) {
 
 		this.label = label;
 		this.tjmHT = tjmHT;
@@ -100,25 +100,25 @@ public class Commandes {
 
 
 
-	public String getStatut() {
+	public Statut getStatut() {
 		return statut;
 	}
 
 
 
-	public void setStatut(String statut) {
+	public void setStatut(Statut statut) {
 		this.statut = statut;
 	}
 
 
 
-	public String getTypeCommande() {
+	public TypeCommande getTypeCommande() {
 		return typeCommande;
 	}
 
 
 
-	public void setTypeCommande(String typeCommande) {
+	public void setTypeCommande(TypeCommande typeCommande) {
 		this.typeCommande = typeCommande;
 	}
 

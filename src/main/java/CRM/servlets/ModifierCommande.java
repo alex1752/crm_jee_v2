@@ -16,6 +16,8 @@ import CRM.Dao.DaoException;
 import CRM.Dao.CommandesDao;
 import CRM.model.Clients;
 import CRM.model.Commandes;
+import CRM.model.Statut;
+import CRM.model.TypeCommande;
 
 /**
  * Servlet implementation class ModificationCommandes
@@ -53,6 +55,8 @@ public class ModifierCommande extends HttpServlet {
 		} catch (DaoException | NumberFormatException e) {
 			e.printStackTrace();
 		}
+		request.setAttribute("types", TypeCommande.values());
+		request.setAttribute("stat", Statut.values());
 		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/modifierCommande.jsp").forward(request, response);
 	}
@@ -105,8 +109,8 @@ public class ModifierCommande extends HttpServlet {
 			commande.setLabel(label);
 			commande.setTjmHT(tjmHT);
 			commande.setDureeJours(dureeJours);
-			commande.setStatut(statut);
-            commande.setTypeCommande(typeCommande);
+			commande.setStatut(Statut.valueOf(statut));
+            commande.setTypeCommande(TypeCommande.valueOf(typeCommande));
             commande.setNotes(notes);
             commande.setClient(client);
 			

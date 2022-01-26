@@ -34,7 +34,7 @@ public class AjouterClient extends HttpServlet {
 		Clients client = form.saveClient(request, ClientForm.CREATION);
 	
 		if(form.getErreurs().isEmpty()) {
-			response.sendRedirect(request.getContextPath() + "/detailClient?idClient=" + client.getId() );
+			response.sendRedirect(request.getContextPath() + "/DetailClient?idClient=" + client.getId() );
 		}else {
 			request.setAttribute("client",client);
 			request.setAttribute("form",form);

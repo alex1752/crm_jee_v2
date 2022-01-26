@@ -71,7 +71,7 @@ public static int CREATION=0,MODIFICATION=1;
 						erreurs.put("nom","Le nom doit être entre 2 et 50 caractères");
 					}
 				} else {
-					erreurs.put("nnom","Entrer un nom de client");
+					erreurs.put("nom","Entrer un nom de client");
 				}
 				if(prenom.length() <2 || prenom.length()>50) {
 					erreurs.put("prenom","Le prenom doit être entre 2 et 50 caractères");
@@ -119,10 +119,7 @@ public static int CREATION=0,MODIFICATION=1;
 					if(entreprise.length() <2 || entreprise.length()>200) {
 						erreurs.put("entreprise","Le nom d'entreprise doit être entre 2 et 200 caractères");
 					}
-				} else {
-					erreurs.put("nnom","Entrer un nom d'entreprise");
 				}
-				
 				if(notes!=null) {
 					if(notes.length() <2 || notes.length()>2000) {
 						erreurs.put("notes","La note ne doit pas dépasser 2000 caractères");
@@ -142,7 +139,7 @@ public static int CREATION=0,MODIFICATION=1;
 					resultat = "Echec de la sauvegarde du client";
 					
 				}
-			}catch(DaoException | NumberFormatException e) {
+				}catch(DaoException | NumberFormatException e) {
 					resultat = "Echec ajout du client: erreur imprévue";
 					erreurs.put("DAO","Erreur imprévue..");
 					e.printStackTrace();

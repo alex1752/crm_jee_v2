@@ -10,6 +10,8 @@ import java.util.List;
 
 import CRM.model.Clients;
 import CRM.model.Commandes;
+import CRM.model.Statut;
+import CRM.model.TypeCommande;
 
 public class CommandesDaoImpl implements CommandesDao{
 	
@@ -42,8 +44,8 @@ public class CommandesDaoImpl implements CommandesDao{
             pst.setFloat( 2, commande.getTjmHT() );
             pst.setFloat( 3, commande.getDureeJours() );
             pst.setFloat( 4, commande.getTVA() );
-            pst.setString( 5, commande.getStatut() );
-            pst.setString( 6, commande.getTypeCommande() );
+            pst.setString( 5, commande.getStatut().toString() );
+            pst.setString( 6, commande.getTypeCommande().toString() );
             pst.setString( 7, commande.getNotes() );
             pst.setLong( 8, commande.getClient().getId() );
             
@@ -196,8 +198,8 @@ public class CommandesDaoImpl implements CommandesDao{
 			pst.setFloat( 2, commandes.getTjmHT() );
 			pst.setFloat( 3, commandes.getDureeJours() );
 			pst.setFloat( 4, commandes.getTVA() );
-			pst.setString( 5, commandes.getStatut());
-			pst.setString( 6, commandes.getTypeCommande() );
+			pst.setString( 5, commandes.getStatut().toString());
+			pst.setString( 6, commandes.getTypeCommande().toString() );
 			pst.setString( 7, commandes.getNotes() );
 			pst.setLong( 8, commandes.getClient().getId() );
 			pst.setLong( 9, commandes.getId() );
@@ -233,8 +235,20 @@ public class CommandesDaoImpl implements CommandesDao{
         c.setTjmHT( resultSet.getFloat( "tjmHT" ) );
         c.setDureeJours( resultSet.getFloat( "dureeJours" ) );
         c.setTVA( resultSet.getFloat( "TVA" ) );
-        c.setStatut( resultSet.getString ( "statut" )) ;
-        c.setTypeCommande( resultSet.getString ( "typeCommande" )) ;
+        
+        for(Statut s : Statut.values()) {
+        	if(resultSet.getString("statut").equals(s.toString())) {
+        		c.setStatut(s);
+        	}
+        }
+        
+       
+        for(TypeCommande t : TypeCommande.values()) {
+        	if(resultSet.getString("typeCommande").equals(t.toString())) {
+        		c.setTypeCommande(t);
+        	}
+        }
+       
         c.setNotes( resultSet.getString( "notes" ) );
         
         ClientsDao clientDao = DaoFactory.getInstance().getClientsDao();
