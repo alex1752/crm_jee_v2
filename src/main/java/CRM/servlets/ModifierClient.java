@@ -48,7 +48,7 @@ public class ModifierClient extends HttpServlet {
 		Clients client = form.saveClient(request, ClientForm.MODIFICATION);
 
 		if(form.getErreurs().isEmpty()) {
-			response.sendRedirect(request.getContextPath() + "/detailClient?idClient=" + client.getId() );
+			response.sendRedirect(request.getContextPath() + "/DetailClient?idClient=" + client.getId() );
 		}else {
 			request.setAttribute("client",client);
 			request.setAttribute("form",form);

@@ -101,8 +101,8 @@ public static int CREATION=0,MODIFICATION=1;
 					}
 					else {
 						for (Clients c : clientDao.lister()) {
-							String idUtilisateur = request.getParameter("idUtilisateur");
-							Long id= Long.parseLong(idUtilisateur);
+							String idClient = request.getParameter("idClient");
+							Long id= Long.parseLong(idClient);
 							if (email.equals(c.getEmail()) && c.getId()!=id){
 								erreurs.put("emailUtilisateur", "Adresse email déjà utilisée");
 							}
@@ -139,7 +139,7 @@ public static int CREATION=0,MODIFICATION=1;
 
 				}
 				}catch(DaoException | NumberFormatException e) {
-					resultat = "Echec ajout du client: erreur imprévue";
+					resultat = "Echec sauvegarde: erreur imprévue";
 					erreurs.put("DAO","Erreur imprévue..");
 					e.printStackTrace();
 			}
