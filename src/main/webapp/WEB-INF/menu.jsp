@@ -13,7 +13,7 @@
     <body>
 
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="#">Application CRM</a>
+        <a class="navbar-brand" href="<c:url value="/"/>">Application CRM</a>
         <ul class="navbar-nav">
             <li class="nav-item active">
                 <a class="nav-link" href="<c:url value="/"/>">Accueil </a>
@@ -34,7 +34,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="<c:url value="/AjouterCommande"/>">Ajouter une commande</a>
                     <a class="dropdown-item" href="#">Trouver une commande</a>
-                    <a class="dropdown-item" href="#">Modifier une commande</a>
+                    
 
                     <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="<c:url value="/ListeCommande"/>">Afficher la liste des commandes</a>

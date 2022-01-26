@@ -16,6 +16,8 @@ import CRM.Dao.DaoException;
 import CRM.Dao.CommandesDao;
 import CRM.model.Clients;
 import CRM.model.Commandes;
+import CRM.model.Statut;
+import CRM.model.TypeCommande;
 
 /**
  * Servlet implementation class CreationCommandes
@@ -46,6 +48,9 @@ public class AjouterCommande extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		request.setAttribute("types", TypeCommande.values());
+		request.setAttribute("stat", Statut.values());
+		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/ajouterCommande.jsp").forward(request, response);
 	}
 
@@ -60,6 +65,7 @@ public class AjouterCommande extends HttpServlet {
 		Clients client = null;
 		String label = null, categorie = null, statut = null, typeCommande = null, notes = null;
 		float tjmHT = 0, dureeJours= 0, TVA = 0;
+		Statut statutEnum=null; TypeCommande typeCommandeEnum=null;
 		
 		try {
 			//Récupération des données et instanciation de la commande
@@ -77,9 +83,13 @@ public class AjouterCommande extends HttpServlet {
 			}
             if(request.getParameter("statut") != null && request.getParameter("statut").trim().length() > 0) {
 				statut = request.getParameter("statut");
+				statutEnum = Statut.valueOf(statut);
+				
+				
 			}
             if(request.getParameter("typecommande") != null && request.getParameter("typecommande").trim().length() > 0) {
 				typeCommande = request.getParameter("typecommande");
+				typeCommandeEnum = TypeCommande.valueOf(typeCommande);
 			}
             if(request.getParameter("notes") != null && request.getParameter("notes").trim().length() > 0) {
 				notes = request.getParameter("notes");
@@ -91,7 +101,7 @@ public class AjouterCommande extends HttpServlet {
 			client = clientsDao.trouver(id);
 		
 	
-			commande = new Commandes(label, tjmHT, dureeJours, TVA, statut, typeCommande, notes, client);
+			commande = new Commandes(label, tjmHT, dureeJours, TVA, statutEnum, typeCommandeEnum, notes, client);
 	
 			
 			//Gestion des erreurs

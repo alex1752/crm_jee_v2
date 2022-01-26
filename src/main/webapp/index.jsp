@@ -10,6 +10,7 @@
 	<body>
 		<c:import url="/WEB-INF/menu.jsp"/>
 		
-		<h1>PAGE 0</h1>
+		<h1>BIENVENUE</h1>
+		<h2> Vous êtes sur la page d'accueil de notre application</h2>
 	</body>
 </html>

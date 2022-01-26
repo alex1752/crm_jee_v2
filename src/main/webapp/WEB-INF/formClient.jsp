@@ -40,10 +40,10 @@
    		<p>	Client Actif :
         <label for="actif">Oui</label>
         <input name="actif" type="radio" id="actif1" value="<c:out value="${client.actif}"/>"/> 
-    	<span class="erreurs">${form.erreurs['actif']}</span>
+    	<span class="erreurs">${form.erreurs['actif1']}</span>
     	 <label for="actif">Non</label>
         <input name="actif" type="radio" id="actif2" value="<c:out value="${client.actif}"/>"/> <br />
-    	<span class="erreurs">${form.erreurs['actif']}</span></p>
+    	<span class="erreurs">${form.erreurs['actif2']}</span></p>
     </div>
     
     <div class="creation">
