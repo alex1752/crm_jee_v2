@@ -15,10 +15,10 @@
         <body>
             <div class="container">
                 <nav class="navbar navbar-expand-md navbar-light bg-light fw-bold">
-                    <a class="navbar-brand" href="#">Application CRM</a>
+                    <a class="navbar-brand">Application CRM</a>
                     <ul class="navbar-nav"> 
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Accueil </a>
+                            <a class="nav-link" href="<c:url value="/" />">Accueil </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
@@ -49,6 +49,20 @@
                                 commandes</a>
                             </div>
                         </li>
+                        
+                       	<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opérations sur les utilisateurs</a>
+                            <div class="dropdown-menu text-center bg-secondary" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value="/AjouterUtilisateur" />">Ajouter un utilisateur</a>
+                                <a class="dropdown-item fw-bold text-white" href="#">Trouver un utilisateur</a>
+                                <a class="dropdown-item fw-bold text-white" href="#">Modifier un utilisateur</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value="/ListeUtilisateur" />">Afficher la liste des utilisateurs</a>
+                            </div>
+                        </li>
+                        
+                        
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Paramètres</a>

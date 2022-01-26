@@ -9,31 +9,27 @@
 
 					<div class="champ my-2">
 						<label class="me-2" for="label">Label</label>
-						<input class="me-2" type="text" name="label" id="label" value="<c:out value="
-							${commande.label}" />"
+						<input class="me-2" type="text" name="label" id="label" value="<c:out value="${commande.label}" />"
 						size="20" maxlength="200">
 						<span class="erreur"> ${erreurs['label']}</span>
 					</div>
 
 					<div class="champ my-2">
 						<label class="me-2" for="tjmHT"> tjmHT <span class="requis"></span> </label>
-						<input class="me-2" type="number" name="tjmht" id="tjmht" value="<c:out value ="
-							${commande.tjmHT}" />">
+						<input class="me-2" type="number" name="tjmht" id="tjmht" value="<c:out value ="${commande.tjmHT}" />">
 						<span class="erreur"> ${erreurs['tjmHT']}</span>
 					</div>
 
 					<div class="champ my-2">
-						<label class="me-2" for="dureejours"> durï¿½eJours <span class="requis"></span></label>
-						<input class="me-2" type="number" name="dureejours" id="dureejours" value="<c:out value ="
-							${commande.dureeJours}" />">
+						<label class="me-2" for="dureejours"> durée de Jours <span class="requis"></span></label>
+						<input class="me-2" type="number" name="dureejours" id="dureejours" value="<c:out value ="${commande.dureeJours}" />">
 						<span class="erreur"> ${erreurs['dureejours']}</span>
 					</div>
 
 
 					<div class="champ my-2">
 						<label class="me-2" for="tva">TVA</label>
-						<input class="me-2" type="number" name="tva" id="tva" value="<c:out value="
-							${commande.TVA}" />">
+						<input class="me-2" type="number" name="tva" id="tva" value="<c:out value="${commande.TVA}" />">
 						<span class="erreur"> ${erreurs['tva']}</span>
 					</div>
 
@@ -59,18 +55,16 @@
 
 					<div class="champ my-2">
 						<label class="me-2" for="notes">Notes</label>
-						<input class="me-2" type="text" name="notes" id="notes" value="<c:out value="
-							${commande.notes}" />">
+						<input class="me-2" type="text" name="notes" id="notes" value="<c:out value="${commande.notes}" />">
 						<span class="erreur"> ${erreurs['notes']}</span>
 					</div>
 
 
 					<div class="champ my-2">
 						<label class="me-2" for="clients"> Clients <span class="requis"></span></label>
-						<select name="clients" id="clients">
+						<select name="clients" id="clients"> 
 							<option value="">--Please choose an option--</option>
-										            <select name="clients" id="clients"> 
-			                <c:forEach items = "${ clients }" var="client" > 
+			                <c:forEach items = "${ clients }" var="client"> 
 			                		<option value="${client.id}" ${commande.client.id == client.id ? 'selected':'' }><c:out value ="${client.nom}"/> <c:out value ="${client.prenom}"/></option>
 			                </c:forEach>
 			    		 </select>

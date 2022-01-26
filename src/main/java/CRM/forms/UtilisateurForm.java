@@ -33,6 +33,7 @@ public class UtilisateurForm {
 	//action == CREATION | MODIFICATION
 	public Utilisateurs saveUtilisateur(HttpServletRequest request,int action) {
 
+		
 		Utilisateurs utilisateur = null;
 
 
@@ -49,7 +50,6 @@ public class UtilisateurForm {
 				String idUtilisateur = request.getParameter("idUtilisateur");
 				Long id= Long.parseLong(idUtilisateur);
 				utilisateur = utilisateurDao.trouver(id);
-
 			}
 
 			utilisateur.setLogin(login);
@@ -64,7 +64,7 @@ public class UtilisateurForm {
 					erreurs.put("loginUtilisateur","Le login doit être entre 2 et 200 caractères");
 				}
 			} else {
-				erreurs.put("loginUtilisateur","Entrer un nom de client");
+				erreurs.put("loginUtilisateur","Entrer un nom d'utilisateur");
 			}
 
 			if(motDePasse!=null) {
