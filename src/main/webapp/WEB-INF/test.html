@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container mt-3">
+
+        <fieldset class="border rounded border-info ps-4">
+            <legend class="float-none w-auto px-3">Information Auteur</legend>
+
+            <div class="creation my-2">
+                <label class="me-2" for="nom">Nom : </label>
+                <input class="me-2" name="nom" id="nom" value="nom" type="text" required />
+                <span class="erreurs">erreur</span>
+            </div>
+
+            <div class="creation my-2">
+                <label class="me-2" for="prenom">Prenom :</label>
+                <input class="me-2" name="prenom" type="text" id="prenom" value="prenom" />
+                <span class="erreurs">erreur</span>
+            </div>
+
+            <div class="creation my-2">
+                <label class="me-2" for="telephone">Numero de telephone :</label>
+                <input class="me-2" name="telephone" id="telephone" value=type="telephone" required /><span
+                    class="erreurs">erreur</span>
+            </div>
+
+            <div class="creation my-2">
+                <p>Client Actif :</p>
+                <label for="actif">Oui</label>
+                <input class="me-2" name="actif" type="radio" id="actif1" value="oui" />
+                <label for="actif">Non</label>
+                <input name="actif" type="radio" id="actif2" value="non" />
+            </div>
+
+            <div class="creation my-2">
+                <label class="me-2" for="notes">Notes:</label>
+                <input class="me-2" name="notes" type="text" id="notes" value="notes" />
+                <span class="erreurs">erreur</span>
+            </div>
+
+        </fieldset>
+
+        <div class="creation my-2">
+            <p class="info">info</p>
+            <input class="btn btn-primary me-2" type="submit" value="Valider" />
+            <input class="btn btn-danger" type="reset" value="Remise a zero">
+        </div>
+
+    </div>
+
+</body>
+
+</html>

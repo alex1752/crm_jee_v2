@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Modifier utilisateur</title>
+	</head>
+	<body>
+	
+		<c:import url="/WEB-INF/menu.jsp"/>
+		
+		<div>
+            <form action="<c:url value="/ModifierUtilisateur"><c:param name="idUtilisateur" value="${utilisateur.id}"/></c:url>" method="post" class="creation">
+                <c:import url="/WEB-INF/formUtilisateur.jsp"/>
+            </form>
+    	</div>
+	
+	</body>
+</html>

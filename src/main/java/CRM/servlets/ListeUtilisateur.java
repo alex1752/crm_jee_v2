@@ -7,35 +7,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import CRM.Dao.ClientsDao;
 import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
+import CRM.Dao.UtilisateursDao;
 
 
-@WebServlet("/ListeClient")
-public class ListeClient extends HttpServlet {
+@WebServlet("/ListeUtilisateur")
+public class ListeUtilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ClientsDao clientDao;
-       
-  
-    public ListeClient() {
+    private UtilisateursDao utilisateurDao;
+
+    public ListeUtilisateur() {
         super();
-        clientDao = DaoFactory.getInstance().getClientsDao();
+        utilisateurDao = DaoFactory.getInstance().getUtilisateurDao();
+        
     }
 
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		try {
-			request.setAttribute("client",clientDao.lister());
-		}catch(DaoException e) {
+			request.setAttribute("utilisateur",utilisateurDao.lister());
+		} catch (DaoException e) {
 			e.printStackTrace();
 		}
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/listeClient.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/listeUtilisateur.jsp").forward(request, response);
 	}
-
-	
 
 
 }
