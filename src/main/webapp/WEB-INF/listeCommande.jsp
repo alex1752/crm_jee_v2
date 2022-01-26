@@ -58,12 +58,12 @@
                                 <c:out value="${commande.client.nom}"></c:out>
                             </td>
                             <td class="action">
-                                <a href="<c:url value=" /SupprimerCommande">
+                                <a href="<c:url value="/SupprimerCommande">
                                     <c:param name="idCommande" value="${ commande.id }" />
                                     </c:url>">
                                     <i class="las la-trash"></i>
                                 </a>
-                                <a href="<c:url value=" /ModifierCommande">
+                                <a href="<c:url value="/ModifierCommande">
                                     <c:param name="idCommande" value="${ commande.id }" />
                                     </c:url>">
                                     <i class="las la-edit"></i>

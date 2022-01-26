@@ -11,7 +11,7 @@
 		<body>
 			<c:import url="/WEB-INF/menu.jsp" />
 			<div>
-				<form action="<c:url value=" /AjouterClient" />" method="post" class="creation">
+				<form action="<c:url value="/AjouterClient" />" method="post" class="creation">
 				<c:import url="/WEB-INF/formClient.jsp" />
 				</form>
 			</div>

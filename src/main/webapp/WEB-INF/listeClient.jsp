@@ -20,14 +20,14 @@
 				<c:otherwise>
 					<div class="container my-4">
 
-						<table class="text-center blueTable">
+						<table>
 							<caption>Liste clients</caption>
 							<thead>
 								<tr>
 									<th scope="col">Nom</th>
-									<th scope="col">Prï¿½nom</th>
+									<th scope="col">Prénom</th>
 									<th scope="col">Entreprise</th>
-									<th scope="col">Tï¿½lï¿½phone</th>
+									<th scope="col">Téléphone</th>
 									<th scope="col">Email</th>
 									<th scope="col">Actif</th>
 									<th scope="col">Note</th>
@@ -37,7 +37,7 @@
 
 							<c:forEach items="${client}" var="client" varStatus="boucle">
 								<tr>
-									<th scope="row"> <a href="<c:url value=" /DetailClient">
+									<th scope="row"> <a href="<c:url value="/DetailClient">
 											<c:param name="idClient" value="${client.id}" />
 											</c:url>">
 											<c:out value="${client.nom}" />
@@ -47,7 +47,7 @@
 									</td>
 									<td>
 										<c:out value="${client.entreprise}" />
-									</td>
+									</td >
 									<td>
 										<c:out value="${client.telephone}" />
 									</td>
@@ -60,13 +60,13 @@
 									<td>
 										<c:out value="${client.notes}" />
 									</td>
-									<td> <a href="<c:url value=" /SupprimerClient">
+									<td> <a href="<c:url value="/SupprimerClient">
 											<c:param name="idClient" value="${client.id}" />
-											</c:url>"><img src="<c:url value =" /assets/croix.png" />" alt="supprimer"/>
+											</c:url>"><img src="<c:url value ="/assets/croix.png"/>" alt="supprimer"/>
 										</a>
-										<a href="<c:url value=" /ModifierClient">
+										<a href="<c:url value="/ModifierClient">
 											<c:param name="idClient" value="${client.id}" />
-											</c:url>"><img src="<c:url value= " /assets/modifier.png" />"
+											</c:url>"><img src="<c:url value= "/assets/modifier.png"/>"
 											alt="modifier"/>
 										</a>
 									</td>

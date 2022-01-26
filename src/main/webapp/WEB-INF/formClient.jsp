@@ -10,45 +10,36 @@
 
                     <legend class="float-none w-auto px-3">Information Auteur</legend>
 
-
-
-    
-
                     <div class="creation my-2">
                         <label class="me-2" for="nom">Nom : </label>
-                        <input class="me-2" name="nom" id="nom" value="<c:out value=" ${client.nom}" />" type="text"
-                        required/>
+                        <input class="me-2" name="nom" id="nom" value="<c:out value="${client.nom}" />" type="text" required/>
                         <br />
                         <span class="erreurs">${form.erreurs['nom']}</span>
                     </div>
 
                     <div class="creation my-2">
                         <label class="me-2" for="prenom">Prenom :</label>
-                        <input class="me-2" name="prenom" type="text" id="prenom" value="<c:out value="
-                            ${client.prenom}" />"/>
+                        <input class="me-2" name="prenom" type="text" id="prenom" value="<c:out value="${client.prenom}" />"/>
                         <br />
                         <span class="erreurs">${form.erreurs['prenom']}</span>
                     </div>
 
                     <div class="creation my-2">
-                        <label class="me-2" for="telephone">Numï¿½ro de tï¿½lï¿½phone :</label>
-                        <input class="me-2" name="telephone" id="telephone" value="<c:out value="
-                            ${client.telephone}" />" type
-                        ="telephone" required/> <br />
+                        <label class="me-2" for="telephone">Numéro de téléphone :</label>
+                        <input class="me-2" name="telephone" id="telephone" value="<c:out value="${client.telephone}"/>" type="telephone" required/> <br />
                         <span class="erreurs">${form.erreurs['telephone']}</span>
                     </div>
 
                     <div class="creation my-2">
                         <label class="me-2" for="email">Adresse Email : </label>
-                        <input class="me-2" name="email" type="email" value="<c:out value=" ${client.email}" />"
+                        <input class="me-2" name="email" type="email" value="<c:out value="${client.email}"/>"
                         id="mail"/><br />
                         <span class="erreurs">${form.erreurs['email']}</span>
                     </div>
 
                     <div class="creation my-2">
                         <label class="me-2" for="entreprise">Entreprise :</label>
-                        <input class="me-2" name="entreprise" type="text" id="entreprise" value="<c:out value="
-                            ${client.entreprise}" />"/> <br />              
+                        <input class="me-2" name="entreprise" type="text" id="entreprise" value="<c:out value="${client.entreprise}"/>"/><br />              
                         <span class="erreurs">${form.erreurs['entreprise']}</span>
                     </div>
 
@@ -72,7 +63,7 @@
                         <br />
                         <p class="info">${form.resultat}</p>
                         <input class="btn btn-primary me-2" type="submit" value="Valider" />
-                        <input class="btn btn-danger" type="reset" value="Remise ï¿½ zï¿½ro">
+                        <input class="btn btn-danger" type="reset" value="Remise à zéro">
                     </div>
 
                 </fieldset>

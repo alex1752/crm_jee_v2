@@ -12,9 +12,9 @@
                 crossorigin="anonymous">
         </head>
 
-        <body class="bg-dark">
+        <body>
             <div class="container">
-                <nav class="navbar navbar-expand-md navbar-dark bg-dark fw-bold">
+                <nav class="navbar navbar-expand-md navbar-light bg-light fw-bold">
                     <a class="navbar-brand" href="#">Application CRM</a>
                     <ul class="navbar-nav"> 
                         <li class="nav-item active">
@@ -22,43 +22,43 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opï¿½rations sur les
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opérations sur les
                                 clients</a>
                             <div class="dropdown-menu text-center bg-secondary" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /AjouterClient" />">Ajouter un client</a>
-                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /trouverClient" />">Trouver un client</a>
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value="/AjouterClient" />">Ajouter un client</a>
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value="/trouverClient" />">Trouver un client</a>
 
 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /ListeClient" />">Afficher la liste des
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value="/ListeClient" />">Afficher la liste des
                                 clients</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opï¿½rations sur les
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opérations sur les
                                 commandes</a>
                             <div class="dropdown-menu text-center bg-secondary" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /AjouterCommande" />">Ajouter une
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value="/AjouterCommande" />">Ajouter une
                                 commande</a>
                                 <a class="dropdown-item fw-bold text-white" href="#">Trouver une commande</a>
                                 <a class="dropdown-item fw-bold text-white" href="#">Modifier une commande</a>
 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item fw-bold text-white" href="<c:url value=" /ListeCommande" />">Afficher la liste des
+                                <a class="dropdown-item fw-bold text-white" href="<c:url value="/ListeCommande" />">Afficher la liste des
                                 commandes</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Paramï¿½tres</a>
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Paramètres</a>
                             <div class="dropdown-menu text-center bg-secondary" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item fw-bold text-white" href="#">Changer le mot de passe</a>
                             </div>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Dï¿½connection</a>
+                            <a class="nav-link" href="#">Déconnection</a>
                         </li>
                     </ul>
                 </nav>

@@ -81,7 +81,7 @@
 			<p class="info">${ resultat }</p>
 			<div id="bouttons">
 				<input class="btn btn-primary me-2" type="submit" value="Valider" />
-				<input class="btn btn-danger" type="reset" value="Remettre ï¿½ zï¿½ro" /> <br />
+				<input class="btn btn-danger" type="reset" value="Remettre à zéro" /> <br />
 			</div>
 
         

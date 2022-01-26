@@ -12,7 +12,7 @@
 			<c:import url="/WEB-INF/menu.jsp" />
 
 			<div>
-				<form action="<c:url value=" /ModifierClient">
+				<form action="<c:url value="/ModifierClient">
 					<c:param name="idClient" value="${client.id}" />
 					</c:url>" method="post" class="creation">
 					<c:import url="/WEB-INF/formClient.jsp" />
