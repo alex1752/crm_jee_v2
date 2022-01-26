@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import CRM.Dao.ClientsDao;
 import CRM.Dao.DaoFactory;
+import CRM.forms.CommandeForm;
 import CRM.Dao.DaoException;
 import CRM.Dao.CommandesDao;
 import CRM.model.Clients;
@@ -42,11 +43,6 @@ public class AjouterCommande extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			request.setAttribute("clients", clientsDao.lister());
-		} catch (DaoException e) {
-			e.printStackTrace();
-		}
 		
 		request.setAttribute("types", TypeCommande.values());
 		request.setAttribute("stat", Statut.values());
@@ -102,26 +98,7 @@ public class AjouterCommande extends HttpServlet {
 		
 	
 			commande = new Commandes(label, tjmHT, dureeJours, TVA, statutEnum, typeCommandeEnum, notes, client);
-	
-			
-			//Gestion des erreurs
-			// if(titre != null) {
-			// 	if(titre.length() < 2) {
-			// 		erreurs.put("titreLivre", "Un titre de livre doit contenir au minimum 2 caractères.");
-			// 	}
-			// } else {
-			// 	erreurs.put("titreLivre", "Merci d'entrer un titre.");
-			// }
-			
-			// if(categorie != null) {
-			// 	if(categorie.length() < 2) {
-			// 		erreurs.put("categorieLivre", "Une catégorie doit contenir au minimum 2 caractères.");
-			// 	}
-			// } else {
-			// 	erreurs.put("categorieLivre", "Merci d'entrer une catégorie.");
-			// }
-			
-			
+
 			//Enregistrement du client
 			if(erreurs.isEmpty()) {
 				commandesDao.ajouter(commande);
@@ -133,12 +110,18 @@ public class AjouterCommande extends HttpServlet {
 		} catch (DaoException e) {
 			resultat = "Erreur imprévue lors de la création.";
 			request.setAttribute("commande", commande);
+		
+		CommandeForm form = new CommandeForm (commandesDao);
+		Commandes commande = form.saveCommande (request, CommandeForm.CREATION);
+		
+		if (form.getErreurs().isEmpty()) {
+			response.sendRedirect(request.getContextPath() + "/ListeCommande");
+		}else {
+			request.setAttribute("commande",  commande);
+			request.setAttribute("form",  form);
+		
+		this.getServletContext().getRequestDispatcher("/WEB-INF/ajouterCommande.jsp").forward(request, response);
 		}
-		
-		request.setAttribute("erreurs", erreurs);
-		request.setAttribute("resultat", resultat);
-		
-		doGet(request, response);
 	}
 
 }
