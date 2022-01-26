@@ -8,7 +8,7 @@
             <input type="hidden" id="idUtilisateur" name="idUtilisateur" value="<c:out value="${utilisateur.id }"/>"/>
 
 	        <label for="loginUtilisateur">Login<span class="requis">*</span></label>
-              	<input type="text" id="nomAuteur" name="nomAuteur" value="<c:out value="${auteur.nom }"/>"size="30" maxlength="30"/>
+              	<input type="text" id="loginUtilisateur" name="loginUtilisateur" value="<c:out value="${utilisateur.login }"/>"size="30" maxlength="30"/>
               	<span class="erreur">${form.erreurs['loginUtilisateur']}</span>
               	<br/>
               	
@@ -19,7 +19,7 @@
              	<br/>
              	
              <label for="emailUtilisateur">Adresse email<span class="requis">*</label>
-             	<input type="text" id="emailUtilisateur" name="emailUtilisateur" value="<c:out value="${utilisateur.email }"/>"size="100" maxlength="100"/>
+             	<input type="text" id="emailUtilisateur" name="emailUtilisateur" value="<c:out value="${utilisateur.email }"/>"size="30" maxlength="100"/>
              	<span class="erreur">${form.erreurs['emailUtilisateur']}</span>
              	<br/>
               	

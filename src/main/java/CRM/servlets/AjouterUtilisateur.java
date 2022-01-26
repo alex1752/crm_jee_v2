@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import CRM.Dao.DaoFactory;
 import CRM.Dao.UtilisateursDao;
+import CRM.forms.UtilisateurForm;
 import CRM.model.Utilisateurs;
 
 
@@ -32,11 +33,10 @@ public class AjouterUtilisateur extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UtilisateurForm form = new UtilisateurForm(utilisateurDao);	
-		Utilisateurs utilisateur = form.saveAuteur(request, UtilisateurForm.CREATION);
+		Utilisateurs utilisateur = form.saveUtilisateur(request, UtilisateurForm.CREATION);
 		
 		if (form.getErreurs().isEmpty()) {
-			response.sendRedirect(request.getContextPath());
-			
+			response.sendRedirect(request.getContextPath() + "/ListeUtilisateur");
 		}
 		else {
 			request.setAttribute("utilisateur", utilisateur);

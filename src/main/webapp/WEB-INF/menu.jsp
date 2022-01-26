@@ -40,6 +40,16 @@
                         <a class="dropdown-item" href="<c:url value="/ListeCommande"/>">Afficher la liste des commandes</a>
                 </div>
             </li>
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opérations sur les utilisateurs</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<c:url value="/AjouterUtilisateur"/>">Ajouter un utilisateur</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="<c:url value="/ListeUtilisateur"/>">Afficher la liste des utilisateurs</a>
+                </div>
+            </li>
+            
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Paramètres</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

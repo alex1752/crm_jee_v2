@@ -12,7 +12,11 @@
 		<c:import url="/WEB-INF/menu.jsp"/>
 		<br/><h1>Ajout d'un utilisateur</h1><br/>
 		
-
+		<div>
+			<form method="post" action="<c:url value="/AjouterUtilisateur"/>">
+				<c:import url="/WEB-INF/formUtilisateur.jsp"/>
+			</form>
+		</div>
 	
 	</body>
 </html>
