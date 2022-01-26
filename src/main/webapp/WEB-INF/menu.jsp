@@ -10,59 +10,6 @@
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
                 integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
                 crossorigin="anonymous">
-
-<<<<<<< HEAD
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="<c:url value="/"/>">Application CRM</a>
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="<c:url value="/"/>">Accueil </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opérations sur les clients</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<c:url value="/AjouterClient"/>">Ajouter un client</a>
-                    <a class="dropdown-item" href="<c:url value="/trouverClient"/>">Trouver un client</a>
-                   
-
-                    <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<c:url value="/ListeClient"/>">Afficher la liste des clients</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opérations sur les commandes</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<c:url value="/AjouterCommande"/>">Ajouter une commande</a>
-                    <a class="dropdown-item" href="#">Trouver une commande</a>
-                    
-
-                    <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<c:url value="/ListeCommande"/>">Afficher la liste des commandes</a>
-                </div>
-            </li>
-            
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opérations sur les utilisateurs</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<c:url value="/AjouterUtilisateur"/>">Ajouter un utilisateur</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="<c:url value="/ListeUtilisateur"/>">Afficher la liste des utilisateurs</a>
-                </div>
-            </li>
-            
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Paramètres</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Changer le mot de passe</a>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="#">Déconnection</a>
-            </li>
-        </ul>
-    </nav>
-=======
         </head>
 
         <body class="bg-dark">
@@ -80,7 +27,6 @@
                             <div class="dropdown-menu text-center bg-secondary" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item fw-bold text-white" href="<c:url value=" /AjouterClient" />">Ajouter un client</a>
                                 <a class="dropdown-item fw-bold text-white" href="<c:url value=" /trouverClient" />">Trouver un client</a>
->>>>>>> niceHTML
 
 
                                 <div class="dropdown-divider"></div>

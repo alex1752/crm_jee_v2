@@ -1,14 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-        <!DOCTYPE html>
 
-        <head>
-            <meta charset="UTF-8">
-            <title>Document</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-                integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-                crossorigin="anonymous">
-        </head>
 
         <body>
 
@@ -18,30 +10,10 @@
 
                     <legend class="float-none w-auto px-3">Information Auteur</legend>
 
-<<<<<<< HEAD
-	<div class="creation">
-        <label for="entreprise">Entreprise :</label>
-        <input name="entreprise" type="text" id="entreprise" value="<c:out value="${client.entreprise}"/>"/> <br />
-    	<span class="erreurs">${form.erreurs['entreprise']}</span>
-    </div>
+
+
     
-   <div class="creation">
-   		<p>	Client Actif :
-        <label for="actif">Oui</label>
-        <input name="actif" type="radio" id="actif1" value="<c:out value="${client.actif}"/>"/> 
-    	<span class="erreurs">${form.erreurs['actif1']}</span>
-    	 <label for="actif">Non</label>
-        <input name="actif" type="radio" id="actif2" value="<c:out value="${client.actif}"/>"/> <br />
-    	<span class="erreurs">${form.erreurs['actif2']}</span></p>
-    </div>
-    
-    <div class="creation">
-        <label for="notes">Notes:</label>
-        <textarea id="notes" name="notes" rows="5" cols="33" placeholder="votre note..."></textarea>
-<%--         <input name="notes" type="text" id="notes" value="<c:out value="${client.notes}"/>"/> <br /> --%>
-    	<span class="erreurs">${form.erreurs['notes']}</span>
-    </div>
-=======
+
                     <div class="creation my-2">
                         <label class="me-2" for="nom">Nom : </label>
                         <input class="me-2" name="nom" id="nom" value="<c:out value=" ${client.nom}" />" type="text"
@@ -49,7 +21,6 @@
                         <br />
                         <span class="erreurs">${form.erreurs['nom']}</span>
                     </div>
->>>>>>> niceHTML
 
                     <div class="creation my-2">
                         <label class="me-2" for="prenom">Prenom :</label>
@@ -77,25 +48,23 @@
                     <div class="creation my-2">
                         <label class="me-2" for="entreprise">Entreprise :</label>
                         <input class="me-2" name="entreprise" type="text" id="entreprise" value="<c:out value="
-                            ${client.entreprise}" />"/> <br />
+                            ${client.entreprise}" />"/> <br />              
                         <span class="erreurs">${form.erreurs['entreprise']}</span>
                     </div>
 
                     <div class="creation my-2">
                         <p>Client Actif :</p>
                         <label for="actif">Oui</label>
-                        <input class="me-2" name="actif" type="radio" id="actif1" value="<c:out value="
-                            ${client.actif}" />"${auteur.id == livre.auteur.id ? 'checked' : ''}/> <br />
+        					<input class="me-2" name="actif" type="radio" id="actif1" value="<c:out value="${client.actif}"/>"/> 
                         <span class="erreurs">${form.erreurs['actif']}</span>
                         <label for="actif">Non</label>
-                        <input name="actif" type="radio" id="actif2" value="<c:out value="
-                            ${client.actif}" />"${auteur.id == livre.auteur.id ? 'checked' : ''}/> <br />
+        					<input class="me-2" name="actif" type="radio" id="actif2" value="<c:out value="${client.actif}"/>"/> <br />
                         <span class="erreurs">${form.erreurs['actif']}</span>
                     </div>
 
                     <div class="creation my-2">
                         <label class="me-2" for="notes">Notes:</label>
-                        <input class="me-2" name="notes" type="text" id="notes" value="<c:out value=" ${client.notes}" />"/> <br />
+                        <textarea class="me-2" id="notes" name="notes" value="<c:out value="${client.notes}"/>" rows="5" cols="33" placeholder="votre note..."></textarea>
                         <span class="erreurs">${form.erreurs['notes']}</span>
                     </div>
 
