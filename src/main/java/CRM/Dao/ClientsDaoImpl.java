@@ -36,27 +36,30 @@ public class ClientsDaoImpl implements ClientsDao {
 		Connection con = null;
 		Boolean emailExist = false;
 
+		
 		try {
-			con = factory.getConnection();
-			PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL);
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-
-				if (client.getEmail().equals(rs.getString("email"))) {
-					emailExist = true;
-					throw new DaoException("Email déjà existant");
-
-				}
-			}
-
-			rs.close();
-			pst.close();
-
+            con = factory.getConnection();
+            PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
+            pst.setLong( 1, utilisateur.getId() );
+            ResultSet rs  = pst.executeQuery();
+        	if (!utilisateur.getEmail().equals(rs.getString( "email" ) ) ) {
+                PreparedStatement pst2 = con.prepareStatement(SQL_SELECT_EMAIL);
+                pst.setString( 1, utilisateur.getEmail() );
+                ResultSet rs2  = pst.executeQuery();
+                if ((rs.getString( "email" ).isEmpty())) {
+                	emailExist = true;
+            		throw new DaoException("Email d�j� existant");
+                }
+    		} 
+            rs.close();
+            pst.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			factory.releaseConnection(con);
+            factory.releaseConnection(con);
 		}
+
 
 		// Creation
 		if (!emailExist) {
@@ -191,25 +194,28 @@ public class ClientsDaoImpl implements ClientsDao {
 
 		
 		try {
-			con = factory.getConnection();
-			PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL);
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-
-				if (client.getEmail().equals(rs.getString("email"))) {
-					emailExist = true;
-					throw new DaoException("Email déjà existant");
-
-				}
-			}
-			rs.close();
-			pst.close();
-
+            con = factory.getConnection();
+            PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
+            pst.setLong( 1, utilisateur.getId() );
+            ResultSet rs  = pst.executeQuery();
+        	if (!utilisateur.getEmail().equals(rs.getString( "email" ) ) ) {
+                PreparedStatement pst2 = con.prepareStatement(SQL_SELECT_EMAIL);
+                pst.setString( 1, utilisateur.getEmail() );
+                ResultSet rs2  = pst.executeQuery();
+                if ((rs.getString( "email" ).isEmpty())) {
+                	emailExist = true;
+            		throw new DaoException("Email d�j� existant");
+                }
+    		} 
+            rs.close();
+            pst.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			factory.releaseConnection(con);
+            factory.releaseConnection(con);
 		}
+
 		
 
 		

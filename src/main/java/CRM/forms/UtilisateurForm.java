@@ -79,6 +79,7 @@ public class UtilisateurForm {
 				if(!email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" )) {
 					erreurs.put("emailUtilisateur", "Entrez une adresse mail valide");
 				}
+				
 			}
 			
 		//enrigstrement de l'utilisateur
