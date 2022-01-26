@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import CRM.Dao.CommandesDao;
-import CRM.Dao.DaoFactory;
 import CRM.Dao.DaoException;
+import CRM.Dao.DaoFactory;
 
 /**
  * Servlet implementation class ListeCommandes
@@ -18,9 +18,9 @@ import CRM.Dao.DaoException;
 @WebServlet("/ListeCommande")
 public class ListeCommande extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	private CommandesDao commandesDao;
-	
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -32,6 +32,7 @@ public class ListeCommande extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		try {

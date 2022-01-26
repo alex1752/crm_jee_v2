@@ -1,6 +1,7 @@
 package CRM.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,22 +18,24 @@ import CRM.model.Clients;
 public class AjouterClient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ClientsDao clientDao;
-  
+
     public AjouterClient() {
         super();
         clientDao = DaoFactory.getInstance().getClientsDao();
     }
-    
+
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		this.getServletContext().getRequestDispatcher("/WEB-INF/ajouterClient.jsp").forward(request, response);
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		ClientForm form = new ClientForm(clientDao);
 		Clients client = form.saveClient(request, ClientForm.CREATION);
-	
+
 		if(form.getErreurs().isEmpty()) {
 			response.sendRedirect(request.getContextPath() + "/DetailClient?idClient=" + client.getId() );
 		}else {

@@ -21,24 +21,24 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
     private static final String SQL_SELECT_EMAIL_BY_ID = "SELECT email FROM Utilisateurs WHERE id = ?";
     private static final String SQL_SELECT_EMAIL = "SELECT email FROM Utilisateurs WHERE email like ?";
 
-    
+
     private DaoFactory factory;
-    
+
     public UtilisateursDaoImpl(DaoFactory factory) {
         this.factory = factory;
     }
-    
+
 	@Override
 	public void ajouter(Utilisateurs utilisateur) throws DaoException {
-		
-		
+
+
 		// V�rifier si l'email est pr�sent
 		Connection con=null;
-		Boolean emailExist = false;
-		
-		
-		
-		
+		boolean emailExist = false;
+
+
+
+
 		try {
             con = factory.getConnection();
             PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
@@ -54,20 +54,20 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
                 }
                 rs2.close();
                 pst2.close();
-    		} 
+    		}
             rs.close();
             pst.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
             factory.releaseConnection(con);
 		}
 
-		
+
 		if (!emailExist) {
 			try {
-				
+
             con = factory.getConnection();
 
             PreparedStatement pst = con.prepareStatement( SQL_INSERT, Statement.RETURN_GENERATED_KEYS );
@@ -75,8 +75,8 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
             pst.setString( 1, utilisateur.getLogin() );
             pst.setString( 2, utilisateur.getMotDePasse() );
             pst.setString( 3, utilisateur.getEmail() );
-            
-            
+
+
             int statut = pst.executeUpdate();
 
             if ( statut == 0 ) {
@@ -87,7 +87,7 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
                 utilisateur.setId( rsKeys.getLong( 1 ) );
             } else {
                 throw new DaoException( "Echec cr�ation Utilisateur" );
-        	}	
+        	}
             rsKeys.close();
             pst.close();
 
@@ -98,16 +98,16 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 		    }
 			}
 	}
-		
+
 
 	@Override
 	public Utilisateurs trouver (long id) throws DaoException {
-		
+
 		Utilisateurs            utilisateur=null;
         Connection        		con=null;
         PreparedStatement 		pst=null;
         ResultSet         		rs=null;
-        
+
         try {
             con = factory.getConnection();
             pst = con.prepareStatement( SQL_SELECT_BY_ID );
@@ -126,13 +126,13 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
         return utilisateur;
 	}
 
-	
+
 	@Override
 	public List<Utilisateurs> lister() throws DaoException {
-		
-		List<Utilisateurs> listeUtilisateurs = new ArrayList<Utilisateurs>();
+
+		List<Utilisateurs> listeUtilisateurs = new ArrayList<>();
         Connection   con=null;
-        
+
         try {
               con = factory.getConnection();
               PreparedStatement pst = con.prepareStatement( SQL_SELECT );
@@ -149,12 +149,12 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
         }
         return listeUtilisateurs;
 	}
-	
+
 
 	@Override
 	public void supprimer(long id) throws DaoException {
 		Connection   con=null;
-		
+
         try {
               con = factory.getConnection();
               PreparedStatement pst = con.prepareStatement( SQL_DELETE_BY_ID );
@@ -169,21 +169,21 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
         } finally {
             factory.releaseConnection(con);
         }
-		
+
 	}
 
-	
-	
 
-	
-	
+
+
+
+
 	@Override
 	public void modifier (Utilisateurs utilisateur) throws DaoException {
-		
+
 		 Connection con = null;
-		 Boolean emailExist = false;
-			
-	
+		 boolean emailExist = false;
+
+
 			try {
 	            con = factory.getConnection();
 	            PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
@@ -199,33 +199,33 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 	                }
 	                rs2.close();
 	                pst2.close();
-	    		} 
+	    		}
 	            rs.close();
 	            pst.close();
-	            
-	            
-				
+
+
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 	            factory.releaseConnection(con);
 			}
 
-			
-			
-			
+
+
+
 	       if (!emailExist) {
 	    	   try {
 			   	Long id = utilisateur.getId();
 	            con = factory.getConnection();
 	            PreparedStatement pst = con.prepareStatement(SQL_UPDATE_BY_ID);
-	            
-	            
+
+
 				pst.setString( 1, utilisateur.getLogin() );
 				pst.setString( 2, utilisateur.getMotDePasse() );
 				pst.setString( 3, utilisateur.getEmail() );
 				pst.setLong( 4, utilisateur.getId() );
-	            
+
 	            int statut = pst.executeUpdate();
 
 	            if (statut == 0) {
@@ -240,8 +240,8 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 		}
 	}
 
-    
-    
+
+
 
 
 	private static Utilisateurs map( ResultSet resultSet ) throws SQLException {

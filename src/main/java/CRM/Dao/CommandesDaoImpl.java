@@ -8,14 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import CRM.model.Clients;
 import CRM.model.Commandes;
 import CRM.model.Statut;
 import CRM.model.TypeCommande;
 
 public class CommandesDaoImpl implements CommandesDao{
-	
-	
+
+
 	private static final String SQL_INSERT       = "INSERT INTO Commandes (label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient) VALUES(?,?,?,?,?,?,?,?)";
     private static final String SQL_SELECT       = "SELECT id,label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient FROM Commandes";
     private static final String SQL_SELECT_BY_ID = "SELECT id,label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient FROM Commandes WHERE id = ?";
@@ -25,7 +24,7 @@ public class CommandesDaoImpl implements CommandesDao{
 
     private static final String SQL_SELECT_BY_IDCLIENT = "SELECT id,label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient FROM Commandes WHERE idclient = ?";
 
-    
+
     private DaoFactory factory;
 
     public CommandesDaoImpl(DaoFactory factory) {
@@ -48,7 +47,7 @@ public class CommandesDaoImpl implements CommandesDao{
             pst.setString( 6, commande.getTypeCommande().toString() );
             pst.setString( 7, commande.getNotes() );
             pst.setLong( 8, commande.getClient().getId() );
-            
+
             int statut = pst.executeUpdate();
 
             if ( statut == 0 ) {
@@ -59,7 +58,7 @@ public class CommandesDaoImpl implements CommandesDao{
             if ( rsKeys.next() ) {
 
                 commande.setId( rsKeys.getLong( 1 ) );
-                
+
 
             } else {
                 throw new DaoException( "Echec Création Commandes (ID non retourné)" );
@@ -82,10 +81,10 @@ public class CommandesDaoImpl implements CommandesDao{
         PreparedStatement pst=null;
         ResultSet         rs=null;
         try {
-        	
 
-        	
-        	
+
+
+
             con = factory.getConnection();
             pst = con.prepareStatement( SQL_SELECT_BY_ID );
             pst.setLong(1, id);
@@ -101,14 +100,14 @@ public class CommandesDaoImpl implements CommandesDao{
             factory.releaseConnection(con);
         }
         return commande;
-		
+
 	}
 
 	@Override
 	public List<Commandes> trouverCommandesClient(long idclient) throws DaoException {
-		
-		
-		List<Commandes> listeCommandes = new ArrayList<Commandes>();
+
+
+		List<Commandes> listeCommandes = new ArrayList<>();
 
         Connection        con=null;
         PreparedStatement pst=null;
@@ -133,13 +132,13 @@ public class CommandesDaoImpl implements CommandesDao{
             factory.releaseConnection(con);
         }
         return listeCommandes;
-		
+
 	}
-	
+
 	@Override
 	public List<Commandes> lister() throws DaoException {
-		
-		List<Commandes> listeCommandes = new ArrayList<Commandes>();
+
+		List<Commandes> listeCommandes = new ArrayList<>();
         Connection   con=null;
         try {
               con = factory.getConnection();
@@ -156,14 +155,14 @@ public class CommandesDaoImpl implements CommandesDao{
             factory.releaseConnection(con);
         }
         return listeCommandes;
-		
+
 	}
 
 	@Override
 	public void supprimer(long id) throws DaoException {
-		
+
 		Connection   con=null;
-		
+
         try {
               con = factory.getConnection();
               PreparedStatement pst = con.prepareStatement( SQL_DELETE_BY_ID );
@@ -183,17 +182,17 @@ public class CommandesDaoImpl implements CommandesDao{
 
 	@Override
 	public void modifier(Commandes commandes) throws DaoException {
-		
-	       
+
+
         Connection con = null;
         Long id = commandes.getId();
-        
+
         try {
             con = factory.getConnection();
             PreparedStatement pst = con.prepareStatement(SQL_UPDATE_BY_ID);
-            
-                        
-           
+
+
+
 			pst.setString( 1, commandes.getLabel() );
 			pst.setFloat( 2, commandes.getTjmHT() );
 			pst.setFloat( 3, commandes.getDureeJours() );
@@ -203,9 +202,9 @@ public class CommandesDaoImpl implements CommandesDao{
 			pst.setString( 7, commandes.getNotes() );
 			pst.setLong( 8, commandes.getClient().getId() );
 			pst.setLong( 9, commandes.getId() );
-           
-  
-            
+
+
+
             int statut = pst.executeUpdate();
             if (statut == 0) {
                 throw new DaoException("Erreur de modificaton Commandes(" + id + ")");
@@ -216,18 +215,18 @@ public class CommandesDaoImpl implements CommandesDao{
         } finally {
             factory.releaseConnection(con);
         }
-		
-		
+
+
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 	private static Commandes map( ResultSet resultSet ) throws SQLException {
     	Commandes c = new Commandes();
         c.setId( resultSet.getLong( "id" ) );
@@ -235,34 +234,34 @@ public class CommandesDaoImpl implements CommandesDao{
         c.setTjmHT( resultSet.getFloat( "tjmHT" ) );
         c.setDureeJours( resultSet.getFloat( "dureeJours" ) );
         c.setTVA( resultSet.getFloat( "TVA" ) );
-        
+
         for(Statut s : Statut.values()) {
         	if(resultSet.getString("statut").equals(s.toString())) {
         		c.setStatut(s);
         	}
         }
-        
-       
+
+
         for(TypeCommande t : TypeCommande.values()) {
         	if(resultSet.getString("typeCommande").equals(t.toString())) {
         		c.setTypeCommande(t);
         	}
         }
-       
+
         c.setNotes( resultSet.getString( "notes" ) );
-        
+
         ClientsDao clientDao = DaoFactory.getInstance().getClientsDao();
         try {
             c.setClient(clientDao.trouver(resultSet.getLong("idclient"))) ;
         } catch (DaoException e) {
         	e.printStackTrace();
         }
-        
-        
+
+
         return c;
 	}
-	
-	
-	
-	
+
+
+
+
 }

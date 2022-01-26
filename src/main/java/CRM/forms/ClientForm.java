@@ -8,17 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import CRM.Dao.ClientsDao;
 import CRM.Dao.DaoException;
 import CRM.model.Clients;
-import CRM.model.Utilisateurs;
 
 public class ClientForm {
 
 public static int CREATION=0,MODIFICATION=1;
-	
+
 	private String resultat;
-	private Map<String,String> erreurs = new HashMap<String,String>();
-	
+	private Map<String,String> erreurs = new HashMap<>();
+
 	private ClientsDao clientDao;
-	
+
 	public ClientForm(ClientsDao clientDao) {
 		this.clientDao=clientDao;
 	}
@@ -30,13 +29,13 @@ public static int CREATION=0,MODIFICATION=1;
 	public Map<String, String> getErreurs() {
 		return erreurs;
 	}
-	
+
 	//action == CREATION | MODIFICATION
 		public Clients saveClient(HttpServletRequest request,int action) {
-			
+
 			Clients client=null;
-			
-			
+
+
 			try {
 				String nom = getParameterOrNull(request, "nom");
 				String prenom = getParameterOrNull(request, "prenom");
@@ -45,9 +44,9 @@ public static int CREATION=0,MODIFICATION=1;
 				String entreprise = getParameterOrNull(request, "entreprise");
 				String notes = getParameterOrNull(request, "notes");
 				Boolean actif = Boolean.parseBoolean(getParameterOrNull(request, "actif"));
-				
-				
-			
+
+
+
 				if (action==CREATION){
 					client = new Clients();
 				} else {
@@ -55,7 +54,7 @@ public static int CREATION=0,MODIFICATION=1;
 					Long id= Long.parseLong(idClient);
 					client = clientDao.trouver(id);
 				}
-				
+
 				client.setNom(nom);
 				client.setPrenom(prenom);
 				client.setTelephone(telephone);
@@ -63,8 +62,8 @@ public static int CREATION=0,MODIFICATION=1;
 				client.setEntreprise(entreprise);
 				client.setActif(actif);
 				client.setNotes(notes);
-			
-		
+
+
 				//gestion des erreurs
 				if(nom!=null) {
 					if(nom.length() <2 || nom.length()>50) {
@@ -102,19 +101,19 @@ public static int CREATION=0,MODIFICATION=1;
 					}
 					else {
 						for (Clients c : clientDao.lister()) {
-							String idUtilisateur = request.getParameter("idUtilisateur");
-							Long id= Long.parseLong(idUtilisateur);
+							String idClient = request.getParameter("idClient");
+							Long id= Long.parseLong(idClient);
 							if (email.equals(c.getEmail()) && c.getId()!=id){
 								erreurs.put("emailUtilisateur", "Adresse email déjà utilisée");
 							}
 						}
-					}	
-					
-					
-					
+					}
+
+
+
 				}
-				
-				
+
+
 				if(entreprise!=null) {
 					if(entreprise.length() <2 || entreprise.length()>200) {
 						erreurs.put("entreprise","Le nom d'entreprise doit être entre 2 et 200 caractères");
@@ -125,28 +124,28 @@ public static int CREATION=0,MODIFICATION=1;
 						erreurs.put("notes","La note ne doit pas dépasser 2000 caractères");
 					}
 				}
-				
+
 			//enrigstrement du client
-			
+
 				if(erreurs.isEmpty()) {
 					if(action ==CREATION) {
 						clientDao.ajouter(client);
 					} else {
 						clientDao.modifier(client);
 					}
-				resultat = "Client sauvegardé !";				
+				resultat = "Client sauvegardé !";
 				} else {
 					resultat = "Echec de la sauvegarde du client";
-					
+
 				}
 				}catch(DaoException | NumberFormatException e) {
-					resultat = "Echec ajout du client: erreur imprévue";
+					resultat = "Echec sauvegarde: erreur imprévue";
 					erreurs.put("DAO","Erreur imprévue..");
 					e.printStackTrace();
 			}
 			return client;
 		}
-		
+
 		private static String getParameterOrNull(HttpServletRequest request, String nomChamp) {
 			String valeur = request.getParameter(nomChamp);
 			if(valeur == null || valeur.trim().length()==0){

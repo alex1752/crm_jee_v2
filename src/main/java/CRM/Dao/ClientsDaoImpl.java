@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import CRM.model.Clients;
@@ -19,7 +18,7 @@ public class ClientsDaoImpl implements ClientsDao {
 	private static final String SQL_SELECT_BY_ID = "SELECT id,nom,prenom,entreprise,email,telephone,actif,notes FROM Clients WHERE id = ?";
 	private static final String SQL_DELETE_BY_ID = "DELETE FROM Clients WHERE id = ? ";
 
-	private static final String SQL_UPDATE_BY_ID = "UPDATE Clients set nom = ?, prenom = ?, entreprise = ?, email = ?, telephone = ?, actif = ?, notes = ?  WHERE id = ?";	
+	private static final String SQL_UPDATE_BY_ID = "UPDATE Clients set nom = ?, prenom = ?, entreprise = ?, email = ?, telephone = ?, actif = ?, notes = ?  WHERE id = ?";
 	private static final String SQL_SELECT_EMAIL_BY_ID = "SELECT email FROM Clients WHERE id = ?";
     private static final String SQL_SELECT_EMAIL = "SELECT email FROM Clients WHERE email like ?";
 
@@ -35,9 +34,9 @@ public class ClientsDaoImpl implements ClientsDao {
 
 		// Check si adresse email déjà présente
 		Connection con = null;
-		Boolean emailExist = false;
+		boolean emailExist = false;
 
-		
+
 		try {
             con = factory.getConnection();
             PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
@@ -53,10 +52,10 @@ public class ClientsDaoImpl implements ClientsDao {
                 }
                 rs2.close();
                 pst2.close();
-    		} 
+    		}
             rs.close();
             pst.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -132,7 +131,7 @@ public class ClientsDaoImpl implements ClientsDao {
 	@Override
 	public List<Clients> lister() throws DaoException {
 
-		List<Clients> listeClients = new ArrayList<Clients>();
+		List<Clients> listeClients = new ArrayList<>();
 		Connection con = null;
 		try {
 			con = factory.getConnection();
@@ -178,24 +177,24 @@ public class ClientsDaoImpl implements ClientsDao {
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
 	@Override
 	public void modifier(Clients client) throws DaoException {
 		Connection con = null;
-		Boolean emailExist = false;
+		boolean emailExist = false;
 
-		
+
 		try {
             con = factory.getConnection();
             PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
@@ -211,26 +210,26 @@ public class ClientsDaoImpl implements ClientsDao {
                 }
                 rs2.close();
                 pst2.close();
-    		} 
+    		}
             rs.close();
             pst.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
             factory.releaseConnection(con);
 		}
 
-		
 
-		
-		
+
+
+
 		if (!emailExist) {
 			Long id = client.getId();
 			try {
 				con = factory.getConnection();
 				PreparedStatement pst = con.prepareStatement(SQL_UPDATE_BY_ID);
-				
+
 				pst.setString( 1, client.getNom() );
 				pst.setString( 2, client.getPrenom() );
 				pst.setString( 3, client.getEntreprise() );
@@ -240,7 +239,7 @@ public class ClientsDaoImpl implements ClientsDao {
 				pst.setString( 7, client.getNotes() );
 				pst.setLong( 8, client.getId() );
 
-				
+
 				int statut = pst.executeUpdate();
 				if (statut == 0) {
 					throw new DaoException("Erreur de modificaton Client(" + id + ")");
@@ -254,10 +253,10 @@ public class ClientsDaoImpl implements ClientsDao {
 		}
 	}
 
-	
-	
 
-	
+
+
+
 
 	private static Clients map(ResultSet resultSet) throws SQLException {
 		Clients c = new Clients();

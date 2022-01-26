@@ -1,25 +1,23 @@
 package CRM.model;
 
-import java.math.BigDecimal;
-
 public class Commandes {
 
-	//Attributs	
-	
+	//Attributs
+
 	private Long id;
 	private String label;
 	private float tjmHT;
-    private float dureeJours; 
-    private float TVA; 
+    private float dureeJours;
+    private float TVA;
     private Statut statut;
     private TypeCommande typeCommande;
     private String notes;
     private Clients client;
-	
+
     //constructeurs
-    
+
     public Commandes () {
-    	
+
     }
 
 
@@ -150,16 +148,16 @@ public class Commandes {
 
 	@Override
 	public String toString() {
-		
 
-		
+
+
 	return "Commandes [id=" + id + ", label=" + label + ", tjmHT=" + tjmHT + ", dureeJours=" + dureeJours + ", TVA="
 			+ TVA + ", statut=" + statut + ", typeCommande=" + typeCommande + ", notes=" + notes + ", idclient="
 			+ client.getId() + "]";
 	}
 
-	
-    
-	
+
+
+
 }
 

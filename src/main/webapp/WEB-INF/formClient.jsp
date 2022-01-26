@@ -46,16 +46,16 @@
                     <div class="creation my-2">
                         <p>Client Actif :</p>
                         <label for="actif">Oui</label>
-        					<input class="me-2" name="actif" type="radio" id="actif1" value="<c:out value="${client.actif}"/>"/> 
+        					<input class="me-2" name="actif" type="radio" id="actif" value="${client.actif}" ${client.actif == true ? 'checked':'' }/>
                         <span class="erreurs">${form.erreurs['actif']}</span>
                         <label for="actif">Non</label>
-        					<input class="me-2" name="actif" type="radio" id="actif2" value="<c:out value="${client.actif}"/>"/> <br />
+        					<input class="me-2" name="actif" type="radio" id="actif" value="${client.actif}" ${client.actif == false ? 'checked':'' }/>
                         <span class="erreurs">${form.erreurs['actif']}</span>
                     </div>
 
                     <div class="creation my-2">
                         <label class="me-2" for="notes">Notes:</label>
-                        <textarea class="me-2" id="notes" name="notes" value="<c:out value="${client.notes}"/>" rows="5" cols="33" placeholder="votre note..."></textarea>
+                        <textarea class="me-2" id="notes" name="notes" value="<c:out value="${client.notes}"/>" rows="5" cols="33" placeholder="votre note...">${client.notes }</textarea>
                         <span class="erreurs">${form.erreurs['notes']}</span>
                     </div>
 

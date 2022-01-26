@@ -1,6 +1,7 @@
 package CRM.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,17 +21,18 @@ public class ListeUtilisateur extends HttpServlet {
     public ListeUtilisateur() {
         super();
         utilisateurDao = DaoFactory.getInstance().getUtilisateurDao();
-        
+
     }
 
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setAttribute("utilisateur",utilisateurDao.lister());
 		} catch (DaoException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.getServletContext().getRequestDispatcher("/WEB-INF/listeUtilisateur.jsp").forward(request, response);
 	}
 
