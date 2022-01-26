@@ -3,7 +3,7 @@ package CRM.model;
 public class Utilisateurs {
 
 	//Attributs
-	
+
 	private long id;
 	private String login;
 	private String motDePasse;
@@ -12,11 +12,11 @@ public class Utilisateurs {
 	// Constructeur
 
 	public Utilisateurs (){
-		
+
 	}
 
 	public Utilisateurs ( String login, String motDePasse, String email) {
-		
+
 		this.login = login;
 		this.motDePasse = motDePasse;
 		this.email = email;
@@ -58,6 +58,6 @@ public class Utilisateurs {
 	public String toString() {
 		return "Utilisateurs [id=" + id + ", login=" + login + ", motDePasse=" + motDePasse + ", email=" + email + "]";
 	}
-	
-	
+
+
 }

@@ -1,6 +1,7 @@
 package CRM.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,26 +17,27 @@ import CRM.Dao.DaoFactory;
 public class ListeClient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ClientsDao clientDao;
-       
-  
+
+
     public ListeClient() {
         super();
         clientDao = DaoFactory.getInstance().getClientsDao();
     }
 
-	
+
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		try {
 			request.setAttribute("client",clientDao.lister());
 		}catch(DaoException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.getServletContext().getRequestDispatcher("/WEB-INF/listeClient.jsp").forward(request, response);
 	}
 
-	
+
 
 
 }

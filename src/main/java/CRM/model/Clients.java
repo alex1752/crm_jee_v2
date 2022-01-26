@@ -10,7 +10,7 @@ public class Clients {
 	private String entreprise;
 	private String email;
 	private String telephone;
-	private boolean actif;
+	private Boolean actif;
 	private String notes;
 
 	// Constructeurs
@@ -18,7 +18,7 @@ public class Clients {
 	public Clients() {
 	}
 
-	public Clients(String nom, String prenom, String entreprise, String email, String telephone, boolean actif,
+	public Clients(String nom, String prenom, String entreprise, String email, String telephone, Boolean actif,
 			String notes) {
 
 		this.id = id;
