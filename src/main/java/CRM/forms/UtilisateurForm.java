@@ -36,6 +36,10 @@ public class UtilisateurForm {
 	public Utilisateurs saveUtilisateur(HttpServletRequest request,int action) {
 		
 		Utilisateurs utilisateur = null;
+		
+
+		
+		
 		try {
 			String login = getParameterOrNull(request, "loginUtilisateur");
 			String motDePasse = getParameterOrNull(request, "motDePasseUtilisateur");
@@ -47,6 +51,7 @@ public class UtilisateurForm {
 				String idUtilisateur = request.getParameter("idUtilisateur");
 				Long id= Long.parseLong(idUtilisateur);
 				utilisateur = utilisateurDao.trouver(id);
+				
 			}
 			
 			utilisateur.setLogin(login);
@@ -79,7 +84,22 @@ public class UtilisateurForm {
 				if(!email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" )) {
 					erreurs.put("emailUtilisateur", "Entrez une adresse mail valide");
 				}
-				
+				if (action==CREATION){
+					for (Utilisateurs u : utilisateurDao.lister()) {
+						if (email.equals(u.getEmail())){
+							erreurs.put("emailUtilisateur", "Adresse email déjà utilisée");
+						}
+					}
+				}
+				else {
+					for (Utilisateurs u : utilisateurDao.lister()) {
+						String idUtilisateur = request.getParameter("idUtilisateur");
+						Long id= Long.parseLong(idUtilisateur);
+						if (email.equals(u.getEmail()) && u.getId()!=id){
+							erreurs.put("emailUtilisateur", "Adresse email déjà utilisée");
+						}
+					}
+				}	
 			}
 			
 		//enrigstrement de l'utilisateur

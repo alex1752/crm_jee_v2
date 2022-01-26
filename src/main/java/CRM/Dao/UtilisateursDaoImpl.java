@@ -46,12 +46,14 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
             ResultSet rs  = pst.executeQuery();
         	if (!utilisateur.getEmail().equals(rs.getString( "email" ) ) ) {
                 PreparedStatement pst2 = con.prepareStatement(SQL_SELECT_EMAIL);
-                pst.setString( 1, utilisateur.getEmail() );
-                ResultSet rs2  = pst.executeQuery();
-                if ((rs.getString( "email" ).isEmpty())) {
+                pst2.setString( 1, utilisateur.getEmail() );
+                ResultSet rs2  = pst2.executeQuery();
+                if ((rs2.getString( "email" ).isEmpty())) {
                 	emailExist = true;
             		throw new DaoException("Email d�j� existant");
                 }
+                rs2.close();
+                pst2.close();
     		} 
             rs.close();
             pst.close();
@@ -189,15 +191,19 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 	            ResultSet rs  = pst.executeQuery();
 	        	if (!utilisateur.getEmail().equals(rs.getString( "email" ) ) ) {
 	                PreparedStatement pst2 = con.prepareStatement(SQL_SELECT_EMAIL);
-	                pst.setString( 1, utilisateur.getEmail() );
-	                ResultSet rs2  = pst.executeQuery();
-	                if ((rs.getString( "email" ).isEmpty())) {
+	                pst2.setString( 1, utilisateur.getEmail() );
+	                ResultSet rs2  = pst2.executeQuery();
+	                if ((rs2.getString( "email" ).isEmpty())) {
 	                	emailExist = true;
 	            		throw new DaoException("Email d�j� existant");
 	                }
+	                rs2.close();
+	                pst2.close();
 	    		} 
 	            rs.close();
 	            pst.close();
+	            
+	            
 				
 			} catch (Exception e) {
 				e.printStackTrace();

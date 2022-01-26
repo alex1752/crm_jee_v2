@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import CRM.Dao.ClientsDao;
 import CRM.Dao.DaoException;
 import CRM.model.Clients;
+import CRM.model.Utilisateurs;
 
 public class ClientForm {
 
@@ -34,6 +35,8 @@ public static int CREATION=0,MODIFICATION=1;
 		public Clients saveClient(HttpServletRequest request,int action) {
 			
 			Clients client=null;
+			
+			
 			try {
 				String nom = getParameterOrNull(request, "nom");
 				String prenom = getParameterOrNull(request, "prenom");
@@ -90,7 +93,28 @@ public static int CREATION=0,MODIFICATION=1;
 					if(!email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" )) {
 						erreurs.put("email", "Entrez une adresse mail valide");
 					}
+					if (action==CREATION){
+						for (Clients c : clientDao.lister()) {
+							if (email.equals(c.getEmail())){
+								erreurs.put("emailUtilisateur", "Adresse email déjà utilisée");
+							}
+						}
+					}
+					else {
+						for (Clients c : clientDao.lister()) {
+							String idUtilisateur = request.getParameter("idUtilisateur");
+							Long id= Long.parseLong(idUtilisateur);
+							if (email.equals(c.getEmail()) && c.getId()!=id){
+								erreurs.put("emailUtilisateur", "Adresse email déjà utilisée");
+							}
+						}
+					}	
+					
+					
+					
 				}
+				
+				
 				if(entreprise!=null) {
 					if(entreprise.length() <2 || entreprise.length()>200) {
 						erreurs.put("entreprise","Le nom d'entreprise doit être entre 2 et 200 caractères");

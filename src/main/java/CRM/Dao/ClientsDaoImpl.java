@@ -19,9 +19,10 @@ public class ClientsDaoImpl implements ClientsDao {
 	private static final String SQL_SELECT_BY_ID = "SELECT id,nom,prenom,entreprise,email,telephone,actif,notes FROM Clients WHERE id = ?";
 	private static final String SQL_DELETE_BY_ID = "DELETE FROM Clients WHERE id = ? ";
 
-	private static final String SQL_UPDATE_BY_ID = "UPDATE Clients set nom = ?, prenom = ?, entreprise = ?, email = ?, telephone = ?, actif = ?, notes = ?  WHERE id = ?";
+	private static final String SQL_UPDATE_BY_ID = "UPDATE Clients set nom = ?, prenom = ?, entreprise = ?, email = ?, telephone = ?, actif = ?, notes = ?  WHERE id = ?";	
+	private static final String SQL_SELECT_EMAIL_BY_ID = "SELECT email FROM Clients WHERE id = ?";
+    private static final String SQL_SELECT_EMAIL = "SELECT email FROM Clients WHERE email like ?";
 
-	private static final String SQL_SELECT_EMAIL = "SELECT email FROM Clients";
 
 	private DaoFactory factory;
 
@@ -40,16 +41,18 @@ public class ClientsDaoImpl implements ClientsDao {
 		try {
             con = factory.getConnection();
             PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
-            pst.setLong( 1, utilisateur.getId() );
+            pst.setLong( 1, client.getId() );
             ResultSet rs  = pst.executeQuery();
-        	if (!utilisateur.getEmail().equals(rs.getString( "email" ) ) ) {
+        	if (!client.getEmail().equals(rs.getString( "email" ) ) ) {
                 PreparedStatement pst2 = con.prepareStatement(SQL_SELECT_EMAIL);
-                pst.setString( 1, utilisateur.getEmail() );
+                pst.setString( 1, client.getEmail() );
                 ResultSet rs2  = pst.executeQuery();
                 if ((rs.getString( "email" ).isEmpty())) {
                 	emailExist = true;
             		throw new DaoException("Email d�j� existant");
                 }
+                rs2.close();
+                pst2.close();
     		} 
             rs.close();
             pst.close();
@@ -196,16 +199,18 @@ public class ClientsDaoImpl implements ClientsDao {
 		try {
             con = factory.getConnection();
             PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
-            pst.setLong( 1, utilisateur.getId() );
+            pst.setLong( 1, client.getId() );
             ResultSet rs  = pst.executeQuery();
-        	if (!utilisateur.getEmail().equals(rs.getString( "email" ) ) ) {
+        	if (!client.getEmail().equals(rs.getString( "email" ) ) ) {
                 PreparedStatement pst2 = con.prepareStatement(SQL_SELECT_EMAIL);
-                pst.setString( 1, utilisateur.getEmail() );
-                ResultSet rs2  = pst.executeQuery();
-                if ((rs.getString( "email" ).isEmpty())) {
+                pst2.setString( 1, client.getEmail() );
+                ResultSet rs2  = pst2.executeQuery();
+                if ((rs2.getString( "email" ).isEmpty())) {
                 	emailExist = true;
             		throw new DaoException("Email d�j� existant");
                 }
+                rs2.close();
+                pst2.close();
     		} 
             rs.close();
             pst.close();
