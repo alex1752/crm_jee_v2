@@ -16,13 +16,13 @@ import CRM.model.TypeCommande;
 public class CommandeForm {
 
 	public static int CREATION=0,MODIFICATION=1;
-	
+
 	private String resultat;
-	private Map <String, String> erreurs = new HashMap <String, String> ();
-	
+	private Map <String, String> erreurs = new HashMap <> ();
+
 	private CommandesDao commandeDao;
 	private ClientsDao clientDao;
-	
+
 	public CommandeForm (CommandesDao commandeDao) {
 		this.commandeDao = commandeDao;
 	}
@@ -34,15 +34,15 @@ public class CommandeForm {
 	public Map<String, String> getErreurs() {
 		return erreurs;
 	}
-	
+
 	//Gestion des erreurs
-	
+
 	public Commandes saveCommande (HttpServletRequest request,int action) {
-		
+
 		Clients client = null;
-		
+
 		Commandes commande = null;
-		
+
 		try {
 			String label = getParameterOrNull(request, "label");
 			String tjmHT= getParameterOrNull(request, "tjmHT");
@@ -52,8 +52,8 @@ public class CommandeForm {
 			String typeCommande = getParameterOrNull(request, "typeCommande");
 			String notes = getParameterOrNull(request, "notes");
 			client = clientDao.trouver(Long.parseLong(request.getParameter("client")));
-			
-			
+
+
 			if (action == CREATION) {
 				commande = new Commandes ();
 			}else {
@@ -61,7 +61,7 @@ public class CommandeForm {
 				Long id= Long.parseLong(idCommande);
 				commande = commandeDao.trouver(id);
 			}
-			
+
 			commande.setLabel(label);
 			commande.setTjmHT(Float.parseFloat(tjmHT));
 			commande.setDureeJours(Float.parseFloat(dureeJours));
@@ -70,9 +70,9 @@ public class CommandeForm {
 			commande.setTypeCommande(TypeCommande.valueOf(typeCommande));
 			commande.setNotes(notes);
 			commande.setClient(client);
-			
+
 			//Gestion des erreurs
-			
+
 			//label
 			 if(label != null) {
 			 	if(label.length() < 2) {
@@ -81,7 +81,7 @@ public class CommandeForm {
 			 } else {
 			 	erreurs.put("label", "Merci d'entrer un label.");
 			 }
-			
+
 			 //tjmHT
 			 if(tjmHT != null) {
 				 if(tjmHT.matches("^\\d+$")) {
@@ -90,7 +90,7 @@ public class CommandeForm {
 			 } else {
 			 	erreurs.put("tjmht", "Merci de rentrer une valeur");
 			 }
-			
+
 			 //Dureejours
 			 if(dureeJours != null) {
 				 if(dureeJours.trim().length() > 10 ) {
@@ -102,9 +102,9 @@ public class CommandeForm {
 			 } else {
 				 	erreurs.put("dureeJours", "Merci de rentrer une valeur.");
 			 }
-			 
-			 
-			 //TVA 
+
+
+			 //TVA
 			 if(TVA != null) {
 			 	if(!TVA.matches("^\\d+$")) {
 			 		erreurs.put("tva", "Veuillez rentrer des chiffres");
@@ -112,19 +112,19 @@ public class CommandeForm {
 			 } else {
 				 	erreurs.put("tva", "Merci d'entrer une valeur.");
 			 }
-			 
-			 
-			 
+
+
+
 			 //Statut
 			 if(statut == null) {
 		 	 	erreurs.put("statut", "Veuillez selectionner un statut");
 			 }
-			 
+
 			 //TypeCommande
 			 if(typeCommande == null) {
 				 erreurs.put("typeCommande", "Merci de selectionner un type de commande.");
 			 }
-			 
+
 			 //Notes
 			 if(notes != null) {
 			 	if(notes.length() > 2 || notes.length() < 200 ) {
@@ -133,27 +133,27 @@ public class CommandeForm {
 			 } else {
 				 	erreurs.put("notes", "Merci de rentrer des notes.");
 			 }
-			 
+
 			 //Clients
-			 
+
 			 if(client == null) {
 				 erreurs.put("client", "Merci de selectionner un client.");
 			 }
-			 
-	 
-			
+
+
+
 			//enrigstrement de la commande
-			
+
 			if(erreurs.isEmpty()) {
 				if(action ==CREATION) {
 					commandeDao.ajouter(commande);
 				} else {
 					commandeDao.modifier(commande);
 				}
-				resultat = "Commande sauvegardée !";				
+				resultat = "Commande sauvegardée !";
 			} else {
 				resultat = "Echec de la sauvegarde de la commande";
-				
+
 			}
 		}catch(DaoException | NumberFormatException e) {
 			resultat = "Echec ajout de la commande: erreur imprévue";
@@ -169,7 +169,7 @@ public class CommandeForm {
 			return null;
 		}
 		return valeur;
-		
+
 	}
-	
+
 }
