@@ -9,8 +9,7 @@
 
 					<div class="champ my-2">
 						<label class="me-2" for="label">Label</label>
-						<input class="me-2" type="text" name="label" id="label" value="<c:out value="${commande.label}" />"
-						size="20" maxlength="200">
+						<input class="me-2" type="text" name="label" id="label" value="<c:out value="${commande.label}" />" size="20" maxlength="200">
 						<span class="erreur"> ${form.erreurs['label']}</span>
 					</div>
 
@@ -37,7 +36,7 @@
 						<label class="me-2" for="statut"> Statut <span class="requis"></span> </label>
 						<select name="statut" id="statut"> 
 			                <c:forEach items = "${stat}" var="statut" > 
-			                		<option value="${statut}" ${statut == commande.statut ? 'selected':'' }><c:out value ="${statut}"/></option>
+			                		<option value="${statut}" ${statut == commande.statut ? 'selected':'' }><c:out value ="${statut}" /></option>
 			                </c:forEach>
 			    		 </select>
 						<span class="erreur"> ${form.erreurs['statut']}</span>
@@ -55,7 +54,7 @@
 
 					<div class="champ my-2">
 						<label class="me-2" for="notes">Notes</label>
-						<input class="me-2" type="text" name="notes" id="notes" value="<c:out value="${commande.notes}" />">
+						<input class="me-2" type="text" name="notes" id="notes" value="<c:out value="${commande.notes}" />" size="20" maxlength="400">
 						<span class="erreur"> ${form.erreurs['notes']}</span>
 					</div>
 
@@ -71,6 +70,7 @@
 							<span class="erreur"> ${form.erreurs['clients']}</span>
 					</div>
 				</div>
+				<br>
 			</fieldset>
 			<p class="info">${ form.resultat }</p>
 			<div id="bouttons">

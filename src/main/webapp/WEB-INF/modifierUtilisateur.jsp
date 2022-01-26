@@ -7,6 +7,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Modifier utilisateur</title>
+		<link type="text/css" rel="stylesheet"  href="<c:url value="assets/style.css?date=3"/>"/>		
 	</head>
 	<body>
 	
