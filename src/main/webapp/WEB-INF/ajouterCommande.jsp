@@ -4,19 +4,20 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Création commande</title>
-</head>
-<body>
-	<c:import url="/WEB-INF/menu.jsp"/>
-
-		<div>
-            <form action="<c:url value="/AjouterCommande"/>" method="post" class="creation">
-                <c:import url="/WEB-INF/formCommande.jsp"/>
-            </form>
-    	</div>
+	<head>
+	<meta charset="ISO-8859-1">
+	<title>Création commande</title>
+	<link type="text/css" rel="stylesheet"  href="<c:url value="assets/style.css?date=3"/>"/>	
+	</head>
+	<body>
+		<c:import url="/WEB-INF/menu.jsp"/>
 	
-</body>
+			<div>
+	            <form action="<c:url value="/AjouterCommande"/>" method="post" class="creation">
+	                <c:import url="/WEB-INF/formCommande.jsp"/>
+	            </form>
+	    	</div>
+		
+	</body>
 </html>
 

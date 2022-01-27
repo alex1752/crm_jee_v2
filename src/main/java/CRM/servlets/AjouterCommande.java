@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import CRM.Dao.ClientsDao;
 import CRM.Dao.CommandesDao;
+import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
 import CRM.forms.CommandeForm;
 import CRM.model.Commandes;
@@ -43,6 +44,11 @@ public class AjouterCommande extends HttpServlet {
 
 		request.setAttribute("types", TypeCommande.values());
 		request.setAttribute("stat", Statut.values());
+		try {
+			request.setAttribute("clients", clientsDao.lister());
+		} catch (DaoException e) {
+			e.printStackTrace();
+		}
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/ajouterCommande.jsp").forward(request, response);
 	}
@@ -54,7 +60,7 @@ public class AjouterCommande extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-		CommandeForm form = new CommandeForm (commandesDao);
+		CommandeForm form = new CommandeForm (commandesDao, clientsDao);
 		Commandes commande = form.saveCommande (request, CommandeForm.CREATION);
 
 		if (form.getErreurs().isEmpty()) {
@@ -62,9 +68,23 @@ public class AjouterCommande extends HttpServlet {
 		}else {
 			request.setAttribute("commande",  commande);
 			request.setAttribute("form",  form);
+		
+			
+			request.setAttribute("types", TypeCommande.values());
+			request.setAttribute("stat", Statut.values());
+			
+			try {
+				request.setAttribute("clients", clientsDao.lister());
+			} catch (DaoException e) {
+				e.printStackTrace();
+			}
 
+			
 		this.getServletContext().getRequestDispatcher("/WEB-INF/ajouterCommande.jsp").forward(request, response);
 		}
+		
+		
+		
 	}
 
 }

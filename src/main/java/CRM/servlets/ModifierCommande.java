@@ -66,24 +66,27 @@ public class ModifierCommande extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		CommandeForm form = new CommandeForm (commandesDao);
+		CommandeForm form = new CommandeForm (commandesDao, clientsDao);
 		Commandes commande = form.saveCommande (request, CommandeForm.MODIFICATION);
 
 
-
-		try {
-			request.setAttribute("clients", clientsDao.lister());
-		} catch (DaoException e) {
-			e.printStackTrace();
-		}
 		if (form.getErreurs().isEmpty()) {
 			response.sendRedirect(request.getContextPath() + "/ListeCommande");
 		}else {
 			request.setAttribute("commande",  commande);
 			request.setAttribute("form",  form);
+		
+			
+			request.setAttribute("types", TypeCommande.values());
+			request.setAttribute("stat", Statut.values());
+			
+			try {
+				request.setAttribute("clients", clientsDao.lister());
+			} catch (DaoException e) {
+				e.printStackTrace();
+			}
+			this.getServletContext().getRequestDispatcher("/WEB-INF/modifierCommande.jsp").forward(request, response);
 
-		this.getServletContext().getRequestDispatcher("/WEB-INF/modifierCommande.jsp").forward(request, response);
 		}
-
 	}
 }
