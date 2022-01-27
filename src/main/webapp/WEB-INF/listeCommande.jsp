@@ -7,8 +7,7 @@
         <head>
             <meta charset="ISO-8859-1">
             <title>Liste des commandes</title>
-            <link rel="stylesheet"
-                href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+            <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
         </head>
 
         <body>
@@ -16,7 +15,7 @@
 
             <div class="container my-4">
 
-                <table class="text-center">
+                <table class="table table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">label</th>
@@ -33,7 +32,7 @@
 
                     <c:forEach items="${ commandes }" var="commande">
                         <tr>
-                            <th scope="row">
+                            <td >
                                 <c:out value="${commande.label}"></c:out>
                             </td>
                             <td>
@@ -58,15 +57,8 @@
                                 <c:out value="${commande.client.nom}"></c:out>
                             </td>
                             <td class="action">
-                                <a href="<c:url value="/SupprimerCommande">
-                                    <c:param name="idCommande" value="${ commande.id }" />
-                                    </c:url>">
-                                    <i class="las la-trash"></i>
-                                </a>
-                                <a href="<c:url value="/ModifierCommande">
-                                    <c:param name="idCommande" value="${ commande.id }" />
-                                    </c:url>">
-                                    <i class="las la-edit"></i>
+                                <a href="<c:url value="/SupprimerCommande"><c:param name="idCommande" value="${ commande.id }" /></c:url>"><i class="las la-trash"></i></a>
+                                <a href="<c:url value="/ModifierCommande"><c:param name="idCommande" value="${ commande.id }" /></c:url>"><i class="las la-edit"></i>
                                 </a>
                             </td>
                         </tr>

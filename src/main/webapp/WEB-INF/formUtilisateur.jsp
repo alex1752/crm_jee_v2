@@ -4,7 +4,6 @@
 
 
 
-		<body>
 			<div class="container mt-3">
 
 				<fieldset class="border rounded border-info ps-4">
@@ -37,5 +36,4 @@
 				<input class="btn btn-danger" type="reset" value="Remettre à zéro" /><br />
 
 			</div>
-		</body>
 		
