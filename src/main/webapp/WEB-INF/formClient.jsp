@@ -46,10 +46,10 @@
                     <div class="creation my-2">
                         <p>Client Actif :</p>
                         <label for="actif">Oui</label>
-        					<input class="me-2" name="actif" type="radio" id="actif" value="${client.actif}" ${client.actif == true ? 'checked':'' }/>
+        					<input class="me-2" name="actif" type="radio" id="actif" value="true" ${client.actif == true ? 'checked':'' }/>
                         <span class="erreurs">${form.erreurs['actif']}</span>
                         <label for="actif">Non</label>
-        					<input class="me-2" name="actif" type="radio" id="actif" value="${client.actif}" ${client.actif == false ? 'checked':'' }/>
+        					<input class="me-2" name="actif" type="radio" id="actif" value="false" ${client.actif == false ? 'checked':'' }/>
                         <span class="erreurs">${form.erreurs['actif']}</span>
                     </div>
 
