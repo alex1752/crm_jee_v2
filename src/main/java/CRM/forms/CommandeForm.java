@@ -23,7 +23,8 @@ public class CommandeForm {
 	private CommandesDao commandeDao;
 	private ClientsDao clientDao;
 
-	public CommandeForm (CommandesDao commandeDao) {
+	public CommandeForm (CommandesDao commandeDao, ClientsDao clientDao) {
+		this.clientDao = clientDao;
 		this.commandeDao = commandeDao;
 	}
 
@@ -42,6 +43,7 @@ public class CommandeForm {
 		Clients client = null;
 		Commandes commande = null;
 
+		
 		try {
 			String label = getParameterOrNull(request, "label");
 			String tjmHT= getParameterOrNull(request, "tjmHT");
@@ -50,8 +52,9 @@ public class CommandeForm {
 			String statut = getParameterOrNull(request, "statut");
 			String typeCommande = getParameterOrNull(request, "typeCommande");
 			String notes = getParameterOrNull(request, "notes");
-			client = clientDao.trouver(Long.parseLong(getParameterOrNull(request,"client")));
+			String idClient = getParameterOrNull(request,"clients");
 			
+			System.out.println(idClient);
 			
 			if (action == CREATION) {
 				commande = new Commandes ();
@@ -61,43 +64,57 @@ public class CommandeForm {
 				commande = commandeDao.trouver(id);
 			}
 
+			if (tjmHT != null) {
+				commande.setTjmHT(Float.parseFloat(tjmHT));
+			}
+			if(TVA != null){
+				commande.setTVA(Float.parseFloat(TVA));
+			}
+			if (dureeJours != null) {
+				commande.setDureeJours(Float.parseFloat(dureeJours));
+			}
+			 if(idClient != null) {
+					client = clientDao.trouver(Long.parseLong(idClient));
+					commande.setClient(client);
+			 }
+			 else {
+			 		erreurs.put("clients", "Choisissez un client");
+			 }
+			
 			commande.setLabel(label);
-			commande.setTjmHT(Float.parseFloat(tjmHT));
-			commande.setDureeJours(Float.parseFloat(dureeJours));
-			commande.setTVA(Float.parseFloat(TVA));
 			commande.setStatut(Statut.valueOf(statut));
 			commande.setTypeCommande(TypeCommande.valueOf(typeCommande));
 			commande.setNotes(notes);
-			commande.setClient(client);
 
 			//Gestion des erreurs
 
 			//label
 			 if(label != null) {
-			 	if(label.length() < 2) {
-			 		erreurs.put("label", "Un label doit contenir au minimum 2 caractères.");
+			 	if(label.length() > 200) {
+			 		erreurs.put("label", "Un label doit contenir au maximum 200 caractères.");
 			 	}
-			 } else {
-			 	erreurs.put("label", "Merci d'entrer un label.");
-			 }
+			 } 
 
 			 //tjmHT
 			 if(tjmHT != null) {
-				 if(tjmHT.matches("^\\d+$")) {
-			 		erreurs.put("tjmht", "Veuillez rentrer des chiffres");
-			 	}
+				 if(tjmHT.length()<1 ||  tjmHT.trim().length() > 10 ) {
+				 		erreurs.put("tjmHT", "Le champ doit contenir entre 1 et 10 chiffres.");
+					 	}
+				/*if(!tjmHT.matches("^\\d+$")) {
+			 		erreurs.put("tjmHT", "Veuillez rentrer des chiffres");
+			 	}*/
 			 } else {
-			 	erreurs.put("tjmht", "Merci de rentrer une valeur");
+			 	erreurs.put("tjmHT", "Merci de rentrer une valeur");
 			 }
 
 			 //Dureejours
 			 if(dureeJours != null) {
-				 if(dureeJours.trim().length() > 10 ) {
-			 		erreurs.put("dureeJours", "Le champ doit contenir au maximum 10 chiffres.");
+				 if(dureeJours.length()<1 || dureeJours.trim().length() > 10 ) {
+			 		erreurs.put("dureeJours", "Le champ doit contenir entre 1 et 10 chiffres.");
 				 	}
-				 if (dureeJours.matches("^\\d+$")) {
+				 /*if (!dureeJours.matches("^\\d+$")) {
 					 erreurs.put("dureeJours", "Veuillez rentrer des chiffres");
-				 }
+				 }*/
 			 } else {
 				 	erreurs.put("dureeJours", "Merci de rentrer une valeur.");
 			 }
@@ -105,11 +122,14 @@ public class CommandeForm {
 
 			 //TVA
 			 if(TVA != null) {
-			 	if(!TVA.matches("^\\d+$")) {
+				 if(TVA.length()<1 ||TVA.trim().length() > 10 ) {
+				 		erreurs.put("TVA", "Le champ doit contenir entre 1 et 10 chiffres.");
+					 	}
+				 /*if(!TVA.matches("^\\d+$")) {
 			 		erreurs.put("tva", "Veuillez rentrer des chiffres");
-				 	}
+				 	}*/
 			 } else {
-				 	erreurs.put("tva", "Merci d'entrer une valeur.");
+				 	erreurs.put("TVA", "Merci d'entrer une valeur.");
 			 }
 
 
@@ -126,18 +146,12 @@ public class CommandeForm {
 
 			 //Notes
 			 if(notes != null) {
-			 	if(notes.length() > 2 || notes.length() < 200 ) {
-			 		erreurs.put("notes", "Les notes contenir entre 2 et 200 caractères.");
+			 	if( notes.length() > 400 ) {
+			 		erreurs.put("notes", "Les notes contenir au maximum 400 caractères.");
 				 	}
-			 } else {
-				 	erreurs.put("notes", "Merci de rentrer des notes.");
-			 }
+			 } 
 
-			 //Clients
 
-			 if(client == null) {
-				 erreurs.put("client", "Merci de selectionner un client.");
-			 }
 			 
 	 
 			

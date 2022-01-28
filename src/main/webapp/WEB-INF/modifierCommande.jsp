@@ -6,6 +6,7 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Modifier clients</title>
+		<link type="text/css" rel="stylesheet"  href="<c:url value="assets/style.css?date=3"/>"/>		
 	</head>
 	<body>
 	<c:import url="/WEB-INF/menu.jsp"/>
