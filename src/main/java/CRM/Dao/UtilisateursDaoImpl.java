@@ -22,6 +22,10 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
     private static final String SQL_SELECT_EMAIL = "SELECT email FROM Utilisateurs WHERE email like ?";
 
 
+	private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM Utilisateurs WHERE email LIKE ?";
+	private static final String SQL_SELECT_BY_EMAIL_AND_PASSWORD = "SELECT * FROM Utilisateurs WHERE email LIKE ? AND motdepasse LIKE ?";
+
+
     private DaoFactory factory;
 
     public UtilisateursDaoImpl(DaoFactory factory) {
@@ -96,12 +100,12 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 		    } finally {
 		        factory.releaseConnection(con);
 		    }
-			}
+		}
 	}
 
 
 	@Override
-	public Utilisateurs trouver (long id) throws DaoException {
+	public Utilisateurs trouver (String email) throws DaoException {
 
 		Utilisateurs            utilisateur=null;
         Connection        		con=null;
@@ -110,8 +114,8 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 
         try {
             con = factory.getConnection();
-            pst = con.prepareStatement( SQL_SELECT_BY_ID );
-            pst.setLong(1, id);
+            pst = con.prepareStatement( SQL_SELECT_BY_EMAIL );
+            pst.setString(1, email);
             rs  = pst.executeQuery();
             if ( rs.next() ) {
                utilisateur = map(rs);
@@ -119,7 +123,35 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
             rs.close();
             pst.close();
         } catch(SQLException ex) {
-            throw new DaoException("Erreur de recherche BDD Clients", ex);
+            throw new DaoException("Erreur de recherche BDD Utilisateur", ex);
+        } finally {
+            factory.releaseConnection(con);
+        }
+        return utilisateur;
+	}
+	
+	@Override
+	public Utilisateurs trouver (String email, String motDePasse) throws DaoException {
+
+		Utilisateurs            utilisateur=null;
+        Connection        		con=null;
+        PreparedStatement 		pst=null;
+        ResultSet         		rs=null;
+
+        try {
+            con = factory.getConnection();
+            pst = con.prepareStatement( SQL_SELECT_BY_EMAIL_AND_PASSWORD );
+			pst.setString(1, email);
+			pst.setString(2, motDePasse);
+            rs  = pst.executeQuery();
+            if ( rs.next() ) {
+               utilisateur = map(rs);
+            }
+            
+            rs.close();
+            pst.close();
+        } catch(SQLException ex) {
+            throw new DaoException("Erreur de recherche BDD Utilisateur", ex);
         } finally {
             factory.releaseConnection(con);
         }
@@ -131,6 +163,7 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 	public List<Utilisateurs> lister() throws DaoException {
 
 		List<Utilisateurs> listeUtilisateurs = new ArrayList<>();
+		Utilisateurs utilisateur;
         Connection   con=null;
 
         try {
@@ -138,8 +171,12 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
               PreparedStatement pst = con.prepareStatement( SQL_SELECT );
               ResultSet         rs  = pst.executeQuery();
               while ( rs.next() ) {
-                  listeUtilisateurs.add( map(rs) );
+            	  utilisateur = map(rs);
+                  utilisateur.setMotDePasse( null );
+                  listeUtilisateurs.add(utilisateur );
               }
+              
+              
               rs.close();
               pst.close();
         } catch(SQLException ex) {
@@ -202,8 +239,6 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 	    		}
 	            rs.close();
 	            pst.close();
-
-
 
 			} catch (Exception e) {
 				e.printStackTrace();
