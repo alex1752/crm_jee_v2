@@ -127,6 +127,33 @@ public class ClientsDaoImpl implements ClientsDao {
 		}
 		return client;
 	}
+	
+	@Override
+	public boolean trouverId(long id) throws DaoException {
+		boolean existe=false;
+		Clients client = null;
+		Connection con = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		try {
+			con = factory.getConnection();
+			pst = con.prepareStatement(SQL_SELECT_BY_ID);
+			pst.setLong(1, id);
+
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				existe=true;
+			}
+			rs.close();
+			pst.close();
+		} catch (SQLException ex) {
+			throw new DaoException("Erreur de recherche BDD Clients", ex);
+		} finally {
+			factory.releaseConnection(con);
+		}
+		return existe;
+	}
 
 	@Override
 	public List<Clients> lister() throws DaoException {

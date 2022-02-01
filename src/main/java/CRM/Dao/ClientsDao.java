@@ -9,6 +9,8 @@ public interface ClientsDao {
 	void ajouter(Clients client) throws DaoException;
 
     Clients trouver(long id) throws DaoException;
+    
+    boolean trouverId(long id) throws DaoException;
 
     List<Clients> lister() throws DaoException;
 
