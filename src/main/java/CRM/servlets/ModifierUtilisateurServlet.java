@@ -34,20 +34,20 @@ public class ModifierUtilisateurServlet extends HttpServlet {
 	
 
 	
-	try {
-		JsonObject data = Tools.getJsonData(request);
-		
-		UtilisateurForm form = new UtilisateurForm(utilisateurDao);
-		form.saveUtilisateur(data, UtilisateurForm.MODIFICATION);
-		
-		response.setStatus(form.getStatus());
-		response.getWriter().write(form.getErreur());
-		
-	} catch (Exception e) {
-		e.printStackTrace();
-		response.setStatus(500); // Internal Server Error
-		response.getWriter().write("Erreur: Problème serveur");
+//		try {
+//			JsonObject data = Tools.getJsonData(request);
+//			
+//			UtilisateurForm form = new UtilisateurForm(utilisateurDao);
+//			form.saveUtilisateur(data, UtilisateurForm.MODIFICATION);
+//			
+//			response.setStatus(form.getStatus());
+//			response.getWriter().write(form.getErreur());
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			response.setStatus(500); // Internal Server Error
+//			response.getWriter().write("Erreur: Problème serveur");
+//		}
 	}
-}
 
 }

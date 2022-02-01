@@ -37,6 +37,7 @@ public class UtilisateurServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		
+		
 
 		try {
 			String email = request.getParameter("email");
@@ -65,6 +66,9 @@ public class UtilisateurServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 
+
+
+		
 		try {			
 			JsonObject data = Tools.getJsonData(request);
 			

@@ -93,7 +93,7 @@ public class UtilisateurForm {
 					erreur ="Le login doit être entre 2 et 200 caractères";
 				}
 			} else {
-				erreur = "Entrer un nom d'utilisateur";
+				erreur = "Entrer un login";
 			}
 
 			if (motDePasse!= null) {
@@ -112,22 +112,11 @@ public class UtilisateurForm {
 				if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")){
 					erreur = "Merci de saisir une adresse email valide.";
 				}
-//				if (action==CREATION){
-//					for (Utilisateurs u : utilisateurDao.lister()) {
-//						if (email.equals(u.getEmail())){
-//							erreur = "Adresse email déjà utilisée";
-//						}
-//					}
-//				}
-//				else {
-//					for (Utilisateurs u : utilisateurDao.lister()) {
-//						String idUtilisateur = data.getParameter("idUtilisateur");
-//						Long id= Long.parseLong(idUtilisateur);
-//						if (email.equals(u.getEmail()) && u.getId()!=id){
-//							erreur =  "Adresse email déjà utilisée";
-//						}
-//					}
-//				}
+				if (action==CREATION){
+					if(utilisateurDao.existEmail(email)) {
+						erreur = "Cet email existe déjà";
+					}
+				}
 			}
 			else {
 				erreur = "Merci de rentrer une adresse email.";
