@@ -110,11 +110,11 @@ public class CommandeServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		
 		try {
-			String idCommande=request.getParameter("idComamnde");
+			String idCommande=request.getParameter("idCommande");
 			
 			commandeDao.supprimer(Long.parseLong(idCommande));
 			
-			response.getWriter().write("Livre supprimé");
+			response.getWriter().write("Commande supprimee");
 			
 		}catch(DaoException e) {
 			response.setStatus(404); // not found
