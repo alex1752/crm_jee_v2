@@ -9,10 +9,16 @@ public interface ClientsDao {
 	void ajouter(Clients client) throws DaoException;
 
     Clients trouver(long id) throws DaoException;
+    
+    boolean trouverId(long id) throws DaoException;
 
     List<Clients> lister() throws DaoException;
+    
+    List<Clients> listerParNom (String nom) throws DaoException;
 
     void supprimer(long id) throws DaoException;
 
     void modifier(Clients client) throws DaoException;
+    
+    public boolean existEmail(String email) throws DaoException ;
 }

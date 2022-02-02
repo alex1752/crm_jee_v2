@@ -18,6 +18,7 @@ public class CommandesDaoImpl implements CommandesDao{
 	private static final String SQL_INSERT       = "INSERT INTO Commandes (label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient) VALUES(?,?,?,?,?,?,?,?)";
     private static final String SQL_SELECT       = "SELECT id,label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient FROM Commandes";
     private static final String SQL_SELECT_BY_ID = "SELECT id,label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient FROM Commandes WHERE id = ?";
+    private static final String SQL_SELECT_BY_LABEL = "SELECT id,label,tjmHT,dureeJours,TVA,statut,typeCommande,notes,idClient FROM Commandes WHERE label LIKE CONCAT('%',?,'%') ORDER BY label";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM Commandes WHERE id = ? ";
 
     private static final String SQL_UPDATE_BY_ID = "UPDATE Commandes set label = ?, tjmHT = ?, dureeJours = ?, TVA = ?, statut = ?, typeCommande = ?, notes = ?, idClient = ? WHERE id = ?";
@@ -155,7 +156,29 @@ public class CommandesDaoImpl implements CommandesDao{
             factory.releaseConnection(con);
         }
         return listeCommandes;
+	}
+	
+	@Override
+	public List<Commandes> listerParLabel(String label) throws DaoException {
 
+		List<Commandes> listeCommandesParLabel = new ArrayList<>();
+        Connection   con=null;
+        try {
+              con = factory.getConnection();
+              PreparedStatement pst = con.prepareStatement(SQL_SELECT_BY_LABEL);
+              pst.setString(1, label);
+              ResultSet         rs  = pst.executeQuery();
+              while ( rs.next() ) {
+                  listeCommandesParLabel.add( map(rs) );
+              }
+              rs.close();
+              pst.close();
+        } catch(SQLException ex) {
+            throw new DaoException("Erreur de lecture BDD Commandes", ex);
+        } finally {
+            factory.releaseConnection(con);
+        }
+        return listeCommandesParLabel;
 	}
 
 	@Override

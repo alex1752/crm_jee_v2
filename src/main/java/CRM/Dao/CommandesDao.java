@@ -12,6 +12,8 @@ public interface CommandesDao {
     Commandes trouver(long id) throws DaoException;
 
     List<Commandes> lister() throws DaoException;
+    
+    List<Commandes> listerParLabel( String label) throws DaoException;
 
     void supprimer(long id) throws DaoException;
 

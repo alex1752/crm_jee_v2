@@ -5,6 +5,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+
 import CRM.Dao.ClientsDao;
 import CRM.Dao.CommandesDao;
 import CRM.Dao.DaoException;
@@ -17,9 +21,8 @@ public class CommandeForm {
 
 	public static int CREATION=0,MODIFICATION=1;
 
-	private String resultat;
-	private Map <String, String> erreurs = new HashMap <> ();
-
+	private String erreur = "Ok";
+	private int status =200;
 	private CommandesDao commandeDao;
 	private ClientsDao clientDao;
 
@@ -27,127 +30,129 @@ public class CommandeForm {
 		this.clientDao = clientDao;
 		this.commandeDao = commandeDao;
 	}
-
-	public String getResultat() {
-		return resultat;
+	
+	public String getErreur() {
+		return erreur;
 	}
 
-	public Map<String, String> getErreurs() {
-		return erreurs;
+	public int getStatus() {
+		return status;
 	}
 
-	//Gestion des erreurs
+	public Commandes saveCommande (JsonObject data,int action) {
 
-	public Commandes saveCommande (HttpServletRequest request,int action) {
-
-		Clients client = null;
 		Commandes commande = null;
 
 		
 		try {
-			String label = getParameterOrNull(request, "label");
-			String tjmHT= getParameterOrNull(request, "tjmHT");
-			String dureeJours = getParameterOrNull(request, "dureeJours");
-			String TVA = getParameterOrNull(request, "TVA");
-			String statut = getParameterOrNull(request, "statut");
-			String typeCommande = getParameterOrNull(request, "typeCommande");
-			String notes = getParameterOrNull(request, "notes");
-			String idClient = getParameterOrNull(request,"clients");
-			
-			System.out.println(idClient);
-			
+			String label = null;
+			if(data.get("label")!=null) {
+				label=data.get("label").getAsString();
+			}
+			float tjmHT = 0;
+			if(data.get("tjmHT")!=null) {
+				tjmHT=data.get("tjmHT").getAsFloat();
+			}
+			float TVA = 0;
+			if(data.get("TVA")!=null) {
+				TVA=data.get("TVA").getAsFloat();
+			}
+			float dureeJours = 0;
+			if(data.get("dureeJours")!=null) {
+				dureeJours=data.get("dureeJours").getAsFloat();
+			}
+			Statut statut= null;
+			if(data.get("statut")!=null) {
+				statut=Statut.valueOf(data.get("statut").getAsString());
+			}
+			TypeCommande typeCommande = null;
+			if(data.get("typeCommande")!=null) {
+				typeCommande=TypeCommande.valueOf(data.get("typeCommande").getAsString());
+			}
+			String notes = null;
+			if(data.get("notes")!=null) {
+				notes =data.get("notes").getAsString();
+			}
+			Clients client = null;
+			if(data.get("idClient")!=null) {
+				client=clientDao.trouver(data.get("idClient").getAsLong());
+			}
+
 			if (action == CREATION) {
 				commande = new Commandes ();
 			}else {
-				String idCommande = request.getParameter("idCommande");
-				Long id= Long.parseLong(idCommande);
+				Long id= data.get("id").getAsLong();
 				commande = commandeDao.trouver(id);
 			}
-
-			if (tjmHT != null) {
-				commande.setTjmHT(Float.parseFloat(tjmHT));
-			}
-			if(TVA != null){
-				commande.setTVA(Float.parseFloat(TVA));
-			}
-			if (dureeJours != null) {
-				commande.setDureeJours(Float.parseFloat(dureeJours));
-			}
-			 if(idClient != null) {
-					client = clientDao.trouver(Long.parseLong(idClient));
-					commande.setClient(client);
-			 }
-			 else {
-			 		erreurs.put("clients", "Choisissez un client");
-			 }
 			
+			commande.setTVA(dureeJours);
 			commande.setLabel(label);
-			commande.setStatut(Statut.valueOf(statut));
-			commande.setTypeCommande(TypeCommande.valueOf(typeCommande));
+			commande.setTjmHT(tjmHT);
+			commande.setDureeJours(dureeJours);
+			commande.setStatut(statut);
+			commande.setTypeCommande(typeCommande);
 			commande.setNotes(notes);
+			commande.setClient(client);
 
 			//Gestion des erreurs
 
 			//label
 			 if(label != null) {
 			 	if(label.length() > 200) {
-			 		erreurs.put("label", "Un label doit contenir au maximum 200 caractères.");
+			 		erreur = "Un label doit contenir au maximum 200 caractères.";
 			 	}
 			 } 
 
 			 //tjmHT
-			 if(tjmHT != null) {
-				 if(tjmHT.length()<1 ||  tjmHT.trim().length() > 10 ) {
-				 		erreurs.put("tjmHT", "Le champ doit contenir entre 1 et 10 chiffres.");
+			 if(tjmHT != 0) {
+				 if(tjmHT<1 ||  tjmHT > 99999999.99 ) {
+					 erreur = "Le ne peut exceder cette valeur.";
 					 	}
 				/*if(!tjmHT.matches("^\\d+$")) {
 			 		erreurs.put("tjmHT", "Veuillez rentrer des chiffres");
 			 	}*/
 			 } else {
-			 	erreurs.put("tjmHT", "Merci de rentrer une valeur");
+				 erreur = "Merci de rentrer une valeur";
 			 }
 
 			 //Dureejours
-			 if(dureeJours != null) {
-				 if(dureeJours.length()<1 || dureeJours.trim().length() > 10 ) {
-			 		erreurs.put("dureeJours", "Le champ doit contenir entre 1 et 10 chiffres.");
-				 	}
+			 if(dureeJours != 0) {
 				 /*if (!dureeJours.matches("^\\d+$")) {
 					 erreurs.put("dureeJours", "Veuillez rentrer des chiffres");
 				 }*/
 			 } else {
-				 	erreurs.put("dureeJours", "Merci de rentrer une valeur.");
+				 erreur = "Merci de rentrer un nombre de jours";
 			 }
 
 
 			 //TVA
-			 if(TVA != null) {
-				 if(TVA.length()<1 ||TVA.trim().length() > 10 ) {
-				 		erreurs.put("TVA", "Le champ doit contenir entre 1 et 10 chiffres.");
+			 if(TVA != 0) {
+				 if(TVA<1 ||TVA > 99999999.99 ) {
+					 erreur = "Le ne peut exceder cette valeur.";
 					 	}
-				 /*if(!TVA.matches("^\\d+$")) {
-			 		erreurs.put("tva", "Veuillez rentrer des chiffres");
-				 	}*/
+//				 if(!TVA.matches("^\\d+$")) {
+//			 		erreurs.put("tva", "Veuillez rentrer des chiffres");
+//				 	}
 			 } else {
-				 	erreurs.put("TVA", "Merci d'entrer une valeur.");
+				 erreur = "Merci d'entrer une valeur.";
 			 }
 
 
 
 			 //Statut
 			 if(statut == null) {
-		 	 	erreurs.put("statut", "Veuillez selectionner un statut");
+				 erreur = "Veuillez selectionner un statut";
 			 }
 
 			 //TypeCommande
 			 if(typeCommande == null) {
-				 erreurs.put("typeCommande", "Merci de selectionner un type de commande.");
+				 erreur = "Merci de selectionner un type de commande.";
 			 }
 
 			 //Notes
 			 if(notes != null) {
 			 	if( notes.length() > 400 ) {
-			 		erreurs.put("notes", "Les notes contenir au maximum 400 caractères.");
+			 		erreur ="Les notes contenir au maximum 400 caractères.";
 				 	}
 			 } 
 
@@ -157,32 +162,27 @@ public class CommandeForm {
 			
 			//enregistrement de la commande
 			
-			if(erreurs.isEmpty()) {
+			if(erreur.equals("Ok")) {
 				if(action ==CREATION) {
 					commandeDao.ajouter(commande);
 				} else {
 					commandeDao.modifier(commande);
 				}
-				resultat = "Commande sauvegardée !";
+				
 			} else {
-				resultat = "Echec de la sauvegarde de la commande";
-
+				status = 400;
 			}
-		}catch(DaoException | NumberFormatException e) {
-			resultat = "Echec ajout de la commande: erreur imprévue";
-			erreurs.put("DAO","Erreur imprévue..");
+		}catch(DaoException e) {
+			status = 404;
+			erreur = "Erreur DAO";
+			e.printStackTrace();
+		}catch(NumberFormatException e) {
+			status =400;
+			erreur ="Erreur : format du paramètre n'est pas bon.";
 			e.printStackTrace();
 		}
 		return commande;
 	}
 
-	private static String getParameterOrNull(HttpServletRequest request, String nomChamp) {
-		String valeur = request.getParameter(nomChamp);
-		if(valeur == null || valeur.trim().length()==0){
-			return null;
-		}
-		return valeur;
-
-	}
 
 }

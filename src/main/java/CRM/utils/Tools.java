@@ -8,6 +8,7 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 
 public class Tools {
