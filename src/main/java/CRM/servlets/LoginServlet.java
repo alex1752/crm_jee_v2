@@ -89,8 +89,8 @@ public class LoginServlet extends HttpServlet {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.setStatus(500); // Internal Server Error
-			response.getWriter().write("Erreur: Problème serveur");
+			status = 500; // Internal Server Error
+			erreur ="Erreur: Problème serveur";
 		}
 		response.setStatus(status); 
 		response.getWriter().write(erreur);
