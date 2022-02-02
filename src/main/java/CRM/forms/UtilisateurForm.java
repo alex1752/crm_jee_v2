@@ -55,9 +55,6 @@ public class UtilisateurForm {
 		
 		Utilisateurs utilisateur = null;
 
-
-
-
 		try {
 			
 			String login = null;
@@ -77,15 +74,14 @@ public class UtilisateurForm {
 			
 			if (action==CREATION){
 				utilisateur = new Utilisateurs();
+				utilisateur.setLogin(login);
+				utilisateur.setMotDePasse( Authentification.hashPass(motDePasse));
+				utilisateur.setEmail(email);
 			} else {
 				utilisateur = utilisateurDao.trouver(email);
+				utilisateur.setLogin(login);
+				utilisateur.setEmail(email);
 			}
-
-			utilisateur.setLogin(login);
-			utilisateur.setMotDePasse( Authentification.hashPass(motDePasse));
-			utilisateur.setEmail(email);
-
-
 
 			//gestion des erreurs
 			if(login!=null) {
@@ -121,9 +117,6 @@ public class UtilisateurForm {
 			else {
 				erreur = "Merci de rentrer une adresse email.";
 			}
-			
-			
-
 
 		//enrigstrement de l'utilisateur
 
@@ -148,6 +141,57 @@ public class UtilisateurForm {
 		return utilisateur;
 	}
 
+	public Utilisateurs changePassword(JsonObject data) throws NoSuchAlgorithmException, IOException {
+		Utilisateurs utilisateur = null;
+
+		try {
+			
+			String email = null;
+			if (data.get("email") != null) {
+				email = data.get("email").getAsString();
+			}
+			String ancienMotDePasse = null;
+			if (data.get("ancienMotDePasse") != null) {
+				ancienMotDePasse = data.get("ancienMotDePasse").getAsString();
+			}
+			
+			String nouveauMotDePasse = null;
+			if (data.get("nouveauMotDePasse") != null) {
+				nouveauMotDePasse = data.get("nouveauMotDePasse").getAsString();
+			}
+
+			utilisateur = utilisateurDao.trouver(email);
+		
+			if(utilisateur.getMotDePasse().equals(Authentification.hashPass(ancienMotDePasse))) {
+				utilisateur.setMotDePasse(Authentification.hashPass(nouveauMotDePasse));
+			}
 
 
+			//gestion des erreurs
+			if (nouveauMotDePasse!= null) {
+				if( !nouveauMotDePasse.matches( "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$" ) ) {
+					erreur = "Le mot de passe doit contenir au moins 8 caractères, dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial." ;
+				}
+			}
+			else {
+				erreur = "Le mot de passe est obligatoire";
+			}
+
+		//enrigstrement du mot de passe
+			if(erreur.equals("ok")) {
+				utilisateurDao.modifier(utilisateur);
+			}
+			else {
+				status = 400;
+			}
+		} catch (DaoException e ) {
+			status = 404;
+			erreur = "Erreur Dao ...";
+
+		} catch (NumberFormatException e ) {
+			status = 404;
+			erreur = "Erreur : le format de l'id n'est pas bon ...";
+		}
+		return utilisateur;
+	}
 }

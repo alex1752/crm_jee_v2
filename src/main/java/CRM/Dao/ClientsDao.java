@@ -19,4 +19,6 @@ public interface ClientsDao {
     void supprimer(long id) throws DaoException;
 
     void modifier(Clients client) throws DaoException;
+    
+    public boolean existEmail(String email) throws DaoException ;
 }

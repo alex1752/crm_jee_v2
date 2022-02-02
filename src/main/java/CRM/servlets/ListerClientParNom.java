@@ -13,11 +13,9 @@ import com.google.gson.JsonObject;
 import CRM.Dao.ClientsDao;
 import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
-import utils.Tools;
+import CRM.utils.Tools;
 
-/**
- * Servlet implementation class ListerClientParNom
- */
+
 @WebServlet("/ListerClientParNom")
 public class ListerClientParNom extends HttpServlet {
 	private static final long serialVersionUID = 1L;

@@ -13,20 +13,17 @@ import com.google.gson.JsonObject;
 import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
 import CRM.Dao.UtilisateursDao;
-import CRM.forms.ClientForm;
 import CRM.forms.UtilisateurForm;
-import CRM.model.Utilisateurs;
+import CRM.utils.Authentification;
 import CRM.utils.Tools;
-
 
 
 @WebServlet("/Utilisateur")
 public class UtilisateurServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
 	private UtilisateursDao utilisateurDao;
 
-	
+
     public UtilisateurServlet() {
         super();
         this.utilisateurDao = DaoFactory.getInstance().getUtilisateurDao();
@@ -34,10 +31,34 @@ public class UtilisateurServlet extends HttpServlet {
     }
 
 
+
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	response.setCharacterEncoding("UTF-8");	
+	
+		try {
+			JsonObject data = Tools.getJsonData(request);
+			
+			String email = Authentification.isAuthentificated(request);
+			data.addProperty("email", email);
+
+			
+			
+			UtilisateurForm form = new UtilisateurForm(utilisateurDao);
+			
+			form.saveUtilisateur(data, UtilisateurForm.MODIFICATION);
+			
+			response.setStatus(form.getStatus());
+			response.getWriter().write(form.getErreur());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(500); // Internal Server Error
+			response.getWriter().write("Erreur: Problème serveur");
+		}
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
-		
-		
 
 		try {
 			String email = request.getParameter("email");
@@ -61,32 +82,5 @@ public class UtilisateurServlet extends HttpServlet {
 			response.getWriter().write("Erreur: Problème serveur");
 		}
 	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
-
-
-
-		
-		try {			
-			JsonObject data = Tools.getJsonData(request);
-			
-			UtilisateurForm form = new UtilisateurForm(utilisateurDao);
-			form.saveUtilisateur(data, UtilisateurForm.CREATION);
-			
-			response.setStatus(form.getStatus());
-			response.getWriter().write(form.getErreur());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.setStatus(500); // Internal Server Error
-			response.getWriter().write("Erreur: Problème serveur");
-		}
-	}
-
-
-	
-
 
 }
