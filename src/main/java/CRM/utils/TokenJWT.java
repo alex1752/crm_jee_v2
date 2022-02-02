@@ -15,7 +15,7 @@ import java.util.UUID;
 public class TokenJWT {
 	
 	//Sample method to construct a JWT
-	public static String generateJWT(String login, long ttlMinutes) throws IOException {
+	public static String generateJWT(String email, long ttlMinutes) throws IOException {
 	
 		Key hmacKey = new SecretKeySpec(Base64.getDecoder().decode(Tools.getConfig().getProperty("api_key")), SignatureAlgorithm.HS256.getJcaName());
 		
@@ -27,7 +27,7 @@ public class TokenJWT {
 	    Date exp = new Date(expMillis);
 
 	    String jwtToken = Jwts.builder()
-	            .setSubject(login)
+	            .setSubject(email)
 	            .setId(UUID.randomUUID().toString())
 	            .setIssuedAt(now)
 	            .setExpiration(exp)
@@ -38,9 +38,8 @@ public class TokenJWT {
 	}
 	
 	
-	public static boolean verifyJWT(String jwtString) {
-		boolean isGood = true;
-		
+	public static String verifyJWT(String jwtString) {
+		String email = null;;		
 		try {
 			Key hmacKey = new SecretKeySpec(Base64.getDecoder().decode(Tools.getConfig().getProperty("api_key")), SignatureAlgorithm.HS256.getJcaName());
 		
@@ -49,13 +48,14 @@ public class TokenJWT {
 				.build()
 				.parseClaimsJws(jwtString);
 			 
-			 jwt.getBody().getSubject();
-			 /*System.out.println(jwt.getBody().getSubject());*/
+			 
+				email = jwt.getBody().getSubject();
+
 		} catch (Exception e) {
-			isGood = false;
+			email = null;
 		}
 
-		return isGood;
+		return email;
 	}
 	
 	

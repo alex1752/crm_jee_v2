@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import CRM.Dao.DaoFactory;
 import CRM.Dao.UtilisateursDao;
 import CRM.forms.UtilisateurForm;
+import CRM.utils.Authentification;
 import CRM.utils.Tools;
 
 
@@ -30,24 +31,28 @@ public class ModifierUtilisateurServlet extends HttpServlet {
 
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	response.setCharacterEncoding("UTF-8");
+	response.setCharacterEncoding("UTF-8");	
 	
+		try {
+			JsonObject data = Tools.getJsonData(request);
+			
+			String email = Authentification.isAuthentificated(request);
+			data.addProperty("email", email);
 
-	
-//		try {
-//			JsonObject data = Tools.getJsonData(request);
-//			
-//			UtilisateurForm form = new UtilisateurForm(utilisateurDao);
-//			form.saveUtilisateur(data, UtilisateurForm.MODIFICATION);
-//			
-//			response.setStatus(form.getStatus());
-//			response.getWriter().write(form.getErreur());
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			response.setStatus(500); // Internal Server Error
-//			response.getWriter().write("Erreur: Problème serveur");
-//		}
+			System.out.println(data);
+			
+			UtilisateurForm form = new UtilisateurForm(utilisateurDao);
+			
+			form.saveUtilisateur(data, UtilisateurForm.MODIFICATION);
+			
+			response.setStatus(form.getStatus());
+			response.getWriter().write(form.getErreur());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(500); // Internal Server Error
+			response.getWriter().write("Erreur: Problème serveur");
+		}
 	}
 
 }

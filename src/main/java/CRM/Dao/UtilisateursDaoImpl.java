@@ -70,6 +70,9 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 		        factory.releaseConnection(con);
 		    }
 		}
+		else {
+			throw new DaoException("Email d�j� existant");
+		}
 	}
 
 	@Override
@@ -98,6 +101,34 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 		return exist;
 	}
 
+	
+	@Override
+	public Utilisateurs trouver (Long id) throws DaoException {
+
+		Utilisateurs            utilisateur=null;
+        Connection        		con=null;
+        PreparedStatement 		pst=null;
+        ResultSet         		rs=null;
+
+        try {
+            con = factory.getConnection();
+            pst = con.prepareStatement( SQL_SELECT_BY_ID );
+            pst.setLong(1, id);
+            rs  = pst.executeQuery();
+            if ( rs.next() ) {
+               utilisateur = map(rs);
+            }
+            rs.close();
+            pst.close();
+        } catch(SQLException ex) {
+            throw new DaoException("Erreur de recherche BDD Utilisateur", ex);
+        } finally {
+            factory.releaseConnection(con);
+        }
+        return utilisateur;
+	}
+	
+	
 	@Override
 	public Utilisateurs trouver (String email) throws DaoException {
 
@@ -212,61 +243,29 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
 	public void modifier (Utilisateurs utilisateur) throws DaoException {
 
 		 Connection con = null;
-		 boolean emailExist = false;
+
+    	   try {
+		   	Long id = utilisateur.getId();
+            con = factory.getConnection();
+            PreparedStatement pst = con.prepareStatement(SQL_UPDATE_BY_ID);
 
 
-			try {
-	            con = factory.getConnection();
-	            PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
-	            pst.setLong( 1, utilisateur.getId() );
-	            ResultSet rs  = pst.executeQuery();
-	        	if (!utilisateur.getEmail().equals(rs.getString( "email" ) ) ) {
-	                PreparedStatement pst2 = con.prepareStatement(SQL_SELECT_EMAIL);
-	                pst2.setString( 1, utilisateur.getEmail() );
-	                ResultSet rs2  = pst2.executeQuery();
-	                if ((rs2.getString( "email" ).isEmpty())) {
-	                	emailExist = true;
-	            		throw new DaoException("Email d�j� existant");
-	                }
-	                rs2.close();
-	                pst2.close();
-	    		}
-	            rs.close();
-	            pst.close();
+			pst.setString( 1, utilisateur.getLogin() );
+			pst.setString( 2, utilisateur.getMotDePasse() );
+			pst.setString( 3, utilisateur.getEmail() );
+			pst.setLong( 4, utilisateur.getId() );
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-	            factory.releaseConnection(con);
-			}
+            int statut = pst.executeUpdate();
 
-
-
-
-	       if (!emailExist) {
-	    	   try {
-			   	Long id = utilisateur.getId();
-	            con = factory.getConnection();
-	            PreparedStatement pst = con.prepareStatement(SQL_UPDATE_BY_ID);
-
-
-				pst.setString( 1, utilisateur.getLogin() );
-				pst.setString( 2, utilisateur.getMotDePasse() );
-				pst.setString( 3, utilisateur.getEmail() );
-				pst.setLong( 4, utilisateur.getId() );
-
-	            int statut = pst.executeUpdate();
-
-	            if (statut == 0) {
-	                throw new DaoException("Erreur de modificaton Utilisateurs(" + id + ")");
-	            }
-	            pst.close();
-	        } catch (SQLException ex) {
-	            throw new DaoException("Erreur de modification BDD Utilisateurs", ex);
-	        } finally {
-	            factory.releaseConnection(con);
-	        }
-		}
+            if (statut == 0) {
+                throw new DaoException("Erreur de modificaton Utilisateurs(" + id + ")");
+            }
+            pst.close();
+        } catch (SQLException ex) {
+            throw new DaoException("Erreur de modification BDD Utilisateurs", ex);
+        } finally {
+            factory.releaseConnection(con);
+        }
 	}
 
 

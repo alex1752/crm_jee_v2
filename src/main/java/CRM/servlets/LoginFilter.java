@@ -16,14 +16,14 @@ import CRM.utils.Authentification;
 
 
 
-@WebFilter(urlPatterns = {})
+@WebFilter(urlPatterns = {"/ModifierUtilisateur"})
 public class LoginFilter extends HttpFilter implements Filter {
        
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 
-		if (!Authentification.isAuthentificated(req)) {
+		if (Authentification.isAuthentificated(req) == null) {
 			resp.setStatus(405);
 			resp.getWriter().write("Le token d'authentification n'est pas bon");
 		}

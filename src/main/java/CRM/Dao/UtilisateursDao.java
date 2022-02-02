@@ -14,10 +14,13 @@ public interface UtilisateursDao {
 
     void modifier(Utilisateurs utilisateur) throws DaoException;
 
+	Utilisateurs trouver(Long id) throws DaoException;
+    
 	Utilisateurs trouver(String email) throws DaoException;
 
 	Utilisateurs trouver(String email, String motDePasse) throws DaoException;
 
 	boolean existEmail(String email) throws DaoException;
+
 }
 

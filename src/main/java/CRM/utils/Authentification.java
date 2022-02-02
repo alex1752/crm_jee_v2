@@ -31,8 +31,8 @@ public class Authentification {
 	}
 	
 	
-	public static boolean isAuthentificated(HttpServletRequest request) {
-		boolean isAuthentificated = false;
+	public static String isAuthentificated(HttpServletRequest request) {
+		String isAuthentificated = null;
 		if (request.getHeader("Authorization") != null) {
 			String token = request.getHeader("Authorization").replaceAll("Bearer ","");
 			return TokenJWT.verifyJWT(token);
