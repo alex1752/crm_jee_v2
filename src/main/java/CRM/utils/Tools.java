@@ -18,14 +18,13 @@ public class Tools {
 		StringBuffer buffer = new StringBuffer();
 		String line = null;
 		BufferedReader reader = request.getReader();
-		while ((line = reader.readLine()) !=null) {
+		while((line = reader.readLine()) != null) {
 			buffer.append(line);
 		}
-		
 		data = JsonParser.parseString(buffer.toString()).getAsJsonObject();
-		
 		return data;
 	}
+	
 	
 	public static Properties getConfig() throws IOException{
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
