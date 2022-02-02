@@ -16,7 +16,7 @@ import CRM.utils.Authentification;
 import CRM.utils.Tools;
 
 
-@WebServlet(" ")
+@WebServlet("/ModifierPasswordUtilisateur")
 public class ModifierPasswordUtilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UtilisateursDao utilisateurDao;
