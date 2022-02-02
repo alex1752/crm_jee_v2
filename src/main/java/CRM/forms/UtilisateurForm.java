@@ -179,9 +179,6 @@ public class UtilisateurForm {
 			} else {
 				erreur = "Votre ancien mot de passe ne correspond pas à votre saisie";
 			}
-			else {
-				erreur = "L'ancien mot de passe n'est pas bon";
-			}
 
 
 			//gestion des erreurs

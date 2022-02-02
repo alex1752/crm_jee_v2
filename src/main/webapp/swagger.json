@@ -1,0 +1,1092 @@
+{
+   "openapi": "3.0.0",
+   "info": {
+      "version": "1.0.0",
+      "title": "API_CRM"
+   },
+   "servers": [
+      {
+         "url": "/api-crm/"
+      }
+   ],
+   "tags": [
+      {
+         "name": "Login",
+         "description": "Gestion de la connexion"
+      },
+      {
+         "name": "Client",
+         "description": "Gestion des clients"
+      },
+      {
+         "name": "Commande",
+         "description": "Gestion des commandes"
+      },
+      {
+         "name": "Utilisateur",
+         "description": "Gestion des utilisateurs"
+      },
+      {
+         "name": "Historique",
+         "description": "Historique des modifications"
+      }
+   ],
+   "paths": {
+      "/login": {
+         "post": {
+            "summary": "Permet de se connecter",
+            "operationId": "login",
+            "tags": [
+               "Login"
+            ],
+            "parameters": [
+               {
+                  "in": "query",
+                  "name": "login",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "Identifiant"
+               },
+               {
+                  "in": "query",
+                  "name": "motDePasse",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "Mot de passe"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Retourne le token",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Mot de passe ou login incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/client": {
+         "get": {
+            "summary": "Permet de lister les clients",
+            "operationId": "listeClients",
+            "tags": [
+               "Client"
+            ],
+            "parameters": [
+               {
+                  "in": "query",
+                  "name": "search",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "Rechercher un client par son nom/prénom"
+               },
+               {
+                  "in": "query",
+                  "name": "id",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "Afficher les détails du client"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Affiche la liste des clients",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "type": "object"
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "post": {
+            "summary": "Permet la création de clients",
+            "operationId": "creerClient",
+            "tags": [
+               "Client"
+            ],
+            "requestBody": {
+               "description": "Données du nouveau client",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/Client"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Retourne le client créé",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Format incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "put": {
+            "summary": "Permet la modification de clients",
+            "operationId": "modifierClient",
+            "tags": [
+               "Client"
+            ],
+            "requestBody": {
+               "description": "Nouvelles données du client",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/ClientNoReq"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Retourne le client modifié",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Format incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "delete": {
+            "summary": "Permet de supprimer un client",
+            "operationId": "removeClient",
+            "tags": [
+               "Client"
+            ],
+            "parameters": [
+               {
+                  "in": "query",
+                  "name": "id",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "id du client a supprimer"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Confirme la suppression",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Format incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/commande": {
+         "get": {
+            "summary": "Permet de lister les commande",
+            "operationId": "listeCommandes",
+            "tags": [
+               "Commande"
+            ],
+            "parameters": [
+               {
+                  "in": "query",
+                  "name": "search",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "Rechercher une commande par son label"
+               },
+               {
+                  "in": "query",
+                  "name": "id",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "Afficher les détails de la commande"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Affiche la liste des commandes",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "type": "object"
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "post": {
+            "summary": "Permet la création de commande",
+            "operationId": "creerCommande",
+            "tags": [
+               "Commande"
+            ],
+            "requestBody": {
+               "description": "Données de la nouvelle commande",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/Commande"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Retourne la commande ajoutée",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Format incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "put": {
+            "summary": "Permet la modification de commandes",
+            "operationId": "modifierCommande",
+            "tags": [
+               "Commande"
+            ],
+            "requestBody": {
+               "description": "Nouvelles données de la commande",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/CommandeNoReq"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Retourne la commande modifiée",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Format incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "delete": {
+            "summary": "Permet de supprimer une commande",
+            "operationId": "removeCommande",
+            "tags": [
+               "Commande"
+            ],
+            "parameters": [
+               {
+                  "in": "query",
+                  "name": "id",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "id de la commande a supprimer"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Confirme la suppression",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Format incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/utilisateur": {
+         "get": {
+            "summary": "Permet de lister les utilisateurs",
+            "operationId": "listeUtilisateurs",
+            "tags": [
+               "Utilisateur"
+            ],
+            "parameters": [
+               {
+                  "in": "query",
+                  "name": "id",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "Afficher les détails utilisateur"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Affiche la liste des utilisateurs",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "type": "object"
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "post": {
+            "summary": "Permet la création utilisateur",
+            "operationId": "creerUtilisateur",
+            "tags": [
+               "Utilisateur"
+            ],
+            "requestBody": {
+               "description": "Données du nouvel utilisateur",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/Utilisateur"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Retourne utilisateur créé",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Format incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "put": {
+            "summary": "Permet la modification utilisateur",
+            "operationId": "modifierUtilisateur",
+            "tags": [
+               "Utilisateur"
+            ],
+            "requestBody": {
+               "description": "Nouvelles données utilisateur",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/Utilisateur"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Retourne utilisateur modifié",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Format incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "delete": {
+            "summary": "Permet de supprimer un utilisateur",
+            "operationId": "removeClient",
+            "tags": [
+               "Utilisateur"
+            ],
+            "parameters": [
+               {
+                  "in": "query",
+                  "name": "id",
+                  "schema": {
+                     "type": "string"
+                  },
+                  "description": "id utilisateur a supprimer"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Confirme la suppression",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Format incorrect",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/historique": {
+         "get": {
+            "summary": "Permet de lister les modifications",
+            "operationId": "listeModifications",
+            "tags": [
+               "Historique"
+            ],
+            "responses": {
+               "200": {
+                  "description": "Affiche la liste des modifications",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "type": "object"
+                           }
+                        }
+                     }
+                  }
+               },
+               "403": {
+                  "description": "Connexion requise",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               },
+               "500": {
+                  "description": "Erreur de base de données",
+                  "content": {
+                     "text/plain": {
+                        "schema": {
+                           "type": "string"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   },
+   "components": {
+      "schemas": {
+         "Client": {
+            "type": "object",
+            "required": [
+               "nom",
+               "prenom",
+               "email"
+            ],
+            "properties": {
+               "nom": {
+                  "type": "string",
+                  "minLength": 1
+               },
+               "prenom": {
+                  "type": "string",
+                  "minLength": 2
+               },
+               "entreprise": {
+                  "type": "string",
+                  "minLength": 1
+               },
+               "email": {
+                  "type": "string",
+                  "format": "email",
+                  "pattern": "(^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$)"
+               },
+               "telephone": {
+                  "type": "string",
+                  "format": "tel",
+                  "pattern": "^0[1-9][0-9]{8}$"
+               },
+               "mobile": {
+                  "type": "string",
+                  "format": "tel",
+                  "pattern": "^0[1-9][0-9]{8}$"
+               },
+               "actif": {
+                  "type": "boolean",
+                  "default": true
+               },
+               "notes": {
+                  "type": "string",
+                  "minLength": 1
+               }
+            }
+         },
+         "ClientNoReq": {
+            "type": "object",
+            "required": [
+               "id"
+            ],
+            "properties": {
+               "id": {
+                  "type": "integer"
+               },
+               "nom": {
+                  "type": "string",
+                  "minLength": 1
+               },
+               "prenom": {
+                  "type": "string",
+                  "minLength": 2
+               },
+               "entreprise": {
+                  "type": "string",
+                  "minLength": 1
+               },
+               "email": {
+                  "type": "string",
+                  "format": "email",
+                  "pattern": "(^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$)"
+               },
+               "telephone": {
+                  "type": "string",
+                  "format": "tel",
+                  "pattern": "^0[1-9][0-9]{8}$"
+               },
+               "mobile": {
+                  "type": "string",
+                  "format": "tel",
+                  "pattern": "^0[1-9][0-9]{8}$"
+               },
+               "actif": {
+                  "type": "boolean",
+                  "default": true
+               },
+               "notes": {
+                  "type": "string",
+                  "minLength": 1
+               }
+            }
+         },
+         "Commande": {
+            "type": "object",
+            "properties": {
+               "label": {
+                  "type": "string",
+                  "minLength": 1
+               },
+               "tjmht": {
+                  "type": "number",
+                  "pattern": "^[1-9]\\d*((\\.|,)\\d{1,2})?$"
+               },
+               "dureeJours": {
+                  "type": "integer",
+                  "pattern": "^[1-9]\\d*$"
+               },
+               "tva": {
+                  "type": "number",
+                  "pattern": "^([1-9]\\d?)((\\.|,)\\d{1,2})?$|^100((\\.|,)00?)?$|0((\\.|,)\\d{1,2})?$"
+               },
+               "statut": {
+                  "type": "string",
+                  "enum": [
+                     "CONFIRME",
+                     "ANNULE",
+                     "OPTION"
+                  ]
+               },
+               "typeCommande": {
+                  "type": "string",
+                  "enum": [
+                     "Formation",
+                     "Prestation"
+                  ]
+               },
+               "idClient": {
+                  "type": "integer"
+               },
+               "notes": {
+                  "type": "string",
+                  "minLength": 1
+               }
+            }
+         },
+         "CommandeNoReq": {
+            "type": "object",
+            "required": [
+               "id"
+            ],
+            "properties": {
+               "id": {
+                  "type": "integer"
+               },
+               "label": {
+                  "type": "string",
+                  "minLength": 1
+               },
+               "tjmht": {
+                  "type": "number",
+                  "pattern": "^[1-9]\\d*((\\.|,)\\d{1,2})?$"
+               },
+               "dureeJours": {
+                  "type": "integer",
+                  "pattern": "^[1-9]\\d*$"
+               },
+               "tva": {
+                  "type": "number",
+                  "pattern": "^([1-9]\\d?)((\\.|,)\\d{1,2})?$|^100((\\.|,)00?)?$|0((\\.|,)\\d{1,2})?$"
+               },
+               "statut": {
+                  "type": "string",
+                  "enum": [
+                     "CONFIRME",
+                     "ANNULE",
+                     "OPTION"
+                  ]
+               },
+               "typeCommande": {
+                  "type": "string",
+                  "enum": [
+                     "Formation",
+                     "Prestation"
+                  ]
+               },
+               "idClient": {
+                  "type": "integer"
+               },
+               "notes": {
+                  "type": "string",
+                  "minLength": 1
+               }
+            }
+         },
+         "Utilisateur": {
+            "type": "object",
+            "required": [
+               "login",
+               "motDePasse",
+               "email"
+            ],
+            "properties": {
+               "login": {
+                  "type": "string",
+                  "minLength": 1
+               },
+               "email": {
+                  "type": "string",
+                  "format": "email",
+                  "pattern": "(^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$)"
+               },
+               "motDePasse": {
+                  "type": "string",
+                  "pattern": "(^[A-Za-zÀ-ÿ\\d]$|^[A-Za-zÀ-ÿ\\d][A-Za-zÀ-ÿ\\d\\-']*[A-Za-zÀ-ÿ\\d]$)"
+               }
+            }
+         },
+         "Error": {
+            "type": "object",
+            "required": [
+               "code",
+               "message"
+            ],
+            "properties": {
+               "code": {
+                  "type": "integer",
+                  "format": "int32"
+               },
+               "message": {
+                  "type": "string"
+               }
+            }
+         }
+      },
+      "securitySchemes": {
+         "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+         }
+      }
+   },
+   "security": [
+      {
+         "bearerAuth": []
+      }
+   ]
+}
