@@ -60,15 +60,16 @@ public class ClientServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		response.setCharacterEncoding ("UTF-8");
-		
+		String json;
 		
 		try {
 			
 			String idClient = request.getParameter("idClient");
-			String json;
+			System.out.println(idClient);
 			
 			if(idClient != null) { 
 				json = new Gson().toJson(clientDao.trouver(Long.parseLong(idClient)));
+
 			} else {
 				json = new Gson().toJson(clientDao.lister());
 			}
@@ -89,14 +90,14 @@ public class ClientServlet extends HttpServlet {
 		}
 		
 	}
-
-	
+		
 //Modifier
 	
 	@Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
+			response.setCharacterEncoding ("UTF-8");
+			
 		try {
 			
 			JsonObject data = Tools.getJsonData(request);

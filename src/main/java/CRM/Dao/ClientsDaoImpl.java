@@ -11,13 +11,15 @@ import java.util.List;
 import CRM.model.Clients;
 import CRM.model.Commandes;
 
+
 public class ClientsDaoImpl implements ClientsDao {
 
 	private static final String SQL_INSERT = "INSERT INTO Clients (nom,prenom,entreprise,email, telephone,actif,notes) VALUES(?,?,?,?,?,?,?)";
 	private static final String SQL_SELECT = "SELECT id,nom,prenom,entreprise,email,telephone,actif,notes FROM Clients";
 	private static final String SQL_SELECT_BY_ID = "SELECT id,nom,prenom,entreprise,email,telephone,actif,notes FROM Clients WHERE id = ?";
 	private static final String SQL_DELETE_BY_ID = "DELETE FROM Clients WHERE id = ? ";
-
+	private static final String SQL_SELECT_BY_NOM = "SELECT * FROM Clients WHERE nom LIKE CONCAT('%',?,'%')";
+	
 	private static final String SQL_UPDATE_BY_ID = "UPDATE Clients set nom = ?, prenom = ?, entreprise = ?, email = ?, telephone = ?, actif = ?, notes = ?  WHERE id = ?";
 	private static final String SQL_SELECT_EMAIL_BY_ID = "SELECT email FROM Clients WHERE id = ?";
     private static final String SQL_SELECT_EMAIL = "SELECT email FROM Clients WHERE email like ?";
@@ -94,7 +96,7 @@ public class ClientsDaoImpl implements ClientsDao {
 				pst.close();
 
 			} catch (SQLException ex) {
-				throw new DaoException("Echec cr�ation Clients", ex);
+				throw new DaoException("Echec création Clients", ex);
 			} finally {
 				factory.releaseConnection(con);
 			}
@@ -151,6 +153,28 @@ public class ClientsDaoImpl implements ClientsDao {
 	}
 
 	@Override
+	public List<Clients> listerParNom(String nom) throws DaoException {
+		List<Clients> listeClients = new ArrayList<Clients>();
+		Connection   con=null;
+		try {
+			  con = factory.getConnection();
+			  PreparedStatement pst = con.prepareStatement( SQL_SELECT_BY_NOM );
+			  pst.setString(1, nom);
+		      ResultSet         rs  = pst.executeQuery();
+		      while ( rs.next() ) {
+	    	  	listeClients.add( map(rs) );
+		      }
+		      rs.close();
+		      pst.close();
+	    } catch(SQLException ex) {
+	    	throw new DaoException("Erreur de lecture BDD Client", ex);
+	    } finally {
+	    	factory.releaseConnection(con);
+		}
+		return listeClients;
+	}
+	
+	@Override
 	public void supprimer(long id) throws DaoException {
 		Connection con = null;
 
@@ -179,16 +203,6 @@ public class ClientsDaoImpl implements ClientsDao {
 
 
 
-
-
-
-
-
-
-
-
-
-
 	@Override
 	public void modifier(Clients client) throws DaoException {
 		Connection con = null;
@@ -200,6 +214,7 @@ public class ClientsDaoImpl implements ClientsDao {
             PreparedStatement pst = con.prepareStatement(SQL_SELECT_EMAIL_BY_ID);
             pst.setLong( 1, client.getId() );
             ResultSet rs  = pst.executeQuery();
+            rs.next();
         	if (!client.getEmail().equals(rs.getString( "email" ) ) ) {
                 PreparedStatement pst2 = con.prepareStatement(SQL_SELECT_EMAIL);
                 pst2.setString( 1, client.getEmail() );

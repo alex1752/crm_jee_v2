@@ -11,6 +11,8 @@ public interface ClientsDao {
     Clients trouver(long id) throws DaoException;
 
     List<Clients> lister() throws DaoException;
+    
+    List<Clients> listerParNom (String nom) throws DaoException;
 
     void supprimer(long id) throws DaoException;
 
