@@ -176,9 +176,8 @@ public class UtilisateurForm {
 		
 			if(utilisateur.getMotDePasse().equals(Authentification.hashPass(ancienMotDePasse))) {
 				utilisateur.setMotDePasse(Authentification.hashPass(nouveauMotDePasse));
-			}
-			else {
-				erreur = "L'ancien mot de passe n'est pas bon";
+			} else {
+				erreur = "Votre ancien mot de passe ne correspond pas à votre saisie";
 			}
 
 
