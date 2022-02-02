@@ -36,8 +36,7 @@ public class ListeCommandeParLabel extends HttpServlet {
     	
 		response.setCharacterEncoding("UTF-8");
 		String json;
-		List<Commandes> listeCommandes=null;
-		
+
 		try {
 			JsonObject data = Tools.getJsonData(request);
 	
@@ -46,15 +45,13 @@ public class ListeCommandeParLabel extends HttpServlet {
 				label=data.get("label").getAsString();
 			}
 
-			if(label != null && commandeDao.listerParLabel(label).contains(label)) {	 
+			if(label != null) {	 
 				json = new Gson().toJson(commandeDao.listerParLabel(label));
-				listeCommandes=commandeDao.listerParLabel(label);
 			}else {
 				json = "Veuillez saisir un label";
 			}
 			response.setContentType("application/json");
-			response.getWriter().write("Nombre d'éléments dans la liste : "+listeCommandes.size()+json);
-			
+			response.getWriter().write(json);
 			
 		}catch(DaoException e) {
 			response.setStatus(404); // not found

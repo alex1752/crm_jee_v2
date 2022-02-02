@@ -164,6 +164,8 @@ public class UtilisateurForm {
 		
 			if(utilisateur.getMotDePasse().equals(Authentification.hashPass(ancienMotDePasse))) {
 				utilisateur.setMotDePasse(Authentification.hashPass(nouveauMotDePasse));
+			} else {
+				erreur = "Votre ancien mot de passe ne correspond pas à votre saisie";
 			}
 
 
