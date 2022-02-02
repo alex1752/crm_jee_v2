@@ -1,6 +1,8 @@
 package CRM.servlets;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +15,7 @@ import com.google.gson.JsonObject;
 import CRM.Dao.ClientsDao;
 import CRM.Dao.CommandesDao;
 import CRM.Dao.DaoFactory;
+import CRM.model.Commandes;
 import CRM.Dao.DaoException;
 import CRM.utils.Tools;
 
@@ -33,6 +36,7 @@ public class ListeCommandeParLabel extends HttpServlet {
     	
 		response.setCharacterEncoding("UTF-8");
 		String json;
+		List<Commandes> listeCommandes=null;
 		
 		try {
 			JsonObject data = Tools.getJsonData(request);
@@ -42,14 +46,15 @@ public class ListeCommandeParLabel extends HttpServlet {
 				label=data.get("label").getAsString();
 			}
 
-			if(label != null) {
+			if(label != null && commandeDao.listerParLabel(label).contains(label)) {	 
 				json = new Gson().toJson(commandeDao.listerParLabel(label));
+				listeCommandes=commandeDao.listerParLabel(label);
 			}else {
-				json = new Gson().toJson(commandeDao.lister());
+				json = "Veuillez saisir un label";
 			}
-			
 			response.setContentType("application/json");
-			response.getWriter().write(json);
+			response.getWriter().write("Nombre d'éléments dans la liste : "+listeCommandes.size()+json);
+			
 			
 		}catch(DaoException e) {
 			response.setStatus(404); // not found

@@ -1,6 +1,8 @@
 package CRM.servlets;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +18,7 @@ import CRM.Dao.CommandesDao;
 import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
 import CRM.forms.CommandeForm;
+import CRM.model.Commandes;
 import CRM.utils.Tools;
 
 
@@ -40,18 +43,21 @@ public class CommandeServlet extends HttpServlet {
 			String idCommande = request.getParameter("idCommande");
 			String idClient = request.getParameter("idClient");
 			String json;
+			List<Commandes> listeCommandes=null;
 			
 			if(idClient !=null && clientDao.trouverId(Long.parseLong(idClient))) {
+				listeCommandes = commandeDao.trouverCommandesClient(Long.parseLong(idClient));
 				json=new Gson().toJson(commandeDao.trouverCommandesClient(Long.parseLong(idClient)));
 			}
 			else if(idCommande!= null) {
 				json = new Gson().toJson(commandeDao.trouver(Long.parseLong(idCommande)));
 			}else {
+				listeCommandes=commandeDao.lister();
 				json = new Gson().toJson(commandeDao.lister());
 			}
 			
 			response.setContentType("application/json");
-			response.getWriter().write(json);
+			response.getWriter().write("Nombre d'éléments dans la liste : "+listeCommandes.size()+json);
 			
 		}catch(DaoException e) {
 			response.setStatus(404); // not found
