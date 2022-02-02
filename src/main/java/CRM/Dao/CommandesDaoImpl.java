@@ -18,7 +18,7 @@ public class CommandesDaoImpl implements CommandesDao{
 	private static final String SQL_INSERT       = "INSERT INTO Commandes (label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient) VALUES(?,?,?,?,?,?,?,?)";
     private static final String SQL_SELECT       = "SELECT id,label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient FROM Commandes";
     private static final String SQL_SELECT_BY_ID = "SELECT id,label,tjmHT,dureeJours,TVA, statut,typeCommande,notes,idClient FROM Commandes WHERE id = ?";
-    private static final String SQL_SELECT_BY_LABEL = "SELECT id,label,tjmHT,dureeJours,TVA,statut,typeCommande,notes,idClient FROM Commandes WHERE label LIKE CONCAT('%',?,'%')";
+    private static final String SQL_SELECT_BY_LABEL = "SELECT id,label,tjmHT,dureeJours,TVA,statut,typeCommande,notes,idClient FROM Commandes WHERE label LIKE CONCAT('%',?,'%') ORDER BY label";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM Commandes WHERE id = ? ";
 
     private static final String SQL_UPDATE_BY_ID = "UPDATE Commandes set label = ?, tjmHT = ?, dureeJours = ?, TVA = ?, statut = ?, typeCommande = ?, notes = ?, idClient = ? WHERE id = ?";
