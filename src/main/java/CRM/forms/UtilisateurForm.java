@@ -1,132 +1,197 @@
 package CRM.forms;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
+import com.google.gson.JsonObject;
 
 import CRM.Dao.DaoException;
 import CRM.Dao.UtilisateursDao;
 import CRM.model.Utilisateurs;
+import CRM.utils.Authentification;
 
 public class UtilisateurForm {
 
 	public static int CREATION=0,MODIFICATION=1;
 
 
-	private String resultat;
-	private Map<String,String> erreurs = new HashMap<>();
+	private String erreur = "ok";
+	private int status = 200;
 	private UtilisateursDao utilisateurDao;
 
 	public UtilisateurForm(UtilisateursDao utilisateurDao) {
 		this.utilisateurDao = utilisateurDao;
 	}
 
-	public String getResultat() {
-		return resultat;
+
+
+
+	public String getErreur() {
+		return erreur;
 	}
 
-	public Map<String, String> getErreurs() {
-		return erreurs;
+
+
+
+	public int getStatus() {
+		return status;
 	}
+
+
+
+
+	public UtilisateursDao getUtilisateurDao() {
+		return utilisateurDao;
+	}
+
+
+
 
 	//action == CREATION | MODIFICATION
-	public Utilisateurs saveUtilisateur(HttpServletRequest request,int action) {
+	public Utilisateurs saveUtilisateur(JsonObject data,int action) throws NoSuchAlgorithmException, IOException {
 
 		
 		Utilisateurs utilisateur = null;
 
-
-
-
 		try {
-			String login = getParameterOrNull(request, "loginUtilisateur");
-			String motDePasse = getParameterOrNull(request, "motDePasseUtilisateur");
-			String email = getParameterOrNull(request, "emailUtilisateur");
-
+			
+			String login = null;
+			if (data.get("login") != null) {
+				login = data.get("login").getAsString();
+			}
+			String email = null;
+			if (data.get("email") != null) {
+				email = data.get("email").getAsString();
+			}
+			String motDePasse = null;
+			if (data.get("motDePasse") != null) {
+				motDePasse = data.get("motDePasse").getAsString();
+			}
+			
+			
+			
 			if (action==CREATION){
 				utilisateur = new Utilisateurs();
+				utilisateur.setLogin(login);
+				utilisateur.setMotDePasse( Authentification.hashPass(motDePasse));
+				utilisateur.setEmail(email);
 			} else {
-				String idUtilisateur = request.getParameter("idUtilisateur");
-				Long id= Long.parseLong(idUtilisateur);
-				utilisateur = utilisateurDao.trouver(id);
+				utilisateur = utilisateurDao.trouver(email);
+				utilisateur.setLogin(login);
+				utilisateur.setEmail(email);
 			}
-
-			utilisateur.setLogin(login);
-			utilisateur.setMotDePasse(motDePasse);
-			utilisateur.setEmail(email);
-
-
 
 			//gestion des erreurs
 			if(login!=null) {
 				if(login.length() <2 || login.length()>200) {
-					erreurs.put("loginUtilisateur","Le login doit être entre 2 et 200 caractères");
+					erreur ="Le login doit être entre 2 et 200 caractères";
 				}
 			} else {
-				erreurs.put("loginUtilisateur","Entrer un nom d'utilisateur");
+				erreur = "Entrer un login";
 			}
 
-			if(motDePasse!=null) {
-				if(motDePasse.length() <8 || motDePasse.length()>200) {
-					erreurs.put("motDePasseUtilisateur","Le mot de passe doit être entre 8 et 200 caractères");
+			if (motDePasse!= null) {
+				if( !motDePasse.matches( "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$" ) ) {
+					erreur = "Le mot de passe doit contenir au moins 8 caractères, dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial." ;
 				}
-			} else {
-				erreurs.put("motDePasseUtilisateur","Entrer un mot de passe");
 			}
-
-			if(email !=null) {
-				if(email.length() <4 || email.length()>200) {
-					erreurs.put("emailUtilisateur","La taille max de l'email est de 200 caractères");
+			else {
+				erreur = "Le mot de passe est obligatoire";
+			}
+			
+			if (email != null) {
+				if (email.length() >60) {
+					erreur = "La taille maximale de l'email est de 60 caractères.";
 				}
-				if(!email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" )) {
-					erreurs.put("emailUtilisateur", "Entrez une adresse mail valide");
+				if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")){
+					erreur = "Merci de saisir une adresse email valide.";
 				}
 				if (action==CREATION){
-					for (Utilisateurs u : utilisateurDao.lister()) {
-						if (email.equals(u.getEmail())){
-							erreurs.put("emailUtilisateur", "Adresse email déjà utilisée");
-						}
+					if(utilisateurDao.existEmail(email)) {
+						erreur = "Cet email existe déjà";
 					}
 				}
-				else {
-					for (Utilisateurs u : utilisateurDao.lister()) {
-						String idUtilisateur = request.getParameter("idUtilisateur");
-						Long id= Long.parseLong(idUtilisateur);
-						if (email.equals(u.getEmail()) && u.getId()!=id){
-							erreurs.put("emailUtilisateur", "Adresse email déjà utilisée");
-						}
-					}
-				}
+			}
+			else {
+				erreur = "Merci de rentrer une adresse email.";
 			}
 
 		//enrigstrement de l'utilisateur
 
-			if(erreurs.isEmpty()) {
+			if(erreur.equals("ok")) {
 				if(action ==CREATION) {
 					utilisateurDao.ajouter(utilisateur);
 				} else {
 					utilisateurDao.modifier(utilisateur);
 				}
-			resultat = "Utilisateur sauvegardé !";
-			} else {
-				resultat = "Echec de la sauvegarde de l'utilisateur";
-
 			}
-		}catch(DaoException | NumberFormatException e) {
-				resultat = "Echec ajout de l'utilisateur: erreur imprévue";
-				erreurs.put("DAO","Erreur imprévue..");
-				e.printStackTrace();
+			else {
+				status = 400;
+			}
+		} catch (DaoException e ) {
+			status = 404;
+			erreur = "Erreur Dao ...";
+
+		} catch (NumberFormatException e ) {
+			status = 404;
+			erreur = "Erreur : le format de l'id n'est pas bon ...";
 		}
 		return utilisateur;
 	}
 
-	private static String getParameterOrNull(HttpServletRequest request, String nomChamp) {
-		String valeur = request.getParameter(nomChamp);
-		if(valeur == null || valeur.trim().length()==0){
-			return null;
-		}
-			return valeur;
-	}
+	public Utilisateurs changePassword(JsonObject data) throws NoSuchAlgorithmException, IOException {
+		Utilisateurs utilisateur = null;
 
+		try {
+			
+			String email = null;
+			if (data.get("email") != null) {
+				email = data.get("email").getAsString();
+			}
+			String ancienMotDePasse = null;
+			if (data.get("ancienMotDePasse") != null) {
+				ancienMotDePasse = data.get("ancienMotDePasse").getAsString();
+			}
+			
+			String nouveauMotDePasse = null;
+			if (data.get("nouveauMotDePasse") != null) {
+				nouveauMotDePasse = data.get("nouveauMotDePasse").getAsString();
+			}
+
+			utilisateur = utilisateurDao.trouver(email);
+		
+			if(utilisateur.getMotDePasse().equals(Authentification.hashPass(ancienMotDePasse))) {
+				utilisateur.setMotDePasse(Authentification.hashPass(nouveauMotDePasse));
+			}
+
+
+			//gestion des erreurs
+			if (nouveauMotDePasse!= null) {
+				if( !nouveauMotDePasse.matches( "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$" ) ) {
+					erreur = "Le mot de passe doit contenir au moins 8 caractères, dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial." ;
+				}
+			}
+			else {
+				erreur = "Le mot de passe est obligatoire";
+			}
+
+		//enrigstrement du mot de passe
+			if(erreur.equals("ok")) {
+				utilisateurDao.modifier(utilisateur);
+			}
+			else {
+				status = 400;
+			}
+		} catch (DaoException e ) {
+			status = 404;
+			erreur = "Erreur Dao ...";
+
+		} catch (NumberFormatException e ) {
+			status = 404;
+			erreur = "Erreur : le format de l'id n'est pas bon ...";
+		}
+		return utilisateur;
+	}
 }

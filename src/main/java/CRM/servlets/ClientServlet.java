@@ -16,10 +16,10 @@ import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
 import CRM.forms.ClientForm;
 import CRM.model.Clients;
-import utils.Tools;
+import CRM.utils.Tools;
 
 
-@WebServlet("/ClientServlet")
+@WebServlet("/Client")
 public class ClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ClientsDao clientDao;
