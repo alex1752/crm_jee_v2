@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 			if (erreur.equals("ok")) {
 				Utilisateurs utilisateur = utilisateurDao.trouver(email,Authentification.hashPass(motDePasse));
 				if (utilisateur != null) {
-					long ttlMinutes = 30;
+					long ttlMinutes = 300;
 					String token = TokenJWT.generateJWT(email, ttlMinutes);
 
 					JsonObject userJson = new JsonObject();

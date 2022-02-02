@@ -16,7 +16,7 @@ import CRM.utils.Authentification;
 import CRM.utils.Tools;
 
 
-@WebServlet("/ModifierPasswordUtilisateur")
+@WebServlet(" ")
 public class ModifierPasswordUtilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UtilisateursDao utilisateurDao;
@@ -35,8 +35,6 @@ public class ModifierPasswordUtilisateur extends HttpServlet {
     			
     			String email = Authentification.isAuthentificated(request);
     			data.addProperty("email", email);
-
-    			System.out.println(data);
     			
     			UtilisateurForm form = new UtilisateurForm(utilisateurDao);
     			
