@@ -92,14 +92,26 @@ public class UtilisateurForm {
 				erreur = "Entrer un login";
 			}
 
-			if (motDePasse!= null) {
-				if( !motDePasse.matches( "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$" ) ) {
-					erreur = "Le mot de passe doit contenir au moins 8 caractères, dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial." ;
+
+			
+			if (action==CREATION) {
+				if (motDePasse!= null) {
+					if( !motDePasse.matches( "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$" ) ) {
+						erreur = "Le mot de passe doit contenir au moins 8 caractères, dont une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial." ;
+					}
+				}
+				else {
+					erreur = "Le mot de passe est obligatoire";
 				}
 			}
 			else {
-				erreur = "Le mot de passe est obligatoire";
+				if(!utilisateur.getMotDePasse().equals(Authentification.hashPass(motDePasse))) {
+					erreur = "Le mot de passe n'est pas bon";
+				}
 			}
+			
+
+			
 			
 			if (email != null) {
 				if (email.length() >60) {
@@ -164,6 +176,9 @@ public class UtilisateurForm {
 		
 			if(utilisateur.getMotDePasse().equals(Authentification.hashPass(ancienMotDePasse))) {
 				utilisateur.setMotDePasse(Authentification.hashPass(nouveauMotDePasse));
+			}
+			else {
+				erreur = "L'ancien mot de passe n'est pas bon";
 			}
 
 
