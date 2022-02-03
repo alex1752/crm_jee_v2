@@ -35,8 +35,6 @@ public class ModifierPasswordUtilisateur extends HttpServlet {
     			
     			String email = Authentification.isAuthentificated(request);
     			data.addProperty("email", email);
-
-    			System.out.println(data);
     			
     			UtilisateurForm form = new UtilisateurForm(utilisateurDao);
     			
