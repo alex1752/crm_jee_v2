@@ -13,8 +13,12 @@ public interface ClientsDao {
     boolean trouverId(long id) throws DaoException;
 
     List<Clients> lister() throws DaoException;
+    
+    List<Clients> listerParNom (String nom) throws DaoException;
 
     void supprimer(long id) throws DaoException;
 
     void modifier(Clients client) throws DaoException;
+    
+    public boolean existEmail(String email) throws DaoException ;
 }
