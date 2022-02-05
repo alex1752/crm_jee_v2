@@ -6,7 +6,7 @@
    },
    "servers": [
       {
-         "url": "/api-crm/"
+         "url": "/ProjetCRMv2/"
       }
    ],
    "tags": [
@@ -31,32 +31,27 @@
          "description": "Historique des modifications"
       }
    ],
+   
+   
    "paths": {
-      "/login": {
+      "/Login": {
          "post": {
             "summary": "Permet de se connecter",
             "operationId": "login",
             "tags": [
                "Login"
             ],
-            "parameters": [
-               {
-                  "in": "query",
-                  "name": "login",
-                  "schema": {
-                     "type": "string"
-                  },
-                  "description": "Identifiant"
-               },
-               {
-                  "in": "query",
-                  "name": "motDePasse",
-                  "schema": {
-                     "type": "string"
-                  },
-                  "description": "Mot de passe"
+             "requestBody": {
+               "description": "Données de connexion",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/Login"
+                     }
+                  }
                }
-            ],
+            }, 
             "responses": {
                "200": {
                   "description": "Retourne le token",
@@ -68,7 +63,7 @@
                      }
                   }
                },
-               "403": {
+               "400": {
                   "description": "Mot de passe ou login incorrect",
                   "content": {
                      "text/plain": {
@@ -91,7 +86,7 @@
             }
          }
       },
-      "/client": {
+      "/Client": {
          "get": {
             "summary": "Permet de lister les clients",
             "operationId": "listeClients",
@@ -109,7 +104,7 @@
                },
                {
                   "in": "query",
-                  "name": "id",
+                  "name": "idClient",
                   "schema": {
                      "type": "string"
                   },
@@ -130,7 +125,7 @@
                      }
                   }
                },
-               "403": {
+               "400": {
                   "description": "Connexion requise",
                   "content": {
                      "text/plain": {
@@ -853,6 +848,24 @@
    },
    "components": {
       "schemas": {
+        "Login": {
+            "type": "object",
+            "required": [
+               "email",
+               "motDePasse"
+            ],
+            "properties": {
+               "email": {
+                  "type": "string",
+                  "format": "email",
+                  "pattern": "(^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$)"      
+               },
+               "motDePasse": {
+                  "type": "string",
+                  "minLength": 2
+             	}
+            }
+         },
          "Client": {
             "type": "object",
             "required": [

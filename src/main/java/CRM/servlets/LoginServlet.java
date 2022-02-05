@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 			if (erreur.equals("ok")) {
 				Utilisateurs utilisateur = utilisateurDao.trouver(email,Authentification.hashPass(motDePasse));
 				if (utilisateur != null) {
-					long ttlMinutes = 300;
+					long ttlMinutes = 30001;
 					String token = TokenJWT.generateJWT(email, ttlMinutes);
 
 					JsonObject userJson = new JsonObject();
@@ -89,8 +89,8 @@ public class LoginServlet extends HttpServlet {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.setStatus(500); // Internal Server Error
-			response.getWriter().write("Erreur: Problème serveur");
+			status = 500; // Internal Server Error
+			erreur = "Erreur problème serveur";
 		}
 		response.setStatus(status); 
 		response.getWriter().write(erreur);
