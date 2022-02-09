@@ -10,10 +10,9 @@ public class UtilisateursDao extends DaoObject<Utilisateurs>{
 
 	public UtilisateursDao() {
 		super(Utilisateurs.class);
-		
 	}
 
-	public Utilisateurs find(String email) {
+	public Utilisateurs trouver(String email) {
 		Utilisateurs utilisateur = null;
 
 		try {
@@ -30,7 +29,7 @@ public class UtilisateursDao extends DaoObject<Utilisateurs>{
 		return utilisateur;
 	}
 	
-	public Utilisateurs find(String email, String motDePasse) {
+	public Utilisateurs trouver(String email, String motDePasse) {
 		Utilisateurs utilisateur = null;
 
 		try {

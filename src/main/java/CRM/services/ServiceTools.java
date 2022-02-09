@@ -4,6 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import CRM.adapters.UtilisateurAdapter;
+import CRM.model.Utilisateurs;
+import fr.cleverdev.models.Livre;
+import fr.cleverdev.services.adapters.LivreAdapter;
+
 
 public class ServiceTools {
 
@@ -37,6 +42,7 @@ public class ServiceTools {
 	
 	public static Gson getSuperJson() {
 		GsonBuilder gsonBuilder = new GsonBuilder()
+				.registerTypeAdapter(Utilisateurs.class, new UtilisateurAdapter())
 				.serializeNulls();
 		return gsonBuilder.create();	
 	}
