@@ -23,14 +23,17 @@ public class LoginFilter extends HttpFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 
-		if (Authentification.isAuthentificated(req) == null) {
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			chain.doFilter(request, response);
+		
+		}else {
+			if(Authentification.isAuthentificated(req) == null) {
+			resp.setCharacterEncoding("UTF-8");
 			resp.setStatus(405);
 			resp.getWriter().write("Le token d'authentification n'est pas bon");
-		}
-		else {
-			chain.doFilter(request, response);
+			}else {
+				chain.doFilter(request, response);
+			}
 		}
 	}
-
-
 }
