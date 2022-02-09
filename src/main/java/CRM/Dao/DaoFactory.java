@@ -7,77 +7,40 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import CRM.Dao.DaoFactory;
+
 public class DaoFactory {
 
+	private static DaoFactory instanceSingleton = null;
+	private static EntityManagerFactory entityManagerFactory = null;
+	private EntityManager entityManager = null;
+	
+	private DaoFactory() {
+		
+	}
+	
+	public static DaoFactory getInstance() {
+		if(DaoFactory.instanceSingleton == null) {
+			DaoFactory.instanceSingleton  = new DaoFactory();
+			DaoFactory.entityManagerFactory = Persistence.createEntityManagerFactory("CRMHibernate");
+		}
+		return DaoFactory.instanceSingleton;
+	}
 
-	private String url;
-    private String username;
-    private String passwd;
-    private Connection con = null;
+	public EntityManager getEntityManager() {
+		if(this.entityManager == null || !this.entityManager.isOpen()) {
+			this.entityManager = entityManagerFactory.createEntityManager();	
+		}
+		return this.entityManager;
+	}
 
-    private static DaoFactory instanceSingleton = null;
-
-    // Constructeur privé
-    private DaoFactory(String url, String username, String passwd) {
-       this.url = url;
-       this.username = username;
-       this.passwd = passwd;
-   }
-
-   public static DaoFactory getInstance() {
-       if ( DaoFactory.instanceSingleton == null ) {
-           try {
-        		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-				InputStream ficProps = classLoader.getResourceAsStream("/CRM/config/config.properties");
-				Properties properties = new Properties();
-				properties.load(ficProps);
-
-				String dbHost = properties.getProperty("db_host");
-				String dbName = properties.getProperty("db_database");
-				String dbUsername = properties.getProperty("db_username");
-				String dbPassword = properties.getProperty("db_password");
-
-				Class.forName("org.postgresql.Driver");
-				DaoFactory.instanceSingleton = new DaoFactory("jdbc:postgresql://"+dbHost+"/"+dbName, dbUsername, dbPassword);
-		  } catch(ClassNotFoundException | IOException e) {
-             e.printStackTrace();
-         }
-       }
-       return DaoFactory.instanceSingleton;
-   }
-
-
-   Connection getConnection() throws SQLException {
-        if ( this.con == null ) {
-        	this.con = DriverManager.getConnection(url,username,passwd);
-        }
-        return this.con;
-    }
-
-    public ClientsDao getClientsDao() {
-    	return new ClientsDaoImpl (this);
-    }
-    public CommandesDao getCommandesDao() {
-	    return new CommandesDaoImpl (this);
-    }
-
-    public UtilisateursDao getUtilisateurDao() {
-	    return new UtilisateursDaoImpl (this);
-    }
-
-   // cette méthode prend une connection en parametre en présagent que l'on pourrait en utiliser plusieurs
-   // mais par construction actuellement la seule connection existante est stockée dans "this.con"
-   void releaseConnection( Connection connectionRendue ) {
-       if (this.con==null) {
-           return;
-       }
-       try {
-           if ( ! this.con.isValid(10) ) {
-               this.con.close();
-               this.con = null;
-           }
-       } catch (SQLException e) {
-           con = null;
-       }
-   }
+	public void releaseEntityManager() {
+		if(this.entityManager != null && this.entityManager.isOpen()) {
+			this.entityManager.close();
+		}
+	}
 }

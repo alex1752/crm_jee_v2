@@ -24,11 +24,6 @@ public class ClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private ClientsDao clientDao;
 
-    public ClientServlet() {
-        super();
-        clientDao = DaoFactory.getInstance().getClientsDao();
-    }
-
 //Ajouter
    
 	@Override

@@ -2,25 +2,50 @@ package CRM.Dao;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import CRM.model.Utilisateurs;
 
-public interface UtilisateursDao {
+public class UtilisateursDao extends DaoObject<Utilisateurs>{
 
-	void ajouter(Utilisateurs utilisateur) throws DaoException;
+	public UtilisateursDao() {
+		super(Utilisateurs.class);
+		
+	}
 
-    List<Utilisateurs> lister() throws DaoException;
+	public Utilisateurs find(String email) {
+		Utilisateurs utilisateur = null;
 
-    void supprimer(long id) throws DaoException;
+		try {
+			Query query = getFactory().getEntityManager().createQuery("FROM Utilisateur u WHERE u.email=:email", Utilisateurs.class);
+			query.setParameter("email", email);
+			
+			utilisateur =  (Utilisateurs) query.getSingleResult();		
+		} catch(NoResultException e) {
+			e.printStackTrace();
+		} finally {
+			getFactory().releaseEntityManager();
+		}
+		
+		return utilisateur;
+	}
+	
+	public Utilisateurs find(String email, String motDePasse) {
+		Utilisateurs utilisateur = null;
 
-    void modifier(Utilisateurs utilisateur) throws DaoException;
-
-	Utilisateurs trouver(Long id) throws DaoException;
-    
-	Utilisateurs trouver(String email) throws DaoException;
-
-	Utilisateurs trouver(String email, String motDePasse) throws DaoException;
-
-	boolean existEmail(String email) throws DaoException;
-
+		try {
+			Query query = getFactory().getEntityManager().createQuery("SELECT u FROM Utilisateur u WHERE u.email=:email AND u.motdepasse=:motDePasse", Utilisateurs.class);
+			query.setParameter("email", email);
+			query.setParameter("motDePasse", motDePasse);
+			
+			utilisateur = (Utilisateurs) query.getSingleResult();		
+		} catch(NoResultException e) {
+			e.printStackTrace();
+		} finally {
+			getFactory().releaseEntityManager();
+		}
+		
+		return utilisateur;
+	}
 }
 

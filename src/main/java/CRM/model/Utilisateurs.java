@@ -1,12 +1,29 @@
 package CRM.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table (name="utilisateurs")
 public class Utilisateurs {
 
 	//Attributs
 
+	@Id
+	@GeneratedValue( strategy=GenerationType.IDENTITY )
 	private long id;
+	
+	@Column( nullable=false, length=200 )
 	private String login;
+	
+	@Column( nullable=false, length=200 )
 	private String motDePasse;
+	
+	@Column( nullable=false, unique=true , length=200)
 	private String email;
 
 	// Constructeur
@@ -59,5 +76,12 @@ public class Utilisateurs {
 		return "Utilisateurs [id=" + id + ", login=" + login + ", motDePasse=" + motDePasse + ", email=" + email + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Utilisateurs) {
+			return this.id == ((Utilisateurs) obj).id && this.email == ((Utilisateurs) obj).email;
+		}
+		return false;
+	}
 
 }
