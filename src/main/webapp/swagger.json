@@ -6,7 +6,7 @@
    },
    "servers": [
       {
-         "url": "/api-crm/"
+         "url": "/ProjetCRMv2/"
       }
    ],
    "tags": [
@@ -91,25 +91,25 @@
             }
          }
       },
-      "/client": {
+      "/Client": {
          "get": {
             "summary": "Permet de lister les clients",
-            "operationId": "listeClients",
+            "operationId": "Client",
             "tags": [
                "Client"
             ],
             "parameters": [
                {
                   "in": "query",
-                  "name": "search",
+                  "name": "nom",
                   "schema": {
                      "type": "string"
                   },
-                  "description": "Rechercher un client par son nom/prénom"
+                  "description": "Rechercher un client par son nom"
                },
                {
                   "in": "query",
-                  "name": "id",
+                  "name": "idClient",
                   "schema": {
                      "type": "string"
                   },
