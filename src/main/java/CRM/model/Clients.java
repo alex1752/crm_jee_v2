@@ -1,16 +1,47 @@
 package CRM.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table (name="clients")
 public class Clients {
 
 	// Attributs
-
+	@Id
+	@GeneratedValue( strategy=GenerationType.IDENTITY )
 	private Long id;
+	
+	@Column( nullable=false, length=50  )
 	private String nom;
+	
+	@Column( nullable=false, length=50 )
 	private String prenom;
+	
+	@Column(length=200 )
 	private String entreprise;
+	
+	@Column( nullable=false, unique=true, length=200)
 	private String email;
+	
+	@Column(length=200 )
 	private String telephone;
+	
+	@Column(columnDefinition="BOOLEAN DEFAULT true")
 	private Boolean actif;
+	
+	@Column(length=2000 )
 	private String notes;
 
 	// Constructeurs
@@ -20,8 +51,6 @@ public class Clients {
 
 	public Clients(String nom, String prenom, String entreprise, String email, String telephone, Boolean actif,
 			String notes) {
-
-		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.entreprise = entreprise;
@@ -31,6 +60,9 @@ public class Clients {
 		this.notes = notes;
 	}
 
+	@OneToMany(mappedBy="client", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<Commandes> commandes = new ArrayList<Commandes>();
+	
 	public Long getId() {
 		return id;
 	}
@@ -101,6 +133,14 @@ public class Clients {
 				+ email + ", telephone=" + telephone + ", actif=" + actif + ", notes=" + notes + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Clients) {
+			return this.id == ((Clients) obj).id;
+		}
+		return false;
+	}
+	
 	public void getBla(String[] columns) {
 		for (String column : columns) {
 			if (column.equals("nom")) {

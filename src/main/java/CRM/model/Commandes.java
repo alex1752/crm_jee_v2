@@ -1,18 +1,43 @@
 package CRM.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="commandes")
 public class Commandes {
 
 	//Attributs
 
+	@Id
+	@GeneratedValue( strategy=GenerationType.IDENTITY )
 	private Long id;
+	
 	private String label;
+	
+	@Column( nullable=false )
 	private float tjmHT;
+	
+	@Column( nullable=false )
     private float dureeJours;
+    
+	@Column( nullable=false )
     private float TVA;
+    
+	@Column( nullable=false )
     private Statut statut;
+    
+	@Column( nullable=false )
     private TypeCommande typeCommande;
+    
     private String notes;
-    private Clients client;
+ 
 
     //constructeurs
 
@@ -20,7 +45,8 @@ public class Commandes {
 
     }
 
-
+    @ManyToOne(fetch=FetchType.LAZY)
+    private Clients client;
 
 	public Commandes(String label, float tjmHT, float dureeJours, float tVA, Statut statut,
 			TypeCommande typeCommande, String notes, Clients client) {
@@ -144,12 +170,16 @@ public class Commandes {
 		this.client = client;
 	}
 
-
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Commandes) {
+			return this.id == ((Commandes) obj).id;
+		}
+		return false;
+	}
 
 	@Override
 	public String toString() {
-
-
 
 	return "Commandes [id=" + id + ", label=" + label + ", tjmHT=" + tjmHT + ", dureeJours=" + dureeJours + ", TVA="
 			+ TVA + ", statut=" + statut + ", typeCommande=" + typeCommande + ", notes=" + notes + ", idclient="

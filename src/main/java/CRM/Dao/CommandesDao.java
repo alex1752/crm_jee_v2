@@ -2,24 +2,49 @@ package CRM.Dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+
+import CRM.model.Clients;
 import CRM.model.Commandes;
 
 
-public interface CommandesDao {
+public class CommandesDao extends DaoObject<Commandes> {
 
-	void ajouter(Commandes commandes) throws DaoException;
+	public CommandesDao() {
+		super(Commandes.class);
+	}
 
-    Commandes trouver(long id) throws DaoException;
+	public List<Commandes> listerParLabel(String label) {
+		List<Commandes> objects = null;
+		
+		try {
+			EntityManager em= getFactory().getEntityManager();
+			Query query = em.createQuery("FROM "+ Commandes.class.getCanonicalName() +" WHERE label LIKE CONCAT('%',?1,'%')", Commandes.class);
+			objects = query.setParameter(1, label).getResultList();
+			
+		} finally {
+			getFactory().releaseEntityManager();
+		}
+		
+		return objects;
+	}
+	
+	public List<Commandes> trouverCommandesClient(long idClient) {
+		List<Commandes> objects = null;
 
-    List<Commandes> lister() throws DaoException;
-    
-    List<Commandes> listerParLabel( String label) throws DaoException;
-
-    void supprimer(long id) throws DaoException;
-
-    void modifier(Commandes commandes) throws DaoException;
-
-	List<Commandes> trouverCommandesClient(long id) throws DaoException;
-
-
+		try {
+			EntityManager em= getFactory().getEntityManager();
+			objects = em.createQuery("FROM "+ Commandes.class.getCanonicalName() +" WHERE idclient = "+idClient,Commandes.class).getResultList();
+			
+		} catch(NoResultException e) {
+			e.printStackTrace();
+		} finally {
+			getFactory().releaseEntityManager();
+		}
+		
+		return objects;
+	}
+	
 }
