@@ -21,7 +21,6 @@ public class ClientAdapter implements JsonSerializer <Clients> {
 		json.addProperty("id", client.getId());
 		json.addProperty("nom", client.getNom());
 		json.addProperty("prenom", client.getPrenom());
-		json.addProperty("entreprise", client.getEntreprise());
 		json.addProperty("telephone", client.getTelephone());
 		json.addProperty("email", client.getEmail());
 		json.addProperty("actif", client.isActif());
@@ -42,8 +41,23 @@ public class ClientAdapter implements JsonSerializer <Clients> {
 			
 			commandesJson.add(commandeJson);
 		}
-		
 		json.add("commandes", commandesJson);
+
+		
+		
+		if(client.getEntreprise() != null) {
+			JsonObject jsonEntreprise = new JsonObject();
+			jsonEntreprise.addProperty("id", client.getEntreprise().getId());
+			jsonEntreprise.addProperty("nom", client.getEntreprise().getNom());
+			jsonEntreprise.addProperty("telephone", client.getEntreprise().getTelephone());
+			jsonEntreprise.addProperty("email", client.getEntreprise().getEmail());
+			jsonEntreprise.addProperty("domaine", client.getEntreprise().getDomaine());
+			jsonEntreprise.addProperty("type", client.getEntreprise().getType());
+
+			json.add("entreprise", jsonEntreprise);
+		}
+		
+		
 		return json;
 	}
 
