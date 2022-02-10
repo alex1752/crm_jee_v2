@@ -91,7 +91,7 @@ public class ServiceCommande {
 		Clients client = null;
 		
 		try {
-			id = ServiceTools.getStringParameter(data, "idCommande", 0, 50, "^\\d+$");
+			id = ServiceTools.getStringParameter(data, "id", 0, 50, "^\\d+$");
 			label = ServiceTools.getStringParameter(data, "label", 2, 255);	
 			idClient = ServiceTools.getStringParameter(data, "idClient", 0, 50, "^\\d+$");
 			dureeJours = ServiceTools.getFloatParameter(data, "dureeJours", 1, 255);	

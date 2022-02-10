@@ -43,7 +43,7 @@ public class ClientAdapter implements JsonSerializer <Clients> {
 			commandesJson.add(commandeJson);
 		}
 		
-		json.add("livres", commandesJson);
+		json.add("commandes", commandesJson);
 		return json;
 	}
 
