@@ -37,12 +37,13 @@ public class ServiceCommande {
 		return ServiceTools.getSuperJson().toJson(dao.lister());	
 	}
 	
-	public void ajouter(JsonObject data) throws ServiceException {
+	public Long ajouter(JsonObject data) throws ServiceException {
 		String label = null, idClient = null, statut = null, typeCommande = null, notes = null;
 		float dureeJours = -1, tjmHT = -1, TVA = -1 ;
 		Statut statutEnum = null;
 		TypeCommande typeCommandeEnum = null;
 		Clients client = null;
+		Long commandeId = null;
 		
 		try {
 			label = ServiceTools.getStringParameter(data, "label", 2, 255);	
@@ -81,10 +82,12 @@ public class ServiceCommande {
 			Commandes commande = new Commandes(label, tjmHT, dureeJours, TVA, statutEnum, typeCommandeEnum, notes, client);
 			
 			dao.ajouter(commande);
+			commandeId =commande.getId();
 
 		} catch (DaoException e) {
 			throw new ServiceException("Erreur DAO.");
 		}
+		return commandeId;
 	}
 
 	public void modifier(JsonObject data) throws ServiceException {
@@ -95,7 +98,7 @@ public class ServiceCommande {
 		Clients client = null;
 		
 		try {
-			id = ServiceTools.getStringParameter(data, "idCommande", 0, 50, "^\\d+$");
+			id = ServiceTools.getStringParameter(data, "id", 0, 50, "^\\d+$");
 			label = ServiceTools.getStringParameter(data, "label", 2, 255);	
 			idClient = ServiceTools.getStringParameter(data, "idClient", 0, 50, "^\\d+$");
 			dureeJours = ServiceTools.getFloatParameter(data, "dureeJours", 1, 255);	

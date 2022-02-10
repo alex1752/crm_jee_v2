@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -89,6 +90,8 @@ public class ServiceUtilisateur {
 			if (motDePasse == null) throw new ServiceException("Le champ motDePasseUtilisateur est obligatoire");
 			if (email == null) throw new ServiceException("Le champ emailUtilisateur est obligatoire");
 			
+			if (utilisateurDao.existEmail(email)) throw new ServiceException("Cet email est déjà pris");
+			
 			utilisateurDao.ajouter(new Utilisateurs(login, Authentification.hashPass(motDePasse), email));
 			
 		} catch (DaoException e) {
@@ -109,7 +112,7 @@ public class ServiceUtilisateur {
 			if (login == null) throw new ServiceException("Le champ loginUtilisateur est obligatoire");
 			if (motDePasse == null) throw new ServiceException("Le champ motDePasseUtilisateur est obligatoire");
 			if (email == null) throw new ServiceException("Le champ emailUtilisateur est obligatoire");
-			
+						
 			// Récupération de l'utilisateur avec l'email
 			utilisateur = utilisateurDao.trouver(email);
 			if(utilisateur == null) throw new ServiceException("\"L'utilisateur n'existe pas. email : " + email);
@@ -152,5 +155,11 @@ public class ServiceUtilisateur {
 		}
 	}
 	
-	
+	public Long getIdUtilisateurActuel(HttpServletRequest request) throws ServiceException, NoSuchAlgorithmException, IOException {
+		
+		String email = Authentification.isAuthentificated(request);
+		Utilisateurs utilisateur = utilisateurDao.trouver(email);
+		
+		return utilisateur.getId();
+	}
 }

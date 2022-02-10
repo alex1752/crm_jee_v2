@@ -31,8 +31,9 @@ public class ServiceProduit {
 	}
 	
 	//Ajouter
-	public void ajouter(JsonObject data) throws ServiceException {
+	public Long ajouter(JsonObject data) throws ServiceException {
 		String nom = null, description = null, prix = null;
+		Long produitId = null;
 		
 		try {
 			nom = ServiceTools.getStringParameter(data, "nom", 2, 50);	
@@ -45,10 +46,14 @@ public class ServiceProduit {
 			if(prix == null)
 				throw new ServiceException("Le champ prix est obligatoire.");
 
-			daoProduit.ajouter(new Produit(nom, description, Double.parseDouble(prix)));
+			Produit produit = new Produit(nom, description, Double.parseDouble(prix));
+			daoProduit.ajouter(produit);
+			produitId = produit.getId();
+			
 		} catch (DaoException e) {
 			throw new ServiceException("Erreur DAO.");
 		}
+		return produitId;
 	}
 	
 	//Modifier

@@ -26,10 +26,9 @@ public class CommandeAdapter implements JsonSerializer<Commandes>{
 			jsonClient.addProperty("id", commande.getClient().getId());
 			jsonClient.addProperty("nom", commande.getClient().getNom());
 			jsonClient.addProperty("prenom", commande.getClient().getPrenom());
-			
 			if(commande.getClient().getEntreprise() !=null) {
-                jsonClient.addProperty("entreprise", commande.getClient().getEntreprise().getNom());
-            }
+				jsonClient.addProperty("entreprise", commande.getClient().getEntreprise().getNom());
+			}
 			jsonClient.addProperty("email", commande.getClient().getEmail());
 			jsonClient.addProperty("telephone", commande.getClient().getTelephone());
 			jsonClient.addProperty("actif", commande.getClient().isActif());

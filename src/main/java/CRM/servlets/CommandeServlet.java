@@ -19,6 +19,8 @@ import CRM.Dao.DaoFactory;
 import CRM.model.Commandes;
 import CRM.services.ServiceCommande;
 import CRM.services.ServiceException;
+import CRM.services.ServiceModification;
+import CRM.services.ServiceUtilisateur;
 import CRM.utils.Tools;
 
 @WebServlet("/commande")
@@ -84,8 +86,12 @@ public class CommandeServlet extends HttpServlet {
 		try {
 			JsonObject data = ServletTools.getJsonFromBuffer(request);
 			
-			new ServiceCommande().ajouter(data);
+//			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
+			Long idObjet = new ServiceCommande().ajouter(data);
 			
+			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);			
+			new ServiceModification().ajouter(idUtilisateur,idObjet,"Commande","ajouté");
+	
 		} catch(JsonSyntaxException e) {
 			responseStatus = 400;
 			responseContent = "Erreur : Le format des données n'est pas bon, veuillez utiliser du JSON.";
@@ -107,8 +113,11 @@ public class CommandeServlet extends HttpServlet {
 		
 		try {
 			JsonObject data = ServletTools.getJsonFromBuffer(request);
-			
 			new ServiceCommande().modifier(data);
+			
+			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
+			Long idObjet =Long.parseLong(request.getParameter("idCommande"));			
+			new ServiceModification().ajouter(idUtilisateur,idObjet,"Commande","modifié");
 			
 		} catch(JsonSyntaxException e) {
 			responseStatus = 400;
@@ -137,6 +146,10 @@ public class CommandeServlet extends HttpServlet {
 				if(idCommandeParse>0) {
 					new ServiceCommande().supprimer(idCommandeParse);
 					responseContent = "Suppression de la commande OK.";
+					
+					Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
+					Long idObjet =Long.parseLong(request.getParameter("idCommande"));			
+					new ServiceModification().ajouter(idUtilisateur,idObjet,"Commande","supprimé");
 				}else {
 					responseStatus = 400;
 					responseContent = "Erreur : L'idCommande doit être strictement supérieur à 0.";
@@ -183,9 +196,17 @@ public class CommandeServlet extends HttpServlet {
 							if(action.equals("addGenre")) {
 								new ServiceCommande().addProduit(idCommandeParse, idProduitParse);
 								responseContent = "Le produit a été ajouté à la commande.";
+								
+								Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);			
+								new ServiceModification().ajouter(idUtilisateur,idCommandeParse,"Commande","modifié");
+								
 							} else {
 								new ServiceCommande().removeProduit(idProduitParse, idCommandeParse);
 								responseContent = "Le produit a été supprimé de la commande.";
+								
+								Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);		
+								new ServiceModification().ajouter(idUtilisateur,idCommandeParse,"Commande","modifié");
+								
 							}
 						} else {
 							responseStatus = 400;
