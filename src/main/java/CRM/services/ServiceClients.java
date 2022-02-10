@@ -17,6 +17,7 @@ public class ServiceClients {
 	
 	public ServiceClients() {
 		
+		dao = new ClientsDao();
 	}
 	
 //Trouver
@@ -59,7 +60,7 @@ public class ServiceClients {
 			email = ServiceTools.getStringParameter(data, "email", 1, 200, "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)");	
 			telephone = ServiceTools.getStringParameter(data, "telephone", 4, 200, "^\\d+$");	
 			actif = ServiceTools.getStringParameter(data, "actif", 2, 50);
-			notes = ServiceTools.getStringParameter(data, "note", 2, 200);
+			notes = ServiceTools.getStringParameter(data, "notes", 2, 200);
 			
 			if(nom == null)
 				throw new ServiceException("Le champ nomClient est obligatoire.");
