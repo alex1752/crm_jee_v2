@@ -7,11 +7,15 @@ import com.google.gson.JsonObject;
 import CRM.services.ServiceException;
 import CRM.adapters.ClientAdapter;
 import CRM.adapters.CommandeAdapter;
+import CRM.adapters.EntrepriseAdapter;
 import CRM.adapters.ModificationAdapter;
+import CRM.adapters.ProduitAdapter;
 import CRM.adapters.UtilisateurAdapter;
 import CRM.model.Clients;
 import CRM.model.Commandes;
+import CRM.model.Entreprise;
 import CRM.model.Modification;
+import CRM.model.Produit;
 import CRM.model.Utilisateurs;
 
 
@@ -67,6 +71,8 @@ public class ServiceTools {
 				.registerTypeAdapter(Clients.class, new ClientAdapter())
 				.registerTypeAdapter(Commandes.class, new CommandeAdapter())
 				.registerTypeAdapter(Modification.class, new ModificationAdapter())
+				.registerTypeAdapter(Produit.class, new ProduitAdapter())
+				.registerTypeAdapter(Entreprise.class, new EntrepriseAdapter())
 				.serializeNulls();
 		return gsonBuilder.create();	
 	}

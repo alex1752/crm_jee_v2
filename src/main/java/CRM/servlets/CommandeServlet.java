@@ -196,9 +196,17 @@ public class CommandeServlet extends HttpServlet {
 							if(action.equals("addGenre")) {
 								new ServiceCommande().addProduit(idCommandeParse, idProduitParse);
 								responseContent = "Le produit a été ajouté à la commande.";
+								
+								Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);			
+								new ServiceModification().ajouter(idUtilisateur,idCommandeParse,"Commande","modifié");
+								
 							} else {
 								new ServiceCommande().removeProduit(idProduitParse, idCommandeParse);
 								responseContent = "Le produit a été supprimé de la commande.";
+								
+								Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);		
+								new ServiceModification().ajouter(idUtilisateur,idCommandeParse,"Commande","modifié");
+								
 							}
 						} else {
 							responseStatus = 400;

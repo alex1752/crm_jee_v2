@@ -11,13 +11,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import CRM.services.ServiceException;
+import CRM.services.ServiceModification;
 import CRM.services.ServiceProduit;
+import CRM.services.ServiceUtilisateur;
 
 
-/**
- * Servlet implementation class ProduitServlet
- */
-@WebServlet("/ProduitServlet")
+@WebServlet("/Produit")
 public class ProduitServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -57,10 +56,7 @@ public class ProduitServlet extends HttpServlet {
 		ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-		
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String responseContent="Ok", responseContentType = "text";
 			int responseStatus = 200;
@@ -68,7 +64,10 @@ public class ProduitServlet extends HttpServlet {
 			try {
 				JsonObject data = ServletTools.getJsonFromBuffer(request);
 				
-				new ServiceProduit().ajouter(data);
+				Long idObjet = new ServiceProduit().ajouter(data);
+				
+				Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);	
+				new ServiceModification().ajouter(idUtilisateur,idObjet,"Produit","ajouté");
 				
 			} catch(JsonSyntaxException e) {
 				responseStatus = 400;
@@ -94,6 +93,10 @@ public class ProduitServlet extends HttpServlet {
 			JsonObject data = ServletTools.getJsonFromBuffer(request);
 			
 			new ServiceProduit().modifier(data);
+			
+			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
+			Long idObjet =Long.parseLong(request.getParameter("idProduit"));			
+			new ServiceModification().ajouter(idUtilisateur,idObjet,"Produit","modifié");
 			
 		} catch(JsonSyntaxException e) {
 			responseStatus = 400;
@@ -121,6 +124,11 @@ public class ProduitServlet extends HttpServlet {
 				if(id > 0) {
 					new ServiceProduit().supprimer(id);
 					responseContent = "Suppression produit OK.";
+					
+					Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
+					Long idObjet =Long.parseLong(request.getParameter("idProduit"));			
+					new ServiceModification().ajouter(idUtilisateur,idObjet,"Produit","supprimé");
+					
 				} else {
 					responseStatus = 400;
 					responseContent = "Erreur : L'idProduit doit être strictement supérieur à 0.";
