@@ -16,7 +16,6 @@ import CRM.Dao.ClientsDao;
 import CRM.Dao.CommandesDao;
 import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
-import CRM.forms.CommandeForm;
 import CRM.model.Commandes;
 import CRM.services.ServiceCommande;
 import CRM.services.ServiceException;

@@ -70,7 +70,7 @@ public class ServiceCommande {
 				if(client == null)
 					throw new ServiceException("Le client n'existe pas. Id : "+idClient);
 			}else {
-				throw new ServiceException("Le client est obligatoire");
+				throw new ServiceException("Le champ idClient est obligatoire");
 			}
 			
 			System.out.println(idClient);

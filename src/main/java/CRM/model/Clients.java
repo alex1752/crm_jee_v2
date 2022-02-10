@@ -128,6 +128,15 @@ public class Clients {
 		this.notes = notes;
 	}
 
+	
+	public List<Commandes> getCommandes() {
+		return commandes;
+	}
+
+	public void setCommandes(List<Commandes> commandes) {
+		this.commandes = commandes;
+	}
+
 	@Override
 	public String toString() {
 		return "Clients [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", entreprise=" + entreprise + ", email="
@@ -142,25 +151,5 @@ public class Clients {
 		return false;
 	}
 	
-	public void getBla(String[] columns) {
-		for (String column : columns) {
-			if (column.equals("nom")) {
-				System.out.print(getNom());
-			} else if (column.equals("prenom")) {
-				System.out.print(getPrenom());
-			} else if (column.equals("entreprise")) {
-				System.out.print(getEntreprise());
-			} else if (column.equals("email")) {
-				System.out.print(getEmail());
-			} else if (column.equals("telephone")) {
-				System.out.print(getTelephone());
-			} else if (column.equals("actif")) {
-				System.out.print(isActif());
-			} else if (column.equals("notes")) {
-				System.out.print(getNotes());
-			}
-			System.out.print(" ".repeat(5));
-		}
-		System.out.println("");
-	}
+
 }
