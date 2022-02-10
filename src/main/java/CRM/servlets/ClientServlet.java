@@ -17,6 +17,7 @@ import CRM.services.ServiceException;
 
 
 
+
 @WebServlet("/Client")
 public class ClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -58,6 +59,7 @@ public class ClientServlet extends HttpServlet {
 
 		String responseContent="Ok", responseContentType = "text";
 		int responseStatus = 200;
+		String nom = request.getParameter("nom");
 		
 		try {
 			String idClient = request.getParameter("idClient");
@@ -70,6 +72,9 @@ public class ClientServlet extends HttpServlet {
 					responseStatus = 400;
 					responseContent = "Erreur : L'idClient doit être strictement supérieur à 0.";
 				}
+			} else if(nom !=null) {
+				responseContent = new ServiceClients().listerParNom(nom);
+				responseContentType = "application/json";
 			} else {
 				responseContent = new ServiceClients().lister();
 				responseContentType = "application/json";
