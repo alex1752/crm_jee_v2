@@ -50,7 +50,6 @@ public class LoginServlet extends HttpServlet {
 			responseStatus = 500;
 			responseContent = "Erreur : Erreur serveur.";
 		}
-		
 		ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);
-
+	}
 }
