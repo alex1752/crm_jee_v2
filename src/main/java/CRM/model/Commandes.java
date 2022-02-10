@@ -38,6 +38,8 @@ public class Commandes {
     
     private String notes;
  
+    @ManyToOne(fetch=FetchType.LAZY)
+    private Clients client;
 
     //constructeurs
 
@@ -45,8 +47,6 @@ public class Commandes {
 
     }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    private Clients client;
 
 	public Commandes(String label, float tjmHT, float dureeJours, float tVA, Statut statut,
 			TypeCommande typeCommande, String notes, Clients client) {

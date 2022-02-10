@@ -16,7 +16,7 @@ import CRM.utils.Authentification;
 
 
 
-@WebFilter(urlPatterns = {"/Utilisateur", "/commande", "/Client", "/ListeCommandeParLabel", "/ListeClientParNom", "/ModifierPasswordUtilisateur"})
+@WebFilter(urlPatterns = {""})
 public class LoginFilter extends HttpFilter implements Filter {
        
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

@@ -69,8 +69,11 @@ public class ServiceCommande {
 				client = daoClient.trouver(Long.parseLong(idClient));
 				if(client == null)
 					throw new ServiceException("Le client n'existe pas. Id : "+idClient);
+			}else {
+				throw new ServiceException("Le client est obligatoire");
 			}
 			
+			System.out.println(idClient);
 			Commandes commande = new Commandes(label, tjmHT, dureeJours, TVA, statutEnum, typeCommandeEnum, notes, client);
 			
 			dao.ajouter(commande);

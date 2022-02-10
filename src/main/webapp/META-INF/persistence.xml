@@ -7,9 +7,9 @@
     <persistence-unit name="CRMHibernate">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-     		 <class>CRM.models.Utilisateurs</class>
-  	   		<class>CRM.models.Commandes</class>
-      		  <class>CRM.models.Clients</class>
+     		 <class>CRM.model.Utilisateurs</class>
+  	   			<class>CRM.model.Commandes</class>
+      		  <class>CRM.model.Clients</class>
         
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
