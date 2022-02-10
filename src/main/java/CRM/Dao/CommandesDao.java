@@ -36,7 +36,7 @@ public class CommandesDao extends DaoObject<Commandes> {
 
 		try {
 			EntityManager em= getFactory().getEntityManager();
-			objects = em.createQuery("FROM "+ Commandes.class.getCanonicalName() +" WHERE idclient = "+idClient,Commandes.class).getResultList();
+			objects = em.createQuery("FROM "+ Commandes.class.getCanonicalName() +" WHERE client_id = "+idClient,Commandes.class).getResultList();
 			
 		} catch(NoResultException e) {
 			e.printStackTrace();
