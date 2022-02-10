@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -19,6 +20,7 @@ import javax.persistence.Table;
 public class Clients {
 
 	// Attributs
+	
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY )
 	private Long id;
@@ -29,8 +31,8 @@ public class Clients {
 	@Column( nullable=false, length=50 )
 	private String prenom;
 	
-	@Column(length=200 )
-	private String entreprise;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Entreprise entreprise;
 	
 	@Column( nullable=false, unique=true, length=200)
 	private String email;
@@ -47,12 +49,13 @@ public class Clients {
 	@OneToMany(mappedBy="client", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Commandes> commandes = new ArrayList<Commandes>();
 
+	
 	// Constructeurs
 
 	public Clients() {
 	}
 
-	public Clients(String nom, String prenom, String entreprise, String email, String telephone, Boolean actif,
+	public Clients(String nom, String prenom, Entreprise entreprise, String email, String telephone, Boolean actif,
 			String notes) {
 		this.nom = nom;
 		this.prenom = prenom;
@@ -88,11 +91,12 @@ public class Clients {
 		this.prenom = prenom;
 	}
 
-	public String getEntreprise() {
+	
+	public Entreprise getEntreprise() {
 		return entreprise;
 	}
 
-	public void setEntreprise(String entreprise) {
+	public void setEntreprise(Entreprise entreprise) {
 		this.entreprise = entreprise;
 	}
 
