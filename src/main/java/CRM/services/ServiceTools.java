@@ -63,7 +63,7 @@ public class ServiceTools {
 		GsonBuilder gsonBuilder = new GsonBuilder()
 				.registerTypeAdapter(Utilisateurs.class, new UtilisateurAdapter())
 				.registerTypeAdapter(Clients.class, new ClientAdapter())
-                .registerTypeAdapter(Commandes.class, new CommandeAdapter())
+				.registerTypeAdapter(Commandes.class, new CommandeAdapter())
 				.serializeNulls();
 		return gsonBuilder.create();	
 	}

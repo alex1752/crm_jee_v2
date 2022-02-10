@@ -34,6 +34,7 @@ public class ClientServlet extends HttpServlet {
 			JsonObject data = ServletTools.getJsonFromBuffer(request);
 			
 			new ServiceClients().ajouter(data);
+
 			
 		} catch(JsonSyntaxException e) {
 			responseStatus = 400;
