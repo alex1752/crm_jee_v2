@@ -54,7 +54,7 @@ public class ServiceUtilisateur {
 		Utilisateurs utilisateur = null;
 		
 		email = ServiceTools.getStringParameter(data, "emailUtilisateur", 1, 200, "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)");	
-		motDePasse = ServiceTools.getStringParameter(data, "passwordUtilisateur", 1, 200, "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");		
+		motDePasse = ServiceTools.getStringParameter(data, "motDePasseUtilisateur", 1, 200, "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");		
 		if(email == null) throw new ServiceException("Le champ emailUtilisateur est obligatoire.");
 		if(motDePasse == null) throw new ServiceException("Le champ motDePasseUtilisateur est obligatoire.");
 		

@@ -26,8 +26,9 @@ import CRM.utils.Tools;
 @WebServlet("/Utilisateur")
 public class UtilisateurServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UtilisateursDao utilisateurDao;
 
+	
+	// AFFICHER UN OU DES UTILISATEURS
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String responseContent="Ok", responseContentType = "text";
 		int responseStatus = 200;
@@ -49,7 +50,7 @@ public class UtilisateurServlet extends HttpServlet {
 			}
 		} catch(NumberFormatException e) {
 			responseStatus = 400;
-			responseContent = "Erreur : Le format du param�tre idGenre n'est pas bon.";
+			responseContent = "Erreur : Le format du paramètre idUtilisateur n'est pas bon.";
 		} catch(ServiceException e) {
 			responseStatus = 400;
 			responseContent = "Erreur : " +e.getMessage();
@@ -63,17 +64,13 @@ public class UtilisateurServlet extends HttpServlet {
 	}
 	
 	
-	
+	// AJOUT UTILISATEUR
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String responseContent="Ok", responseContentType = "text";
 		int responseStatus = 200;
 		
 		try {
 			JsonObject data = ServletTools.getJsonFromBuffer(request);
-			
-			// email imposé --> utilisateur correspondant au login
-			String email = Authentification.isAuthentificated(request);
-			data.addProperty("email", email);
 
 			new ServiceUtilisateur().ajouter(data);
 		} catch(JsonSyntaxException e) {
@@ -90,6 +87,8 @@ public class UtilisateurServlet extends HttpServlet {
 		ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);
 	}
 
+	
+	// MODIFICATION LOGIN
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String responseContent="Ok", responseContentType = "text";
 		int responseStatus = 200;
@@ -101,7 +100,7 @@ public class UtilisateurServlet extends HttpServlet {
 			String email = Authentification.isAuthentificated(request);
 			data.addProperty("email", email);
 			
-			// MODIFICATION LOGIN
+
 			new ServiceUtilisateur().modifierLogin(data);
 		} catch(JsonSyntaxException e) {
 			responseStatus = 400;
@@ -117,7 +116,7 @@ public class UtilisateurServlet extends HttpServlet {
 		ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);
 	}
 	
-	
+	// MODIFICATION MOT DE PASSE
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getMethod().equalsIgnoreCase("PATCH")){
@@ -134,9 +133,6 @@ public class UtilisateurServlet extends HttpServlet {
 				
 				// MODIFICATION MOT DE PASSE
 				new ServiceUtilisateur().modifierMotDePasse(data);
-			} catch(NumberFormatException e) {
-				responseStatus = 400;
-				responseContent = "Erreur : Le format du param�tre idLivre ou idGenre n'est pas bon.";
 			} catch(ServiceException e) {
 				responseStatus = 400;
 				responseContent = "Erreur : " +e.getMessage();

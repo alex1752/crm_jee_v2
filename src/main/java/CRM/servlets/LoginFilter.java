@@ -23,6 +23,9 @@ public class LoginFilter extends HttpFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 
+		if (req.getSer)
+		
+		
 		if (Authentification.isAuthentificated(req) == null) {
 			resp.setStatus(405);
 			resp.getWriter().write("Le token d'authentification n'est pas bon");
