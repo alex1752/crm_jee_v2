@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "produit")
 public class Produit {
@@ -37,12 +38,11 @@ public class Produit {
 		
 	}
 
-	public Produit(String nom, String description, double prix, List<Commandes> listCommandes) {
+	public Produit(String nom, String description, double prix) {
 		
 		this.nom = nom;
 		this.description = description;
 		this.prix = prix;
-		this.listCommandes = listCommandes;
 	}
 
 	public Long getId() {
@@ -83,6 +83,16 @@ public class Produit {
 
 	public void setListCommandes(List<Commandes> listCommandes) {
 		this.listCommandes = listCommandes;
+	}
+	
+	public void addCommande(Commandes commande) {
+		this.listCommandes.add(commande);
+		commande.getListProduits().add(this);
+	}
+	
+	public void removeCommande(Commandes commande) {
+		this.listCommandes.add(commande);
+		commande.getListProduits().add(this);
 	}
 	
 	

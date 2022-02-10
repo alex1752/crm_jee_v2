@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -185,6 +187,26 @@ public class Commandes {
 		this.client = client;
 	}
 
+	
+	public List<Produit> getListProduits() {
+		return listProduits;
+	}
+
+
+	public void setListProduits(List<Produit> listProduits) {
+		this.listProduits = listProduits;
+	}
+
+	public void addProduit(Produit produit) {
+		this.listProduits.add(produit);
+		produit.getListCommandes().add(this);
+	}
+	
+	public void removeProduit(Produit produit) {
+		this.listProduits.add(produit);
+		produit.getListCommandes().add(this);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Commandes) {

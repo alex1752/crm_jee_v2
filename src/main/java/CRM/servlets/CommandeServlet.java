@@ -173,6 +173,7 @@ public class CommandeServlet extends HttpServlet {
 		ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);
 	}
 	
+	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getMethod().equalsIgnoreCase("PATCH")){
@@ -181,16 +182,39 @@ public class CommandeServlet extends HttpServlet {
 			int responseStatus = 200;
 			
 			try {
-				// comment renvoyer à cette méthode ? autre doGet ?
-				
-				JsonObject data = ServletTools.getJsonFromBuffer(request);
-				
-				responseContent = new ServiceCommande().listerParLabel(data);
-				responseContentType = "application/json";
-
-			} catch(JsonSyntaxException e) {
+				String action = request.getParameter("action");
+				if(action != null && (action.equals("addProduit") || action.equals("removeProduit"))) {
+					String idCommande = request.getParameter("idCommande");
+					String idProduit = request.getParameter("idProduit");
+					if(idProduit != null && idCommande != null) {
+						
+						Long idCommandeParse = Long.parseLong(idCommande);
+						Long idProduitParse = Long.parseLong(idProduit);
+						
+						if(idProduitParse > 0 && idCommandeParse > 0) {
+							
+							if(action.equals("addGenre")) {
+								new ServiceCommande().addProduit(idCommandeParse, idProduitParse);
+								responseContent = "Le produit a été ajouté à la commande.";
+							} else {
+								new ServiceCommande().removeProduit(idProduitParse, idCommandeParse);
+								responseContent = "Le produit a été supprimé de la commande.";
+							}
+						} else {
+							responseStatus = 400;
+							responseContent = "Erreur : L'idCommande et l'idProduit doivent être strictement supérieur à 0.";
+						}
+					} else {
+						responseStatus = 400;
+						responseContent = "Erreur : Les paramètres idProduit et idCommande sont obligatoires.";
+					}
+				} else {
+					responseStatus = 400;
+					responseContent = "Erreur : Le paramètre action est obligatoire. 2 valeurs possibles : addProduit et removeProduit";
+				}
+			} catch(NumberFormatException e) {
 				responseStatus = 400;
-				responseContent = "Erreur : Le format des données n'est pas bon, veuillez utiliser du JSON.";
+				responseContent = "Erreur : Le format du paramètre idCommande ou idProduit n'est pas bon.";
 			} catch(ServiceException e) {
 				responseStatus = 400;
 				responseContent = "Erreur : " +e.getMessage();
@@ -206,4 +230,5 @@ public class CommandeServlet extends HttpServlet {
             super.service(request, response);
         }
 	}
+
 }
