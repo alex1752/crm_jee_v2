@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import CRM.services.ServiceException;
+import CRM.adapters.UtilisateurAdapter;
+import CRM.model.Utilisateurs;
 
 
 public class ServiceTools {
@@ -55,6 +57,7 @@ public class ServiceTools {
 	
 	public static Gson getSuperJson() {
 		GsonBuilder gsonBuilder = new GsonBuilder()
+				.registerTypeAdapter(Utilisateurs.class, new UtilisateurAdapter())
 				.serializeNulls();
 		return gsonBuilder.create();	
 	}

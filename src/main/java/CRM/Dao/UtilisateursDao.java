@@ -10,14 +10,13 @@ public class UtilisateursDao extends DaoObject<Utilisateurs>{
 
 	public UtilisateursDao() {
 		super(Utilisateurs.class);
-		
 	}
 
-	public Utilisateurs find(String email) {
+	public Utilisateurs trouver(String email) {
 		Utilisateurs utilisateur = null;
 
 		try {
-			Query query = getFactory().getEntityManager().createQuery("FROM Utilisateur u WHERE u.email=:email", Utilisateurs.class);
+			Query query = getFactory().getEntityManager().createQuery("FROM Utilisateurs u WHERE u.email=:email", Utilisateurs.class);
 			query.setParameter("email", email);
 			
 			utilisateur =  (Utilisateurs) query.getSingleResult();		
@@ -30,11 +29,11 @@ public class UtilisateursDao extends DaoObject<Utilisateurs>{
 		return utilisateur;
 	}
 	
-	public Utilisateurs find(String email, String motDePasse) {
+	public Utilisateurs trouver(String email, String motDePasse) {
 		Utilisateurs utilisateur = null;
 
 		try {
-			Query query = getFactory().getEntityManager().createQuery("SELECT u FROM Utilisateur u WHERE u.email=:email AND u.motdepasse=:motDePasse", Utilisateurs.class);
+			Query query = getFactory().getEntityManager().createQuery("SELECT u FROM Utilisateurs u WHERE u.email=:email AND u.motDePasse=:motDePasse", Utilisateurs.class);
 			query.setParameter("email", email);
 			query.setParameter("motDePasse", motDePasse);
 			
