@@ -1,13 +1,22 @@
 package CRM.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name="commandes")
@@ -41,6 +50,14 @@ public class Commandes {
     @ManyToOne(fetch=FetchType.LAZY)
     private Clients client;
 
+    @ManyToMany (fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name="commande_produit",
+        joinColumns = {@JoinColumn(name="commande_id") },
+        inverseJoinColumns = { @JoinColumn(name="produit_id") }
+    )
+    private List<Produit> listProduits = new ArrayList<Produit>();
+    
     //constructeurs
 
     public Commandes () {
@@ -170,6 +187,26 @@ public class Commandes {
 		this.client = client;
 	}
 
+	
+	public List<Produit> getListProduits() {
+		return listProduits;
+	}
+
+
+	public void setListProduits(List<Produit> listProduits) {
+		this.listProduits = listProduits;
+	}
+
+	public void addProduit(Produit produit) {
+		this.listProduits.add(produit);
+		produit.getListCommandes().add(this);
+	}
+	
+	public void removeProduit(Produit produit) {
+		this.listProduits.add(produit);
+		produit.getListCommandes().add(this);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Commandes) {

@@ -5,19 +5,23 @@ import com.google.gson.JsonObject;
 import CRM.Dao.ClientsDao;
 import CRM.Dao.CommandesDao;
 import CRM.Dao.DaoException;
+import CRM.Dao.ProduitDao;
 import CRM.model.Clients;
 import CRM.model.Commandes;
+import CRM.model.Produit;
 import CRM.model.Statut;
 import CRM.model.TypeCommande;
 
 public class ServiceCommande {
 
 	private CommandesDao dao;
+	private ProduitDao daoProduit;
 	private ClientsDao daoClient;
 	
 	public ServiceCommande() {
 		dao=new CommandesDao();
 		daoClient = new ClientsDao();
+		daoProduit = new ProduitDao();
 	}
 	
 	public String trouver(long id) throws ServiceException {
@@ -186,4 +190,45 @@ public class ServiceCommande {
 		return ServiceTools.getSuperJson().toJson(commandes);	
 	}
 	
+	public void addProduit(long idProduit, long idCommande) throws ServiceException {
+		Commandes commande = dao.trouver(idCommande);
+		if(commande == null)
+			throw new ServiceException("La commande n'existe pas. Id : "+idCommande);
+		
+		Produit produit = daoProduit.trouver(idProduit);
+		if(produit == null)
+			throw new ServiceException("Le produit n'existe pas. Id : "+idProduit);
+		
+		if(commande.getListProduits().contains(produit))
+			throw new ServiceException("Le produit est déjà associé à la commande.");
+		
+		
+		try {
+			commande.addProduit(produit);
+			dao.modifier(commande);
+		} catch (DaoException e) {
+			throw new ServiceException("Erreur DAO.");
+		}
+	}
+	
+	public void removeProduit(long idProduit, long idCommande) throws ServiceException {
+		Commandes commande = dao.trouver(idCommande);
+		if(commande == null)
+			throw new ServiceException("La commande n'existe pas. Id : "+idCommande);
+		
+		Produit produit = daoProduit.trouver(idProduit);
+		if(produit == null)
+			throw new ServiceException("Le produit n'existe pas. Id : "+idProduit);
+		
+		if(commande.getListProduits().contains(produit))
+			throw new ServiceException("Le produit est déjà associé à la commande.");
+		
+		
+		try {
+			commande.removeProduit(produit);
+			dao.modifier(commande);
+		} catch (DaoException e) {
+			throw new ServiceException("Erreur DAO.");
+		}
+	}
 }
