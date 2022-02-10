@@ -3,134 +3,194 @@ package CRM.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
+import com.google.gson.JsonSyntaxException;
 import CRM.Dao.ClientsDao;
 import CRM.Dao.CommandesDao;
 import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
-import CRM.forms.CommandeForm;
 import CRM.model.Commandes;
+import CRM.services.ServiceCommande;
+import CRM.services.ServiceException;
 import CRM.utils.Tools;
-
 
 @WebServlet("/commande")
 public class CommandeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private CommandesDao commandeDao;
-	private ClientsDao clientDao;
-  
-    public CommandeServlet() {
-        super();
-        commandeDao = DaoFactory.getInstance().getCommandesDao();
-        clientDao = DaoFactory.getInstance().getClientsDao();
-    }
-
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		response.setCharacterEncoding("UTF-8");
-		
+		String responseContent="Ok", responseContentType = "text";
+		int responseStatus = 200;
+
 		try {
 			String idCommande = request.getParameter("idCommande");
 			String idClient = request.getParameter("idClient");
-			String json;
 			
-			if(idClient !=null && clientDao.trouverId(Long.parseLong(idClient))) {
-				json=new Gson().toJson(commandeDao.trouverCommandesClient(Long.parseLong(idClient)));
-			}
-			else if(idCommande!= null) {
-				json = new Gson().toJson(commandeDao.trouver(Long.parseLong(idCommande)));
+			if(idClient != null) {
+				
+				Long idClientParse = Long.parseLong(idClient);
+				
+				if(idClientParse>0) {
+					responseContent = new ServiceCommande().trouverCommandesClient(idClientParse);
+					responseContentType = "application/json";
+				}else {
+					responseStatus = 400;
+					responseContent = "Erreur : L'idClient doit être strictement supérieur à 0.";
+				}
+				
+			}else if(idCommande != null) {
+				
+				Long idCommandeParse = Long.parseLong(idCommande);
+				
+				if(idCommandeParse>0) {
+					responseContent = new ServiceCommande().trouver(idCommandeParse);
+					responseContentType = "application/json";
+				} else {
+					responseStatus = 400;
+					responseContent = "Erreur : L'idCommande doit être strictement supérieur à 0.";
+				}
+							
 			}else {
-				json = new Gson().toJson(commandeDao.lister());
+				responseContent = new ServiceCommande().lister();
+				responseContentType= "application/json";
 			}
 			
-			response.setContentType("application/json");
-			response.getWriter().write(json);
-			
-		}catch(DaoException e) {
-			response.setStatus(404); // not found
-			response.getWriter().write("Erreur : DAO");
-		}catch(NumberFormatException e) {
-			response.setStatus(400); // bad request
-			response.getWriter().write("Erreur : format du paramètre n'est pas bon.");
-		}catch(Exception e) {
-			response.setStatus(500); //internal error
+		} catch(NumberFormatException e) {
+			responseStatus = 400;
+			responseContent = "Erreur : Le format du paramètre idCommande n'est pas bon.";
+		} catch(ServiceException e) {
+			responseStatus = 400;
+			responseContent = "Erreur : " +e.getMessage();
+		} catch(Exception e) {
 			e.printStackTrace();
-			response.getWriter().write("Erreur : problème serveur");
+			responseStatus = 500;
+			responseContent = "Erreur : Erreur serveur.";
 		}
+		
+		ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		response.setCharacterEncoding("UTF-8");
+		String responseContent="Ok", responseContentType = "text";
+		int responseStatus = 200;
 		
 		try {
-			JsonObject data = Tools.getJsonData(request);
+			JsonObject data = ServletTools.getJsonFromBuffer(request);
 			
-			CommandeForm form = new CommandeForm(commandeDao,clientDao);
-			form.saveCommande(data, CommandeForm.CREATION);
+			new ServiceCommande().ajouter(data);
 			
-			response.setStatus(form.getStatus());
-			response.getWriter().write(form.getErreur());
-			
-		}catch(Exception e) {
-			response.setStatus(500); //internal error
+		} catch(JsonSyntaxException e) {
+			responseStatus = 400;
+			responseContent = "Erreur : Le format des données n'est pas bon, veuillez utiliser du JSON.";
+		} catch(ServiceException e) {
+			responseStatus = 400;
+			responseContent = "Erreur : " +e.getMessage();
+		} catch(Exception e) {
 			e.printStackTrace();
-			response.getWriter().write("Erreur : problème serveur");
+			responseStatus = 500;
+			responseContent = "Erreur : Erreur serveur.";
 		}
+		
+		ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);
 	}
 	
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		response.setCharacterEncoding("UTF-8");
+		String responseContent="Ok", responseContentType = "text";
+		int responseStatus = 200;
 		
 		try {
-			JsonObject data = Tools.getJsonData(request);
+			JsonObject data = ServletTools.getJsonFromBuffer(request);
 			
-			CommandeForm form = new CommandeForm(commandeDao,clientDao);
-			form.saveCommande(data, CommandeForm.MODIFICATION);
+			new ServiceCommande().modifier(data);
 			
-			response.setStatus(form.getStatus());
-			response.getWriter().write(form.getErreur());
-		}catch(Exception e) {
-			response.setStatus(500); //internal error
+		} catch(JsonSyntaxException e) {
+			responseStatus = 400;
+			responseContent = "Erreur : Le format des données n'est pas bon, veuillez utiliser du JSON.";
+		} catch(ServiceException e) {
+			responseStatus = 400;
+			responseContent = "Erreur : " +e.getMessage();
+		} catch(Exception e) {
 			e.printStackTrace();
-			response.getWriter().write("Erreur : problème serveur");
+			responseStatus = 500;
+			responseContent = "Erreur : Erreur serveur.";
 		}
+		
+		ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);
 	}
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		response.setCharacterEncoding("UTF-8");
+		String responseContent="ok", responseContentType = "text";
+		int responseStatus = 200;
 		
 		try {
 			String idCommande=request.getParameter("idCommande");
-			
-			commandeDao.supprimer(Long.parseLong(idCommande));
-			
-			response.getWriter().write("Commande supprimee");
-			
-		}catch(DaoException e) {
-			response.setStatus(404); // not found
-			response.getWriter().write("Erreur : la commande n'existe pas");
-		}catch(NumberFormatException e) {
-			response.setStatus(400); // bad request
-			response.getWriter().write("Erreur : format du paramètre n'est pas bon.");
-		}catch(Exception e) {
-			response.setStatus(500); //internal error
+		
+			if(idCommande != null) {
+				Long idCommandeParse = Long.parseLong(idCommande);
+				if(idCommandeParse>0) {
+					new ServiceCommande().supprimer(idCommandeParse);
+					responseContent = "Suppression de la commande OK.";
+				}else {
+					responseStatus = 400;
+					responseContent = "Erreur : L'idCommande doit être strictement supérieur à 0.";
+				} 
+			}else {
+				responseStatus = 400;
+				responseContent = "Erreur : Le paramètre idCommande est obligatoire.";
+			}
+		} catch(NumberFormatException e) {
+			responseStatus = 400;
+			responseContent = "Erreur : Le format du paramètre idCommande n'est pas bon.";
+		} catch(ServiceException e) {
+			responseStatus = 400;
+			responseContent = "Erreur : " +e.getMessage();
+		} catch(Exception e) {
 			e.printStackTrace();
-			response.getWriter().write("Erreur : problème serveur");
+			responseStatus = 500;
+			responseContent = "Erreur : Erreur serveur.";
 		}
+		
+		ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);
+	}
 	
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getMethod().equalsIgnoreCase("PATCH")){
+			
+			String responseContent="Ok", responseContentType = "text";
+			int responseStatus = 200;
+			
+			try {
+				// comment renvoyer à cette méthode ? autre doGet ?
+				
+				JsonObject data = ServletTools.getJsonFromBuffer(request);
+				
+				responseContent = new ServiceCommande().listerParLabel(data);
+				responseContentType = "application/json";
+
+			} catch(JsonSyntaxException e) {
+				responseStatus = 400;
+				responseContent = "Erreur : Le format des données n'est pas bon, veuillez utiliser du JSON.";
+			} catch(ServiceException e) {
+				responseStatus = 400;
+				responseContent = "Erreur : " +e.getMessage();
+			} catch(Exception e) {
+				e.printStackTrace();
+				responseStatus = 500;
+				responseContent = "Erreur : Erreur serveur.";
+			}
+			
+			ServletTools.sendResponse(response, responseStatus, responseContentType, responseContent);	
+			
+        } else {
+            super.service(request, response);
+        }
 	}
 }

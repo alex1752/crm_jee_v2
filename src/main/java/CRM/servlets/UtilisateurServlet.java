@@ -6,15 +6,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-
 import CRM.Dao.DaoException;
 import CRM.Dao.DaoFactory;
 import CRM.Dao.UtilisateursDao;
-import CRM.forms.UtilisateurForm;
 import CRM.services.ServiceException;
 import CRM.services.ServiceUtilisateur;
 import CRM.utils.Authentification;
