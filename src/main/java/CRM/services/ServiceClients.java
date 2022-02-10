@@ -20,7 +20,7 @@ public class ServiceClients {
 	
 	
 	public ServiceClients() {
-		
+		entrepriseDao = new EntrepriseDao();
 		dao = new ClientsDao();
 	}
 	
