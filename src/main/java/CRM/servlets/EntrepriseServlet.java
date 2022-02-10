@@ -13,6 +13,8 @@ import com.google.gson.JsonSyntaxException;
 import CRM.services.ServiceClients;
 import CRM.services.ServiceEntreprise;
 import CRM.services.ServiceException;
+import CRM.services.ServiceModification;
+import CRM.services.ServiceUtilisateur;
 
 
 @WebServlet("/Entreprise")
@@ -31,7 +33,10 @@ public class EntrepriseServlet extends HttpServlet {
 		try {
 			JsonObject data = ServletTools.getJsonFromBuffer(request);
 			
-			new ServiceEntreprise().ajouter(data);
+			Long idObjet = new ServiceEntreprise().ajouter(data);
+			
+			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);		
+			new ServiceModification().ajouter(idUtilisateur,idObjet,"Entreprise","ajouté");
 
 			
 		} catch(JsonSyntaxException e) {
@@ -101,6 +106,10 @@ public class EntrepriseServlet extends HttpServlet {
 			
 			new ServiceEntreprise().modifier(data);
 			
+			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
+			Long idObjet =Long.parseLong(request.getParameter("idEntreprise"));			
+			new ServiceModification().ajouter(idUtilisateur,idObjet,"Entreprise","modifié");
+			
 		} catch(JsonSyntaxException e) {
 			responseStatus = 400;
 			responseContent = "Erreur : Le format des données n'est pas bon, veuillez utiliser du JSON.";
@@ -131,6 +140,11 @@ public class EntrepriseServlet extends HttpServlet {
 				if(id > 0) {
 					new ServiceEntreprise().supprimer(id);
 					responseContent = "Suppression entreprise OK.";
+					
+					Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
+					Long idObjet =Long.parseLong(request.getParameter("idEntreprise"));			
+					new ServiceModification().ajouter(idUtilisateur,idObjet,"Entreprise","supprimé");
+					
 				} else {
 					responseStatus = 400;
 					responseContent = "Erreur : L'idEntreprise doit être strictement supérieur à 0.";
