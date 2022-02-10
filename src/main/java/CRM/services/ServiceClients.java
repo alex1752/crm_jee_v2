@@ -61,11 +61,12 @@ public class ServiceClients {
 		try {
 			nom = ServiceTools.getStringParameter(data, "nom", 2, 50);	
 			prenom = ServiceTools.getStringParameter(data, "prenom", 2, 50);	
-			idEntreprise = ServiceTools.getStringParameter(data, "entreprise", 1, 200,"^\\d+$");
+			idEntreprise = ServiceTools.getStringParameter(data, "idEntreprise", 1, 200,"^\\d+$");
 			email = ServiceTools.getStringParameter(data, "email", 1, 200, "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)");	
 			telephone = ServiceTools.getStringParameter(data, "telephone", 4, 200, "^\\d+$");	
 			actif = ServiceTools.getStringParameter(data, "actif", 2, 50);
 			notes = ServiceTools.getStringParameter(data, "notes", 2, 200);
+			
 			
 			if(nom == null)
 				throw new ServiceException("Le champ nomClient est obligatoire.");
@@ -73,12 +74,13 @@ public class ServiceClients {
 			if(prenom == null)
 				throw new ServiceException("Le champ prenomClient est obligatoire.");
 			
+			
 			if(email == null)
 				throw new ServiceException("Le champ emailClient est obligatoire.");
 			
 			if (dao.existEmail(email)) throw new ServiceException("Cet email est déjà pris");
 			
-			entreprise = entrepriseDao.trouver(Long.parseLong(idEntreprise));
+			if (idEntreprise != null) entreprise = entrepriseDao.trouver(Long.parseLong(idEntreprise));
 			
 			Clients client = new Clients(nom, prenom, entreprise, email, telephone, Boolean.parseBoolean(actif), notes);
 			dao.ajouter(client);
@@ -95,7 +97,7 @@ public class ServiceClients {
 //Modifier
 	public void modifier(JsonObject data) throws ServiceException {
 		String id = null, nom = null, prenom = null, idEntreprise = null, email = null, telephone = null, actif = null, notes = null ;
-		Entreprise entreprise; 
+		Entreprise entreprise = null; 
 		
 		try {
 			id = ServiceTools.getStringParameter(data, "id", 0, 50, "^\\d+$");
@@ -126,8 +128,7 @@ public class ServiceClients {
 			Clients client = dao.trouver(Long.parseLong(id));
 			if(client == null)
 				throw new ServiceException("Le client n'existe pas. Id : "+id);
-			
-			entreprise = entrepriseDao.trouver(Long.parseLong(idEntreprise));
+			if (idEntreprise != null) entreprise = entrepriseDao.trouver(Long.parseLong(idEntreprise));
 
 			
 			client.setNom(nom);
