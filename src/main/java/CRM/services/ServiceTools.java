@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import CRM.services.ServiceException;
+
 
 public class ServiceTools {
 
@@ -29,6 +31,22 @@ public class ServiceTools {
 		if(parameter != null) {
 			if(!parameter.matches(regexFormat)) {
 				throw new ServiceException("Le champ "+nameField+" n'a pas un format valide (Regex : "+regexFormat+").");
+			}
+		}
+		
+		return parameter;
+	}
+	
+	public static float getFloatParameter(JsonObject data, String nameField, int minValue, int maxValue) throws ServiceException {
+		float parameter = 0;
+		
+		if(data.get(nameField) != null && !data.get(nameField).isJsonNull()) {
+			parameter = data.get(nameField).getAsFloat();
+			if(parameter < minValue ) {
+				throw new ServiceException("Le champ "+nameField+" doit être avoir une valeur supérieur à"+minValue);
+			}
+			if(parameter > maxValue ) {
+				throw new ServiceException("Le champ "+nameField+" doit être avoir une valeur supérieur à"+maxValue);
 			}
 		}
 		

@@ -43,6 +43,9 @@ public class Clients {
 	
 	@Column(length=2000 )
 	private String notes;
+	
+	@OneToMany(mappedBy="client", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<Commandes> commandes = new ArrayList<Commandes>();
 
 	// Constructeurs
 
@@ -60,8 +63,6 @@ public class Clients {
 		this.notes = notes;
 	}
 
-	@OneToMany(mappedBy="client", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	private List<Commandes> commandes = new ArrayList<Commandes>();
 	
 	public Long getId() {
 		return id;
