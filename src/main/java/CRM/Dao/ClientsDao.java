@@ -49,28 +49,48 @@ public class ClientsDao extends DaoObject<Clients> {
 		return objects;
 	}
 	
-//	  public boolean existEmail(String email) throws DaoException {
-//	        boolean exist = false;
-//	        Connection con=null;
-//
-//	        try {
-//	            con = factory.getConnection();
-//	            PreparedStatement pst;
-//	            pst = con.prepareStatement(SQL_SELECT_EMAIL);
-//	            pst.setString( 1, email );
-//	            ResultSet rs  = pst.executeQuery();
-//	            if (rs.next()) {
-//	                if ((!rs.getString( "email" ).isEmpty())) {
-//	                    exist = true;
-//	                }
-//	            }
-//	            rs.close();
-//	            pst.close();
-//	        } catch(SQLException ex) {
-//	            throw new DaoException("Erreur de recherche BDD Utilisateur", ex);
-//	        } finally {
-//	            factory.releaseConnection(con);
-//	        }
-//	        return exist;
-//	    }
+	public Boolean existEmail(String email, Long id) {
+		Clients client = null;
+		Boolean emailExist = false;
+		
+		try {
+			Query query = getFactory().getEntityManager().createQuery("FROM Clients c WHERE c.email LIKE :email AND u.id != :id", Clients.class);
+			query.setParameter("email", email);
+			query.setParameter("id", id);
+			client =  (Clients) query.getSingleResult();	
+			
+			// Si la requête ne renvoit rien on rentre dans le catch sinon on set emailExist à true
+			emailExist = true;
+			
+			
+		} catch(NoResultException e) {
+			e.printStackTrace();
+		} finally {
+			getFactory().releaseEntityManager();
+		}
+		
+		return emailExist;
+	}
+	
+	public Boolean existEmail(String email) {
+		Clients client = null;
+		Boolean emailExist = false;
+		
+		try {
+			Query query = getFactory().getEntityManager().createQuery("FROM Clients c WHERE c.email LIKE :email", Clients.class);
+			query.setParameter("email", email);
+			client =  (Clients) query.getSingleResult();
+			
+			// Si la requête ne renvoit rien on rentre dans le catch sinon on set emailExist à true
+			emailExist = true;
+
+			
+		} catch(NoResultException e) {
+			e.printStackTrace();
+		} finally {
+			getFactory().releaseEntityManager();
+		}
+		
+		return emailExist;
+	}
 }

@@ -89,6 +89,8 @@ public class ServiceUtilisateur {
 			if (motDePasse == null) throw new ServiceException("Le champ motDePasseUtilisateur est obligatoire");
 			if (email == null) throw new ServiceException("Le champ emailUtilisateur est obligatoire");
 			
+			if (utilisateurDao.existEmail(email)) throw new ServiceException("Cet email est déjà pris");
+			
 			utilisateurDao.ajouter(new Utilisateurs(login, Authentification.hashPass(motDePasse), email));
 			
 		} catch (DaoException e) {
@@ -109,7 +111,7 @@ public class ServiceUtilisateur {
 			if (login == null) throw new ServiceException("Le champ loginUtilisateur est obligatoire");
 			if (motDePasse == null) throw new ServiceException("Le champ motDePasseUtilisateur est obligatoire");
 			if (email == null) throw new ServiceException("Le champ emailUtilisateur est obligatoire");
-			
+						
 			// Récupération de l'utilisateur avec l'email
 			utilisateur = utilisateurDao.trouver(email);
 			if(utilisateur == null) throw new ServiceException("\"L'utilisateur n'existe pas. email : " + email);

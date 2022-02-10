@@ -71,6 +71,8 @@ public class ServiceClients {
 			if(email == null)
 				throw new ServiceException("Le champ emailClient est obligatoire.");
 			
+			if (dao.existEmail(email)) throw new ServiceException("Cet email est déjà pris");
+			
 			dao.ajouter(new Clients(nom, prenom, entreprise, email, telephone, Boolean.parseBoolean(actif), notes));
 		} catch (DaoException e) {
 			throw new ServiceException("Erreur DAO.");
@@ -104,6 +106,9 @@ public class ServiceClients {
 			
 			if(email == null)
 				throw new ServiceException("Le champ emailClient est obligatoire.");
+			
+			if (dao.existEmail(email,Long.parseLong(id))) throw new ServiceException("Cet email est déjà pris");
+			
 			
 			Clients client = dao.trouver(Long.parseLong(id));
 			if(client == null)

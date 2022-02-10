@@ -46,5 +46,50 @@ public class UtilisateursDao extends DaoObject<Utilisateurs>{
 		
 		return utilisateur;
 	}
+	
+	public Boolean existEmail(String email, Long id) {
+		Utilisateurs utilisateur = null;
+		Boolean emailExist = false;
+		
+		try {
+			Query query = getFactory().getEntityManager().createQuery("FROM Utilisateurs u WHERE u.email LIKE :email AND u.id != :id", Utilisateurs.class);
+			query.setParameter("email", email);
+			query.setParameter("id", id);
+			utilisateur =  (Utilisateurs) query.getSingleResult();	
+			
+			// Si la requête ne renvoit rien on rentre dans le catch sinon on set emailExist à true
+			emailExist = true;
+			
+			
+		} catch(NoResultException e) {
+			e.printStackTrace();
+		} finally {
+			getFactory().releaseEntityManager();
+		}
+		
+		return emailExist;
+	}
+	
+	public Boolean existEmail(String email) {
+		Utilisateurs utilisateur = null;
+		Boolean emailExist = false;
+		
+		try {
+			Query query = getFactory().getEntityManager().createQuery("FROM Utilisateurs u WHERE u.email LIKE :email", Utilisateurs.class);
+			query.setParameter("email", email);
+			utilisateur =  (Utilisateurs) query.getSingleResult();
+			
+			// Si la requête ne renvoit rien on rentre dans le catch sinon on set emailExist à true
+			emailExist = true;
+
+			
+		} catch(NoResultException e) {
+			e.printStackTrace();
+		} finally {
+			getFactory().releaseEntityManager();
+		}
+		
+		return emailExist;
+	}
 }
 

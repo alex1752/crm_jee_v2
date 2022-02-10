@@ -16,7 +16,7 @@ import CRM.utils.Authentification;
 
 
 
-@WebFilter(urlPatterns = {""})
+@WebFilter(urlPatterns = {"/Utilisateur","/Client","/commande"})
 public class LoginFilter extends HttpFilter implements Filter {
        
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -26,7 +26,9 @@ public class LoginFilter extends HttpFilter implements Filter {
 		if(req.getMethod().equalsIgnoreCase("GET")) {
 			chain.doFilter(request, response);
 		
-		}else {
+		} else if (req.getMethod().equalsIgnoreCase("POST") && req.getServletPath().equals("/Utilisateur")) {
+			chain.doFilter(request, response);
+		} else {
 			if(Authentification.isAuthentificated(req) == null) {
 			resp.setCharacterEncoding("UTF-8");
 			resp.setStatus(405);
