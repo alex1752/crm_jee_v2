@@ -54,7 +54,7 @@ public class ClientsDao extends DaoObject<Clients> {
 		Boolean emailExist = false;
 		
 		try {
-			Query query = getFactory().getEntityManager().createQuery("FROM Clients c WHERE c.email LIKE :email AND u.id != :id", Clients.class);
+			Query query = getFactory().getEntityManager().createQuery("FROM Clients c WHERE c.email LIKE :email AND c.id != :id", Clients.class);
 			query.setParameter("email", email);
 			query.setParameter("id", id);
 			client =  (Clients) query.getSingleResult();	
