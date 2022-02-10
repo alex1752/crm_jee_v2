@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -154,5 +155,11 @@ public class ServiceUtilisateur {
 		}
 	}
 	
-	
+	public Long getIdUtilisateurActuel(HttpServletRequest request) throws ServiceException, NoSuchAlgorithmException, IOException {
+		
+		String email = Authentification.isAuthentificated(request);
+		Utilisateurs utilisateur = utilisateurDao.trouver(email);
+		
+		return utilisateur.getId();
+	}
 }

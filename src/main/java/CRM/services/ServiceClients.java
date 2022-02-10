@@ -20,7 +20,7 @@ public class ServiceClients {
 	
 	
 	public ServiceClients() {
-		
+		entrepriseDao = new EntrepriseDao();
 		dao = new ClientsDao();
 	}
 	
@@ -53,9 +53,10 @@ public class ServiceClients {
 	}
 	
 //Ajouter
-	public void ajouter(JsonObject data) throws ServiceException {
+	public Long ajouter(JsonObject data) throws ServiceException {
 		String nom = null, prenom = null, idEntreprise = null, email = null, telephone = null, actif= null, notes = null ;
 		Entreprise entreprise = null;
+		Long clientId = null;
 		
 		try {
 			nom = ServiceTools.getStringParameter(data, "nom", 2, 50);	
@@ -79,12 +80,16 @@ public class ServiceClients {
 			
 			entreprise = entrepriseDao.trouver(Long.parseLong(idEntreprise));
 			
-			dao.ajouter(new Clients(nom, prenom, entreprise, email, telephone, Boolean.parseBoolean(actif), notes));
+			Clients client = new Clients(nom, prenom, entreprise, email, telephone, Boolean.parseBoolean(actif), notes);
+			dao.ajouter(client);
+			clientId = client.getId();
+			
 		} catch(NumberFormatException e) {
 			throw new ServiceException("Le format du paramètre idEntreprise ou actif n'est pas bon.");
 		} catch (DaoException e) {
 			throw new ServiceException("Erreur DAO.");
 		}
+		return clientId;
 	}
 	
 //Modifier

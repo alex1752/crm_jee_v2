@@ -44,10 +44,11 @@ public class ServiceEntreprise {
 		}
 	}
 	
-	public void ajouter(JsonObject data) throws ServiceException, NoSuchAlgorithmException, IOException {
+	public Long ajouter(JsonObject data) throws ServiceException, NoSuchAlgorithmException, IOException {
 		String nom = null, telephone = null, email = null, domaine = null, type = null, idClient = null;
 		Clients client = null;
 		Entreprise entreprise = null;
+		Long entrepriseId = null;
 		
 		
 		try {
@@ -73,11 +74,14 @@ public class ServiceEntreprise {
 			entreprise.setClient(client);
 			
 			entrepriseDao.ajouter(entreprise);
+			
+			entrepriseId = entreprise.getId();
 		} catch(NumberFormatException e) {
 			throw new ServiceException("Le format du paramètre idClient n'est pas bon.");
 		} catch (DaoException e) {
 			throw new ServiceException("Erreur DAO.");
 		}
+		return entrepriseId;
 	}
 	
 	
