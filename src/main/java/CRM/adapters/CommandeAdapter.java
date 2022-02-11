@@ -1,11 +1,14 @@
 package CRM.adapters;
 
 import java.lang.reflect.Type;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import CRM.model.Commandes;
+import CRM.model.Produit;
 
 public class CommandeAdapter implements JsonSerializer<Commandes>{
 
@@ -21,6 +24,18 @@ public class CommandeAdapter implements JsonSerializer<Commandes>{
 		json.addProperty("typeCommande", commande.getTypeCommande().toString());
 		json.addProperty("notes", commande.getNotes());
 		
+		if(!commande.getListProduits().isEmpty()) {
+			JsonArray jsonProduits = new JsonArray();
+			JsonObject jsonProduit;
+			for(Produit p : commande.getListProduits()) {
+				jsonProduit = new JsonObject();
+				jsonProduit.addProperty("nom", p.getNom());
+				jsonProduit.addProperty("prix",p.getPrix());
+				jsonProduits.add(jsonProduit);
+			}
+			json.add("produits", jsonProduits);
+		}
+			
 		if(commande.getClient() != null) {
 			JsonObject jsonClient = new JsonObject();
 			jsonClient.addProperty("id", commande.getClient().getId());

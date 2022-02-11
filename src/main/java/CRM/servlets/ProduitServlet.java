@@ -95,7 +95,7 @@ public class ProduitServlet extends HttpServlet {
 			new ServiceProduit().modifier(data);
 			
 			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
-			Long idObjet =Long.parseLong(request.getParameter("idProduit"));			
+			Long idObjet = data.get("id").getAsLong();			
 			new ServiceModification().ajouter(idUtilisateur,idObjet,"Produit","modifié");
 			
 		} catch(JsonSyntaxException e) {

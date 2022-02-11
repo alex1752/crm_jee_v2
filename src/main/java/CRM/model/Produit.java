@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 
@@ -36,6 +37,13 @@ public class Produit {
 	
 	public Produit () {
 		
+	}
+	
+	@PreRemove
+	private void preRemove() {
+		for(Commandes c : this.listCommandes) {
+			c.getListProduits().remove(this);
+		}
 	}
 
 	public Produit(String nom, String description, double prix) {
@@ -91,9 +99,16 @@ public class Produit {
 	}
 	
 	public void removeCommande(Commandes commande) {
-		this.listCommandes.add(commande);
-		commande.getListProduits().add(this);
+		this.listCommandes.remove(commande);
+		commande.getListProduits().remove(this);
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Produit) {
+			return this.id == ((Produit) obj).id;
+		}
+		return false;
+	}
 	
 }
