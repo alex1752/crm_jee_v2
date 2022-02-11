@@ -125,12 +125,9 @@ public class ServiceEntreprise {
 
 			entreprise = entrepriseDao.trouver(Long.parseLong(id));	
 			
-			// Si on change l'affectation de l'entreprise
-			/*if(client.getEntreprise() != null && client.getEntreprise().getId() != entreprise.getId()) {
-				Clients  oldClient = entreprise.getClient();
-				oldClient.setEntreprise(null);
-				clientDao.modifier(oldClient);
-			}*/
+			Clients  oldClient = entreprise.getClient();	
+			oldClient.setEntreprise(null);
+			clientDao.modifier(oldClient);
 			
 			
 			entreprise.setNom(nom);
