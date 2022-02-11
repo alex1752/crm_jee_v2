@@ -69,6 +69,9 @@ public class ServiceEntreprise {
 			if(idClient != null) {
 				client = clientDao.trouver(Long.parseLong(idClient));
 				if(client == null) throw new ServiceException("Le client n'existe pas. Id : "+idClient);
+				else {
+					if (client.getEntreprise()!= null) throw new ServiceException("Le client possède déjà une entreprise Id : "+ client.getEntreprise().getId());
+				}
 			}
 			entreprise = new Entreprise(nom,telephone,email,domaine,type);
 			entreprise.setClient(client);
@@ -76,6 +79,7 @@ public class ServiceEntreprise {
 			
 			entrepriseDao.ajouter(entreprise);
 			client.setEntreprise(entreprise);
+			
 			clientDao.modifier(client);
 			
 			
@@ -114,9 +118,20 @@ public class ServiceEntreprise {
 			if(idClient != null) {
 				client = clientDao.trouver(Long.parseLong(idClient));
 				if(client == null) throw new ServiceException("Le client n'existe pas. Id : "+idClient);
-			}
+				if(client.getEntreprise() != null && client.getEntreprise().getId() != Long.parseLong(id)) 
+					throw new ServiceException("Le client est déjà associé à la l'entreprise d'id. Id : "+client.getEntreprise().getId());
+			} 
+				
+
+			entreprise = entrepriseDao.trouver(Long.parseLong(id));	
 			
-			entreprise = entrepriseDao.trouver(Long.parseLong(id));
+			// Si on change l'affectation de l'entreprise
+			/*if(client.getEntreprise() != null && client.getEntreprise().getId() != entreprise.getId()) {
+				Clients  oldClient = entreprise.getClient();
+				oldClient.setEntreprise(null);
+				clientDao.modifier(oldClient);
+			}*/
+			
 			
 			entreprise.setNom(nom);
 			entreprise.setTelephone(telephone);
@@ -125,7 +140,15 @@ public class ServiceEntreprise {
 			entreprise.setType(type);
 			entreprise.setClient(client);
 			
+			
+			client.setEntreprise(entreprise);
+			// On modifie le client
+			clientDao.modifier(client);
+			// On modifie l'entreprise
 			entrepriseDao.modifier(entreprise);
+			
+
+			
 		} catch(NumberFormatException e) {
 			throw new ServiceException("Le format du paramètre idEntreprise ou idClient n'est pas bon.");
 		} catch (DaoException e) {

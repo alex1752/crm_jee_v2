@@ -14,6 +14,7 @@ import com.google.gson.JsonSyntaxException;
 import CRM.services.ServiceClients;
 import CRM.services.ServiceException;
 import CRM.services.ServiceModification;
+import CRM.services.ServiceTools;
 import CRM.services.ServiceUtilisateur;
 
 
@@ -110,9 +111,10 @@ public class ClientServlet extends HttpServlet {
 			JsonObject data = ServletTools.getJsonFromBuffer(request);
 			
 			new ServiceClients().modifier(data);
+
 			
 			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
-			Long idObjet =Long.parseLong(request.getParameter("idClient"));			
+			Long idObjet = data.get("id").getAsLong();
 			new ServiceModification().ajouter(idUtilisateur,idObjet,"Client","modifié");
 			
 		} catch(JsonSyntaxException e) {
