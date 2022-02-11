@@ -73,7 +73,11 @@ public class ServiceEntreprise {
 			entreprise = new Entreprise(nom,telephone,email,domaine,type);
 			entreprise.setClient(client);
 			
+			
 			entrepriseDao.ajouter(entreprise);
+			client.setEntreprise(entreprise);
+			clientDao.modifier(client);
+			
 			
 			entrepriseId = entreprise.getId();
 		} catch(NumberFormatException e) {

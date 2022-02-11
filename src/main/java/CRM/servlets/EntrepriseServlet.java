@@ -75,7 +75,7 @@ public class EntrepriseServlet extends HttpServlet {
 					responseContent = "Erreur : L'idEntreprise doit être strictement supérieur à 0.";
 				}
 			} else {
-				responseContent = new ServiceClients().lister();
+				responseContent = new ServiceEntreprise().lister();
 				responseContentType = "application/json";
 			}
 		} catch(NumberFormatException e) {

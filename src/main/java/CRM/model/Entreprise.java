@@ -34,7 +34,7 @@ public class Entreprise {
 	@Column(length=50)
 	private String type;
 	
-	@OneToOne(mappedBy= "entreprise", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToOne(mappedBy= "entreprise", fetch = FetchType.LAZY, cascade= {CascadeType.MERGE})
 	private Clients client;
 	
 	@PreRemove
