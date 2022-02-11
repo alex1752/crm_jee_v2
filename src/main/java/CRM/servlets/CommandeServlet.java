@@ -115,8 +115,9 @@ public class CommandeServlet extends HttpServlet {
 			JsonObject data = ServletTools.getJsonFromBuffer(request);
 			new ServiceCommande().modifier(data);
 			
+			
 			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
-			Long idObjet =Long.parseLong(request.getParameter("idCommande"));			
+			Long idObjet = data.get("id").getAsLong();	
 			new ServiceModification().ajouter(idUtilisateur,idObjet,"Commande","modifié");
 			
 		} catch(JsonSyntaxException e) {
@@ -193,8 +194,8 @@ public class CommandeServlet extends HttpServlet {
 						
 						if(idProduitParse > 0 && idCommandeParse > 0) {
 							
-							if(action.equals("addGenre")) {
-								new ServiceCommande().addProduit(idCommandeParse, idProduitParse);
+							if(action.equals("addProduit")) {
+								new ServiceCommande().addProduit(idProduitParse,idCommandeParse);
 								responseContent = "Le produit a été ajouté à la commande.";
 								
 								Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);			
