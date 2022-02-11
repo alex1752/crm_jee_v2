@@ -107,7 +107,7 @@ public class EntrepriseServlet extends HttpServlet {
 			new ServiceEntreprise().modifier(data);
 			
 			Long idUtilisateur = new ServiceUtilisateur().getIdUtilisateurActuel(request);
-			Long idObjet =Long.parseLong(request.getParameter("idEntreprise"));			
+			Long idObjet = data.get("idEntreprise").getAsLong();		
 			new ServiceModification().ajouter(idUtilisateur,idObjet,"Entreprise","modifié");
 			
 		} catch(JsonSyntaxException e) {

@@ -220,8 +220,8 @@ public class ServiceCommande {
 		if(produit == null)
 			throw new ServiceException("Le produit n'existe pas. Id : "+idProduit);
 		
-		if(commande.getListProduits().contains(produit))
-			throw new ServiceException("Le produit est déjà associé à la commande.");
+		if(!commande.getListProduits().contains(produit))
+			throw new ServiceException("Le produit n'est pas associé à la commande.");
 		
 		
 		try {

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 
@@ -79,7 +80,12 @@ public class Commandes {
 	}
 
 
-
+	@PreRemove
+	private void preRemove() {
+		for(Produit p : listProduits) {
+			p.getListCommandes().remove(this);
+		}
+	}
 
 	public Long getId() {
 		return id;
@@ -203,8 +209,8 @@ public class Commandes {
 	}
 	
 	public void removeProduit(Produit produit) {
-		this.listProduits.add(produit);
-		produit.getListCommandes().add(this);
+		this.listProduits.remove(produit);
+		produit.getListCommandes().remove(this);
 	}
 	
 	@Override
